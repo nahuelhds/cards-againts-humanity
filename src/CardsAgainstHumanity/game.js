@@ -11,7 +11,10 @@ function PlayCard(G, ctx) {
 export const CardsAgainstHumanity = {
   name: "cards-against-humanity",
 
-  setup: ctx => ({ deck: 6, hand: Array(ctx.numPlayers).fill(0) }),
+  setup: ctx => ({
+    deck: 6,
+    hand: ctx.playOrder.map(playerID => ({ [playerID]: 0 }))
+  }),
 
   moves: {
     DrawCard,

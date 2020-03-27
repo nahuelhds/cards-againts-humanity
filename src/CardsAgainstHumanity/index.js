@@ -8,6 +8,7 @@ import { CardsAgainstHumanityBoard } from "./board";
 
 const CardsAgainstHumanityClient = Client({
   game: CardsAgainstHumanity,
+  numPlayers: 3,
   board: CardsAgainstHumanityBoard,
   multiplayer: SocketIO({ server: "localhost:8000" })
 });

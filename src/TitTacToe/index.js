@@ -7,6 +7,7 @@ import { TicTacToe } from "./game";
 import { TicTacToeBoard } from "./board";
 
 const TicTacToeClient = Client({
+  debug: false,
   game: TicTacToe,
   board: TicTacToeBoard,
   multiplayer: SocketIO({ server: "localhost:8000" })
