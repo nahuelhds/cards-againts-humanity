@@ -3,16 +3,16 @@
 import React from "react";
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
-import { TicTacToe } from "./game";
-import { TicTacToeBoard } from "./board";
+import { CardsAgainstHumanity } from "./game";
+import { CardsAgainstHumanityBoard } from "./board";
 
-const TicTacToeClient = Client({
-  game: TicTacToe,
-  board: TicTacToeBoard,
+const CardsAgainstHumanityClient = Client({
+  game: CardsAgainstHumanity,
+  board: CardsAgainstHumanityBoard,
   multiplayer: SocketIO({ server: "localhost:8000" })
 });
 
-class App extends React.Component {
+export default class CardsAgainstHumanityApp extends React.Component {
   state = { playerID: null };
 
   render() {
@@ -26,15 +26,16 @@ class App extends React.Component {
           <button onClick={() => this.setState({ playerID: "1" })}>
             Player 1
           </button>
+          <button onClick={() => this.setState({ playerID: "2" })}>
+            Player 2
+          </button>
         </div>
       );
     }
     return (
       <div>
-        <TicTacToeClient playerID={this.state.playerID} />
+        <CardsAgainstHumanityClient playerID={this.state.playerID} />
       </div>
     );
   }
 }
-
-export default App;
