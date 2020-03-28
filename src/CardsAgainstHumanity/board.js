@@ -15,7 +15,7 @@ export class CardsAgainstHumanityBoard extends React.Component {
     G: PropTypes.any.isRequired,
     ctx: PropTypes.any.isRequired,
     moves: PropTypes.any.isRequired,
-    playekrID: PropTypes.string,
+    playerID: PropTypes.string,
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool
   };
@@ -27,6 +27,7 @@ export class CardsAgainstHumanityBoard extends React.Component {
   render() {
     const {
       isActive,
+      playerID,
       ctx: { playOrder, currentPlayer },
       G: { whiteDeck, hands }
     } = this.props;
@@ -35,23 +36,32 @@ export class CardsAgainstHumanityBoard extends React.Component {
       <div>
         <div>Deck: {whiteDeck.length}</div>
         {playOrder.map(player => {
-          const isMyTurn = player === currentPlayer;
+          const isHerTurn = player === currentPlayer;
+          const isMine = player === playerID;
           return (
             <div key={`player-${player}`}>
               <div>
                 Hand:
-                <ol>
-                  {hands[player].map((card, index) => (
-                    <li key={`card-${index}`}>{card}</li>
-                  ))}
-                </ol>
+                {isMine && (
+                  <ol>
+                    {hands[player].map((card, index) => (
+                      <li key={`card-${index}`}>{card}</li>
+                    ))}
+                  </ol>
+                )}
               </div>
-              <button
-                disabled={!isActive || !isMyTurn}
-                onClick={this.handleDrawCard}
-              >
-                Draw white cards
-              </button>
+              {isMine && (
+                <button
+                  disabled={!isActive || !isHerTurn}
+                  onClick={this.handleDrawCard}
+                >
+                  Draw white cards
+                </button>
+              )}
+              {!isMine && isHerTurn && (
+                <div>WAITING FOR THE PLAYER TO MOVE</div>
+              )}
+              {!isMine && !isHerTurn && <div>WAITING FOR HER TURN</div>}
             </div>
           );
         })}

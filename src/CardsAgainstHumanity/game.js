@@ -1,3 +1,5 @@
+import { TurnOrder } from "boardgame.io/core";
+
 import blackDeck from "./decks/es_AR/black";
 import whiteDeck from "./decks/es_AR/white";
 
@@ -42,7 +44,10 @@ export const CardsAgainstHumanity = {
       moves: {
         FillMyHand
       },
-      turn: { moveLimit: 1 }
+      turn: {
+        moveLimit: 1,
+        order: TurnOrder.ONCE
+      }
     },
 
     readBlackCard: {},
