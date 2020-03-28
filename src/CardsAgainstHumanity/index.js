@@ -11,7 +11,7 @@ const CardsAgainstHumanityClient = Client({
   debug: true,
   game: CardsAgainstHumanity,
   multiplayer: SocketIO({ server: "localhost:8000" }),
-  numPlayers: 3
+  numPlayers: 3,
 });
 
 export default class CardsAgainstHumanityApp extends React.Component {

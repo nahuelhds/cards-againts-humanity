@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { PHASE_DRAW_WHITE_CARDS, MAX_WHITE_CARDS } from "./constants/phases";
+import { MAX_WHITE_CARDS } from "./constants";
 import "./board.scss";
 
 const ReadBlackCardActions = ({
@@ -8,7 +8,7 @@ const ReadBlackCardActions = ({
   isOthersTurn,
   isActive,
   hasAllCards,
-  onDrawCard
+  onDrawCard,
 }) => (
   <React.Fragment>
     {isMine && (
@@ -31,7 +31,7 @@ export class CardsAgainstHumanityBoard extends React.Component {
     moves: PropTypes.any.isRequired,
     playerID: PropTypes.string,
     isActive: PropTypes.bool,
-    isMultiplayer: PropTypes.bool
+    isMultiplayer: PropTypes.bool,
   };
 
   handleDrawCard = () => {
@@ -43,7 +43,7 @@ export class CardsAgainstHumanityBoard extends React.Component {
       isActive,
       playerID,
       ctx: { currentPlayer, stage, playOrder },
-      G: { whiteDeck, hands }
+      G: { whiteDeck, hands },
     } = this.props;
 
     return (
@@ -56,7 +56,7 @@ export class CardsAgainstHumanityBoard extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {playOrder.map(player => {
+          {playOrder.map((player) => {
             const isOthersTurn = player === currentPlayer;
             const isMine = player === playerID;
             const hasAllCards = hands[player].length === MAX_WHITE_CARDS;
