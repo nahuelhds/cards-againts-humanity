@@ -1,30 +1,26 @@
-/*
- * Copyright 2017 The boardgame.io Authors.
- *
- * Use of this source code is governed by a MIT-style
- * license that can be found in the LICENSE file or at
- * https://opensource.org/licenses/MIT.
- */
-
 import React from "react";
 import PropTypes from "prop-types";
-import { DRAW_WHITE_CARDS } from "./constants/phases";
-import "./board.css";
+import { PHASE_DRAW_WHITE_CARDS, MAX_WHITE_CARDS } from "./constants/phases";
+import "./board.scss";
 
 const ReadBlackCardActions = ({
   isMine,
   isOthersTurn,
   isActive,
+  hasAllCards,
   onDrawCard
 }) => (
   <React.Fragment>
     {isMine && (
       <button disabled={!isActive || !isOthersTurn} onClick={onDrawCard}>
-        Draw white cards
+        Levantar cartas blancas
       </button>
     )}
-    {!isMine && isOthersTurn && <div>WAITING FOR THE PLAYER TO MOVE</div>}
-    {!isMine && !isOthersTurn && <div>WAITING FOR HER TURN</div>}
+    {!isMine && isOthersTurn && <div>Esperando que levante sus cartas</div>}
+    {!isMine && !isOthersTurn && !hasAllCards && <div>Esperando su turno</div>}
+    {!isMine && !isOthersTurn && hasAllCards && (
+      <div>Ya levantó sus cartas</div>
+    )}
   </React.Fragment>
 );
 
@@ -46,40 +42,55 @@ export class CardsAgainstHumanityBoard extends React.Component {
     const {
       isActive,
       playerID,
-      ctx: { currentPlayer, phase, playOrder },
+      ctx: { currentPlayer, stage, playOrder },
       G: { whiteDeck, hands }
     } = this.props;
 
     return (
-      <div>
-        <div>Deck: {whiteDeck.length}</div>
-        {playOrder.map(player => {
-          const isOthersTurn = player === currentPlayer;
-          const isMine = player === playerID;
-          return (
-            <div key={`player-${player}`}>
-              <div>
-                Player {player}
-                {isMine && (
-                  <ol>
-                    {hands[player].map((card, index) => (
-                      <li key={`card-${index}`}>{card}</li>
-                    ))}
-                  </ol>
-                )}
-              </div>
-              {phase === DRAW_WHITE_CARDS && (
-                <ReadBlackCardActions
-                  isMine={isMine}
-                  isOthersTurn={isOthersTurn}
-                  isActive={isActive}
-                  onDrawCard={this.handleDrawCard}
-                />
-              )}
-            </div>
-          );
-        })}
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th colSpan={3}>
+              Cantidad de cartas blancas disponibles: {whiteDeck.length}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {playOrder.map(player => {
+            const isOthersTurn = player === currentPlayer;
+            const isMine = player === playerID;
+            const hasAllCards = hands[player].length === MAX_WHITE_CARDS;
+            return (
+              <tr key={`player-${player}`}>
+                <td>
+                  <div>
+                    <strong>Jugador #{player}</strong>
+                    {isMine && hands[player].length && (
+                      <React.Fragment>
+                        <p>Cartas levantadas:</p>
+                        <ol>
+                          {hands[player].map((card, index) => (
+                            <li key={`card-${index}`}>{card}</li>
+                          ))}
+                        </ol>
+                      </React.Fragment>
+                    )}
+                  </div>
+                  {stage === PHASE_DRAW_WHITE_CARDS && (
+                    <ReadBlackCardActions
+                      isMine={isMine}
+                      isOthersTurn={isOthersTurn}
+                      isActive={isActive}
+                      hasAllCards={hasAllCards}
+                      onDrawCard={this.handleDrawCard}
+                    />
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     );
   }
 }

@@ -21,15 +21,15 @@ export default class CardsAgainstHumanityApp extends React.Component {
     if (this.state.playerID === null) {
       return (
         <div>
-          <p>Play as</p>
+          <p>Jugar como...</p>
           <button onClick={() => this.setState({ playerID: "0" })}>
-            Player 0
+            Jugador 0
           </button>
           <button onClick={() => this.setState({ playerID: "1" })}>
-            Player 1
+            Jugador 1
           </button>
           <button onClick={() => this.setState({ playerID: "2" })}>
-            Player 2
+            Jugador 2
           </button>
         </div>
       );
