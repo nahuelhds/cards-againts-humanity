@@ -15,45 +15,42 @@ export class CardsAgainstHumanityBoard extends React.Component {
     G: PropTypes.any.isRequired,
     ctx: PropTypes.any.isRequired,
     moves: PropTypes.any.isRequired,
-    playerID: PropTypes.string,
+    playekrID: PropTypes.string,
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool
   };
 
   handleDrawCard = () => {
-    this.props.moves.DrawCard();
-  };
-
-  handleDiscardCard = () => {
-    this.props.moves.PlayCard();
+    this.props.moves.FillMyHand();
   };
 
   render() {
     const {
       isActive,
       ctx: { playOrder, currentPlayer },
-      G: { deck, hand }
+      G: { whiteDeck, hands }
     } = this.props;
 
     return (
       <div>
-        <div>Deck: {deck}</div>
+        <div>Deck: {whiteDeck.length}</div>
         {playOrder.map(player => {
           const isMyTurn = player === currentPlayer;
           return (
             <div key={`player-${player}`}>
-              <div>Hand: {hand[player]}</div>
+              <div>
+                Hand:
+                <ol>
+                  {hands[player].map((card, index) => (
+                    <li key={`card-${index}`}>{card}</li>
+                  ))}
+                </ol>
+              </div>
               <button
                 disabled={!isActive || !isMyTurn}
                 onClick={this.handleDrawCard}
               >
-                Draw Card
-              </button>
-              <button
-                disabled={!isActive || !isMyTurn}
-                onClick={this.handleDiscardCard}
-              >
-                Discard
+                Draw white cards
               </button>
             </div>
           );

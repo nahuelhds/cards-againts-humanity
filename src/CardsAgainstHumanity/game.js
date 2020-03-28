@@ -1,27 +1,49 @@
 import blackDeck from "./decks/es_AR/black";
 import whiteDeck from "./decks/es_AR/white";
 
-function DrawCard(G, ctx) {
-  G.deck--;
-  G.hand[ctx.currentPlayer]++;
-}
+const MAX_WHITE_CARDS = 10;
 
-function PlayCard(G, ctx) {
-  G.deck++;
-  G.hand[ctx.currentPlayer]--;
+function FillMyHand(G, ctx) {
+  const { currentPlayer } = ctx;
+
+  const whiteDeck = [...G.whiteDeck];
+  const playerHand = [...G.hands[currentPlayer]];
+
+  while (playerHand.length < MAX_WHITE_CARDS) {
+    playerHand.push(whiteDeck.shift());
+  }
+
+  return {
+    whiteDeck,
+    hands: {
+      ...G.hands,
+      [currentPlayer]: playerHand
+    }
+  };
 }
 
 export const CardsAgainstHumanity = {
   name: "cards-against-humanity",
 
-  setup: ctx => ({
-    blackDeck,
-    whiteDeck,
-    hand: ctx.playOrder.map(() => 0)
-  }),
+  setup: ctx => {
+    const hands = {};
+    ctx.playOrder.map(playerID => (hands[playerID] = []));
+    return {
+      blackDeck,
+      whiteDeck,
+      hands
+    };
+  },
 
   phases: {
-    drawWhiteCards: {},
+    drawWhiteCards: {
+      start: true,
+      next: "readBlackCard",
+      moves: {
+        FillMyHand
+      },
+      turn: { moveLimit: 1 }
+    },
 
     readBlackCard: {},
 
@@ -30,11 +52,5 @@ export const CardsAgainstHumanity = {
     readAnswers: {},
 
     chooseTurnWinner: {}
-  },
-
-  moves: {
-    DrawCard,
-    PlayCard
-  },
-  turn: { moveLimit: 1 }
+  }
 };
