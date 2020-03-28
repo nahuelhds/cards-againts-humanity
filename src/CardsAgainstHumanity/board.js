@@ -8,7 +8,25 @@
 
 import React from "react";
 import PropTypes from "prop-types";
+import { DRAW_WHITE_CARDS } from "./constants/phases";
 import "./board.css";
+
+const ReadBlackCardActions = ({
+  isMine,
+  isOthersTurn,
+  isActive,
+  onDrawCard
+}) => (
+  <React.Fragment>
+    {isMine && (
+      <button disabled={!isActive || !isOthersTurn} onClick={onDrawCard}>
+        Draw white cards
+      </button>
+    )}
+    {!isMine && isOthersTurn && <div>WAITING FOR THE PLAYER TO MOVE</div>}
+    {!isMine && !isOthersTurn && <div>WAITING FOR HER TURN</div>}
+  </React.Fragment>
+);
 
 export class CardsAgainstHumanityBoard extends React.Component {
   static propTypes = {
@@ -28,7 +46,7 @@ export class CardsAgainstHumanityBoard extends React.Component {
     const {
       isActive,
       playerID,
-      ctx: { playOrder, currentPlayer },
+      ctx: { currentPlayer, phase, playOrder },
       G: { whiteDeck, hands }
     } = this.props;
 
@@ -36,12 +54,12 @@ export class CardsAgainstHumanityBoard extends React.Component {
       <div>
         <div>Deck: {whiteDeck.length}</div>
         {playOrder.map(player => {
-          const isHerTurn = player === currentPlayer;
+          const isOthersTurn = player === currentPlayer;
           const isMine = player === playerID;
           return (
             <div key={`player-${player}`}>
               <div>
-                Hand:
+                Player {player}
                 {isMine && (
                   <ol>
                     {hands[player].map((card, index) => (
@@ -50,18 +68,14 @@ export class CardsAgainstHumanityBoard extends React.Component {
                   </ol>
                 )}
               </div>
-              {isMine && (
-                <button
-                  disabled={!isActive || !isHerTurn}
-                  onClick={this.handleDrawCard}
-                >
-                  Draw white cards
-                </button>
+              {phase === DRAW_WHITE_CARDS && (
+                <ReadBlackCardActions
+                  isMine={isMine}
+                  isOthersTurn={isOthersTurn}
+                  isActive={isActive}
+                  onDrawCard={this.handleDrawCard}
+                />
               )}
-              {!isMine && isHerTurn && (
-                <div>WAITING FOR THE PLAYER TO MOVE</div>
-              )}
-              {!isMine && !isHerTurn && <div>WAITING FOR HER TURN</div>}
             </div>
           );
         })}

@@ -1,4 +1,5 @@
 import { TurnOrder } from "boardgame.io/core";
+import { DRAW_WHITE_CARDS } from "./constants/phases";
 
 import blackDeck from "./decks/es_AR/black";
 import whiteDeck from "./decks/es_AR/white";
@@ -38,7 +39,7 @@ export const CardsAgainstHumanity = {
   },
 
   phases: {
-    drawWhiteCards: {
+    [DRAW_WHITE_CARDS]: {
       start: true,
       next: "readBlackCard",
       moves: {
