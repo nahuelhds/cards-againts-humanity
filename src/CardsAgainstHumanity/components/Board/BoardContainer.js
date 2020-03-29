@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -7,9 +7,12 @@ import {
   STAGE_SELECT_WHITE_CARDS,
 } from "../../constants";
 
+import { MyHand } from "./components/MyHand";
+import { BlackDeck, WhiteDeck } from "./components/Deck";
+
 const COUNT_DOWN_SECONDS = 5;
 
-export default class BoardContainer extends React.Component {
+export default class BoardContainer extends Component {
   static propTypes = {
     G: PropTypes.any.isRequired,
     ctx: PropTypes.any.isRequired,
@@ -90,6 +93,7 @@ export default class BoardContainer extends React.Component {
       ctx: { currentPlayer, playOrder, activePlayers },
       G: {
         whiteDeck,
+        blackDeck,
         hands,
         activeBlackCard,
         allWhiteCardsAreSelected,
@@ -102,146 +106,15 @@ export default class BoardContainer extends React.Component {
     const stage = activePlayers[playerId];
 
     return (
-      <table className={"BoardTable"}>
-        <thead>
-          <tr>
-            <th colSpan={3}>Cartas blancas restantes: {whiteDeck.length}</th>
-          </tr>
-          <tr>
-            <th colSpan={3}>
-              Cartas negra en juego:
-              <br />
-              {activeBlackCard
-                ? activeBlackCard.replace("{whiteCard}", "_________")
-                : `esperando por jugador #${currentPlayer}`}
-            </th>
-          </tr>
-          {winnerPlayerID && (
-            <React.Fragment>
-              <tr>
-                <th colSpan={3}>Ganó el jugador #{winnerPlayerID}</th>
-              </tr>
-              <tr>
-                <th colSpan={3}>
-                  Iniciando próximo turno en {nextTurnInSeconds}
-                </th>
-              </tr>
-            </React.Fragment>
-          )}
-        </thead>
-        <tbody>
-          {playOrder.map((player) => {
-            const isMe = player === playerId;
-            const isOthersTurn = player === currentPlayer;
-            return (
-              <tr key={`player-${player}`}>
-                <td>
-                  <strong>Jugador #{player}</strong>
-                  {!isMe && isOthersTurn && (
-                    <div>Esperando que levante la carta negra</div>
-                  )}
-                  {!isMe && !isOthersTurn && <div>Esperando para jugar</div>}
-                  {stage === STAGE_CHOOSE_WINNER &&
-                    isMe &&
-                    !allWhiteCardsAreSelected && (
-                      <p>Waiting for players to selected their white cards</p>
-                    )}
-                  {stage === STAGE_CHOOSE_WINNER &&
-                    isMe &&
-                    allWhiteCardsAreSelected && (
-                      <React.Fragment>
-                        <ul>
-                          {Object.values(selectedWhiteCards).map(
-                            (whiteCard, index) => (
-                              <li key={`whiteCardCombination-${index}`}>
-                                {activeBlackCard.indexOf("{whiteCard}") > -1
-                                  ? activeBlackCard.replace(
-                                      "{whiteCard}",
-                                      whiteCard.toUpperCase()
-                                    )
-                                  : whiteCard.toUpperCase()}
-                              </li>
-                            )
-                          )}
-                        </ul>
-                        <div>
-                          <select
-                            onChange={this.handleWinnerSelection}
-                            value={this.state.selectedWinner}
-                          >
-                            <option value={""}>
-                              Elige la mejor combinacion
-                            </option>
-                            {Object.keys(selectedWhiteCards).map((playerId) => (
-                              <option
-                                key={`combination-${playerId}`}
-                                value={playerId}
-                              >
-                                {activeBlackCard.indexOf("{whiteCard}") > -1
-                                  ? activeBlackCard.replace(
-                                      "{whiteCard}",
-                                      selectedWhiteCards[playerId].toUpperCase()
-                                    )
-                                  : `${activeBlackCard} ${selectedWhiteCards[
-                                      playerId
-                                    ].toUpperCase()}`}
-                              </option>
-                            ))}
-                          </select>
-                          <button onClick={this.handleSelectedWinner}>
-                            Elegir ganador
-                          </button>
-                        </div>
-                      </React.Fragment>
-                    )}
-                  {stage === STAGE_DRAW_BLACK_CARD && isMe && (
-                    <button
-                      disabled={!isActive || !isOthersTurn}
-                      onClick={this.handleDrawBlackCard}
-                    >
-                      Levantar carta negra
-                    </button>
-                  )}
-                  {stage === STAGE_SELECT_WHITE_CARDS && (
-                    <div>
-                      {isMe && hands[player].length && (
-                        <React.Fragment>
-                          <p>Cartas levantadas:</p>
-                          <ol>
-                            {hands[player].map((card, index) => (
-                              <li key={`card-${index}`}>{card}</li>
-                            ))}
-                          </ol>
-                          {activeBlackCard && (
-                            <div>
-                              <select
-                                onChange={this.handleWhiteCardSelection}
-                                value={this.state.selectedCard}
-                              >
-                                <option value={""}>
-                                  Elige una carta blanca
-                                </option>
-                                {hands[player].map((card, index) => (
-                                  <option key={`card-${index}`} value={card}>
-                                    {card}
-                                  </option>
-                                ))}
-                              </select>
-                              <button onClick={this.handleSelectedWhiteCard}>
-                                Elegir esta carta
-                              </button>
-                            </div>
-                          )}
-                        </React.Fragment>
-                      )}
-                    </div>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <Fragment>
+        <div className="bg-gray-200 h-screen">
+          <div className="flex">
+            <BlackDeck deck={blackDeck}></BlackDeck>
+            <WhiteDeck deck={whiteDeck}></WhiteDeck>
+          </div>
+        </div>
+        <MyHand whiteCards={hands[playerId]}></MyHand>
+      </Fragment>
     );
   }
 }
