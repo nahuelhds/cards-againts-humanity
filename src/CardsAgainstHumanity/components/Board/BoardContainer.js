@@ -5,7 +5,7 @@ import {
   STAGE_CHOOSE_WINNER,
   STAGE_DRAW_BLACK_CARD,
   STAGE_SELECT_WHITE_CARDS,
-} from "../constants";
+} from "../../constants";
 
 const COUNT_DOWN_SECONDS = 5;
 
@@ -14,7 +14,7 @@ export default class BoardContainer extends React.Component {
     G: PropTypes.any.isRequired,
     ctx: PropTypes.any.isRequired,
     moves: PropTypes.any.isRequired,
-    playerID: PropTypes.string,
+    playerId: PropTypes.string,
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool,
   };
@@ -35,9 +35,9 @@ export default class BoardContainer extends React.Component {
   };
 
   handleSelectedWhiteCard = () => {
-    const { playerID } = this.props;
+    const { playerId } = this.props;
     const { selectedCard } = this.state;
-    this.props.moves.SelectWhiteCard(playerID, selectedCard);
+    this.props.moves.SelectWhiteCard(playerId, selectedCard);
   };
 
   handleWinnerSelection = (event) => {
@@ -71,10 +71,10 @@ export default class BoardContainer extends React.Component {
 
   handleEndThisTurn = () => {
     const {
-      playerID,
+      playerId,
       ctx: { currentPlayer },
     } = this.props;
-    if (currentPlayer === playerID) {
+    if (currentPlayer === playerId) {
       this.props.moves.EndThisTurn();
     }
     clearInterval(this.state.countDownIntervalID);
@@ -86,7 +86,7 @@ export default class BoardContainer extends React.Component {
   render() {
     const {
       isActive,
-      playerID,
+      playerId,
       ctx: { currentPlayer, playOrder, activePlayers },
       G: {
         whiteDeck,
@@ -99,7 +99,7 @@ export default class BoardContainer extends React.Component {
     } = this.props;
 
     const { nextTurnInSeconds } = this.state;
-    const stage = activePlayers[playerID];
+    const stage = activePlayers[playerId];
 
     return (
       <table className={"BoardTable"}>
@@ -131,7 +131,7 @@ export default class BoardContainer extends React.Component {
         </thead>
         <tbody>
           {playOrder.map((player) => {
-            const isMe = player === playerID;
+            const isMe = player === playerId;
             const isOthersTurn = player === currentPlayer;
             return (
               <tr key={`player-${player}`}>
@@ -172,18 +172,18 @@ export default class BoardContainer extends React.Component {
                             <option value={""}>
                               Elige la mejor combinacion
                             </option>
-                            {Object.keys(selectedWhiteCards).map((playerID) => (
+                            {Object.keys(selectedWhiteCards).map((playerId) => (
                               <option
-                                key={`combination-${playerID}`}
-                                value={playerID}
+                                key={`combination-${playerId}`}
+                                value={playerId}
                               >
                                 {activeBlackCard.indexOf("{whiteCard}") > -1
                                   ? activeBlackCard.replace(
                                       "{whiteCard}",
-                                      selectedWhiteCards[playerID].toUpperCase()
+                                      selectedWhiteCards[playerId].toUpperCase()
                                     )
                                   : `${activeBlackCard} ${selectedWhiteCards[
-                                      playerID
+                                      playerId
                                     ].toUpperCase()}`}
                               </option>
                             ))}

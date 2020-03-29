@@ -2,6 +2,20 @@
   "name": "game",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "server": "nodemon -r esm src/server.js",
+    "start-watch": "npm run watch:styles & react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint .",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public",
+    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
+    "build:styles": "postcss src/index.pcss -o src/index.css",
+    "watch:styles": "postcss src/index.pcss -o src/index.css -w"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -15,22 +29,27 @@
     "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "typescript": "^3.8.3"
   },
-  "scripts": {
-    "server": "nodemon -r esm src/server.js",
-    "start": "npm run watch:styles & react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint .",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public",
-    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
-    "prebuild": "npm run build:styles",
-    "build:styles": "postcss src/index.pcss -o src/index.css",
-    "watch:styles": "postcss src/index.pcss -o src/index.css -w"
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.1.0",
+    "@storybook/addon-actions": "^5.3.17",
+    "@storybook/addon-links": "^5.3.17",
+    "@storybook/addons": "^5.3.17",
+    "@storybook/preset-create-react-app": "^2.1.1",
+    "@storybook/react": "^5.3.17",
+    "autoprefixer": "^9.7.5",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.10",
+    "nodemon": "^2.0.2",
+    "postcss-cli": "^7.1.0",
+    "prettier": "^2.0.2",
+    "tailwindcss": "^1.2.0"
   },
   "lint-staged": {
     "*.+(js|jsx)": [
@@ -61,23 +80,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^2.1.0",
-    "@storybook/addon-actions": "^5.3.17",
-    "@storybook/addon-links": "^5.3.17",
-    "@storybook/addons": "^5.3.17",
-    "@storybook/preset-create-react-app": "^2.1.1",
-    "@storybook/react": "^5.3.17",
-    "autoprefixer": "^9.7.5",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.1",
-    "eslint-plugin-prettier": "^3.1.2",
-    "husky": "^4.2.3",
-    "lint-staged": "^10.0.10",
-    "nodemon": "^2.0.2",
-    "postcss-cli": "^7.1.0",
-    "prettier": "^2.0.2",
-    "tailwindcss": "^1.2.0"
   }
 }

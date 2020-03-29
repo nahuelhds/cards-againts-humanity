@@ -1,43 +1,43 @@
-// src/App.js
-
-import React from "react";
+import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useParams,
+} from "react-router-dom";
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
+
 import { CardsAgainstHumanity } from "./game";
-import BoardContainer from "./board";
+import board from "./components/Board";
+
+import PlayerSelection from "./components/PlayerSelection";
 
 const CardsAgainstHumanityClient = Client({
-  board: BoardContainer,
+  board,
   debug: false,
   game: CardsAgainstHumanity,
   multiplayer: SocketIO({ server: "localhost:8000" }),
   numPlayers: 3,
 });
 
-export default class CardsAgainstHumanityApp extends React.Component {
-  state = { playerID: null };
+const CardsAgainstHumanityLoader = () => {
+  const { playerId } = useParams();
+  return <CardsAgainstHumanityClient playerId={playerId} />;
+};
 
+export default class AppContainer extends Component {
   render() {
-    if (this.state.playerID === null) {
-      return (
-        <div>
-          <p>Jugar como...</p>
-          <button onClick={() => this.setState({ playerID: "0" })}>
-            Jugador 0
-          </button>
-          <button onClick={() => this.setState({ playerID: "1" })}>
-            Jugador 1
-          </button>
-          <button onClick={() => this.setState({ playerID: "2" })}>
-            Jugador 2
-          </button>
-        </div>
-      );
-    }
     return (
-      <div>
-        <CardsAgainstHumanityClient playerID={this.state.playerID} />
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={PlayerSelection} />
+          <Route
+            path="/room/:roomId/player/:playerId"
+            component={CardsAgainstHumanityLoader}
+          />
+        </Switch>
+      </Router>
     );
   }
 }
