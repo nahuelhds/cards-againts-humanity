@@ -1,4 +1,5 @@
 import { TurnOrder } from "boardgame.io/core";
+import shuffle from "lodash/shuffle";
 import {
   MAX_WHITE_CARDS,
   STAGE_CHOOSE_WINNER,
@@ -65,8 +66,8 @@ function SetupState(ctx) {
     wonBlackCards,
     endThisTurn: false,
     hands,
-    blackDeck: theBlackDeck,
-    whiteDeck: theWhiteDeck,
+    blackDeck: shuffle(theBlackDeck),
+    whiteDeck: shuffle(theWhiteDeck),
   };
 }
 
