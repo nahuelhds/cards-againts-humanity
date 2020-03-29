@@ -5,7 +5,12 @@ import {
   STAGE_DRAW_BLACK_CARD,
   STAGE_SELECT_WHITE_CARDS,
 } from "./constants";
-import { DrawABlackCard, SelectWhiteCard, ChooseWinner } from "./moves";
+import {
+  DrawABlackCard,
+  SelectWhiteCard,
+  ChooseWinner,
+  EndThisTurn,
+} from "./moves";
 
 import theBlackDeck from "./decks/es_AR/black";
 import theWhiteDeck from "./decks/es_AR/white";
@@ -36,11 +41,11 @@ export const CardsAgainstHumanity = {
         moves: { SelectWhiteCard },
       },
       [STAGE_CHOOSE_WINNER]: {
-        moves: { ChooseWinner },
+        moves: { ChooseWinner, EndThisTurn },
       },
     },
     onBegin: RefillHands,
-    endIf: (G, ctx) => G.winnerPlayerID !== null,
+    endIf: (G, ctx) => G.endThisTurn,
     onEnd: PrepareStateForNextTurn,
   },
 };
@@ -58,6 +63,7 @@ function SetupState(ctx) {
     selectedWhiteCards: {},
     winnerPlayerID: null,
     wonBlackCards,
+    endThisTurn: false,
     hands,
     blackDeck: theBlackDeck,
     whiteDeck: theWhiteDeck,
@@ -88,5 +94,6 @@ function PrepareStateForNextTurn(G, ctx) {
     allWhiteCardsAreSelected: false,
     selectedWhiteCards: {},
     winnerPlayerID: null,
+    endThisTurn: false,
   };
 }

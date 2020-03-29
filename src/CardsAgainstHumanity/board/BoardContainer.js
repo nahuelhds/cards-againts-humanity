@@ -8,6 +8,8 @@ import {
 } from "../constants";
 import "./index.scss";
 
+const COUNT_DOWN_SECONDS = 5;
+
 export default class BoardContainer extends React.Component {
   static propTypes = {
     G: PropTypes.any.isRequired,
@@ -21,6 +23,8 @@ export default class BoardContainer extends React.Component {
   state = {
     selectedCard: "",
     selectedWinnerId: "",
+    nextTurnInSeconds: COUNT_DOWN_SECONDS,
+    countDownIntervalID: false,
   };
 
   handleDrawBlackCard = () => {
@@ -46,6 +50,40 @@ export default class BoardContainer extends React.Component {
     this.props.moves.ChooseWinner(selectedWinnerId);
   };
 
+  componentDidUpdate(prevProps) {
+    const { winnerPlayerID } = this.props.G;
+    if (
+      prevProps.G.winnerPlayerID !== winnerPlayerID &&
+      prevProps.G.winnerPlayerID === null
+    ) {
+      this.startCountDown();
+    }
+  }
+
+  startCountDown = () => {
+    setTimeout(() => {
+      this.handleEndThisTurn();
+    }, COUNT_DOWN_SECONDS * 1000);
+    const countDownIntervalID = setInterval(() => {
+      this.setState({ nextTurnInSeconds: this.state.nextTurnInSeconds - 1 });
+    }, 1000);
+    this.setState({ countDownIntervalID });
+  };
+
+  handleEndThisTurn = () => {
+    const {
+      playerID,
+      ctx: { currentPlayer },
+    } = this.props;
+    if (currentPlayer === playerID) {
+      this.props.moves.EndThisTurn();
+    }
+    clearInterval(this.state.countDownIntervalID);
+    this.setState({
+      nextTurnInSeconds: COUNT_DOWN_SECONDS,
+    });
+  };
+
   render() {
     const {
       isActive,
@@ -61,6 +99,7 @@ export default class BoardContainer extends React.Component {
       },
     } = this.props;
 
+    const { nextTurnInSeconds } = this.state;
     const stage = activePlayers[playerID];
 
     return (
@@ -79,9 +118,16 @@ export default class BoardContainer extends React.Component {
             </th>
           </tr>
           {winnerPlayerID && (
-            <tr>
-              <th colSpan={3}>Ganó el jugador #{winnerPlayerID}</th>
-            </tr>
+            <React.Fragment>
+              <tr>
+                <th colSpan={3}>Ganó el jugador #{winnerPlayerID}</th>
+              </tr>
+              <tr>
+                <th colSpan={3}>
+                  Iniciando próximo turno en {nextTurnInSeconds}
+                </th>
+              </tr>
+            </React.Fragment>
           )}
         </thead>
         <tbody>
