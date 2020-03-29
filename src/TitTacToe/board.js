@@ -17,10 +17,10 @@ export class TicTacToeBoard extends React.Component {
     moves: PropTypes.any.isRequired,
     playerID: PropTypes.string,
     isActive: PropTypes.bool,
-    isMultiplayer: PropTypes.bool
+    isMultiplayer: PropTypes.bool,
   };
 
-  onClick = id => {
+  onClick = (id) => {
     if (this.isActive(id)) {
       this.props.moves.clickCell(id);
     }

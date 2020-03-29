@@ -10,7 +10,7 @@ const TicTacToeClient = Client({
   debug: false,
   game: TicTacToe,
   board: TicTacToeBoard,
-  multiplayer: SocketIO({ server: "localhost:8000" })
+  multiplayer: SocketIO({ server: "localhost:8000" }),
 });
 
 export default class TicTacToeApp extends React.Component {
