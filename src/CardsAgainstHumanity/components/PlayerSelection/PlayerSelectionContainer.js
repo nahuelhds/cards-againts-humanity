@@ -6,22 +6,22 @@ export default class PlayerSelectionContainer extends Component {
     return (
       <div className="flex flex-row h-screen bg-gray-200">
         <Link
-          to="/room/1/player/1"
+          to="/room/0/player/0"
+          className="flex-1 flex justify-center items-center text-gray-700 bg-gray-400 m-4"
+        >
+          Jugador 0
+        </Link>
+        <Link
+          to="/room/0/player/1"
           className="flex-1 flex justify-center items-center text-gray-700 bg-gray-400 m-4"
         >
           Jugador 1
         </Link>
         <Link
-          to="/room/1/player/2"
+          to="/room/0/player/2"
           className="flex-1 flex justify-center items-center text-gray-700 bg-gray-400 m-4"
         >
-          Jugador 2
-        </Link>
-        <Link
-          to="/room/1/player/3"
-          className="flex-1 flex justify-center items-center text-gray-700 bg-gray-400 m-4"
-        >
-          Jugaodr 3
+          Jugaodr 2
         </Link>
       </div>
     );
