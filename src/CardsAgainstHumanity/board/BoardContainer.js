@@ -6,7 +6,6 @@ import {
   STAGE_DRAW_BLACK_CARD,
   STAGE_SELECT_WHITE_CARDS,
 } from "../constants";
-import "./index.scss";
 
 const COUNT_DOWN_SECONDS = 5;
 
@@ -103,7 +102,7 @@ export default class BoardContainer extends React.Component {
     const stage = activePlayers[playerID];
 
     return (
-      <table>
+      <table className={"BoardTable"}>
         <thead>
           <tr>
             <th colSpan={3}>Cartas blancas restantes: {whiteDeck.length}</th>
