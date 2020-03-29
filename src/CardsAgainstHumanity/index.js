@@ -4,10 +4,10 @@ import React from "react";
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
 import { CardsAgainstHumanity } from "./game";
-import { CardsAgainstHumanityBoard } from "./board";
+import BoardContainer from "./board";
 
 const CardsAgainstHumanityClient = Client({
-  board: CardsAgainstHumanityBoard,
+  board: BoardContainer,
   debug: true,
   game: CardsAgainstHumanity,
   multiplayer: SocketIO({ server: "localhost:8000" }),
