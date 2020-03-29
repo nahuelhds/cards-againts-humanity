@@ -155,10 +155,12 @@ export default class BoardContainer extends React.Component {
                           {Object.values(selectedWhiteCards).map(
                             (whiteCard, index) => (
                               <li key={`whiteCardCombination-${index}`}>
-                                {activeBlackCard.replace(
-                                  "{whiteCard}",
-                                  whiteCard.toUpperCase()
-                                )}
+                                {activeBlackCard.indexOf("{whiteCard}") > -1
+                                  ? activeBlackCard.replace(
+                                      "{whiteCard}",
+                                      whiteCard.toUpperCase()
+                                    )
+                                  : whiteCard.toUpperCase()}
                               </li>
                             )
                           )}
@@ -176,10 +178,14 @@ export default class BoardContainer extends React.Component {
                                 key={`combination-${playerID}`}
                                 value={playerID}
                               >
-                                {activeBlackCard.replace(
-                                  "{whiteCard}",
-                                  selectedWhiteCards[playerID].toUpperCase()
-                                )}
+                                {activeBlackCard.indexOf("{whiteCard}") > -1
+                                  ? activeBlackCard.replace(
+                                      "{whiteCard}",
+                                      selectedWhiteCards[playerID].toUpperCase()
+                                    )
+                                  : `${activeBlackCard} ${selectedWhiteCards[
+                                      playerID
+                                    ].toUpperCase()}`}
                               </option>
                             ))}
                           </select>

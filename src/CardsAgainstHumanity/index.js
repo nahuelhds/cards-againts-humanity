@@ -8,7 +8,7 @@ import BoardContainer from "./board";
 
 const CardsAgainstHumanityClient = Client({
   board: BoardContainer,
-  debug: true,
+  debug: false,
   game: CardsAgainstHumanity,
   multiplayer: SocketIO({ server: "localhost:8000" }),
   numPlayers: 3,
