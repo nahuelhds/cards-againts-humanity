@@ -14,6 +14,7 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
+    "prestart": "npm run build:styles",
     "build:styles": "postcss src/index.pcss -o src/index.css",
     "watch:styles": "postcss src/index.pcss -o src/index.css -w"
   },

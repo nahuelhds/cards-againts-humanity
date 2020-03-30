@@ -139,6 +139,7 @@ export default class BoardContainer extends Component {
               text={selectedWhiteCards[cardPlayerID]}
               selected={selectedWinnerID === cardPlayerID}
               onSelect={() => this.handleWinnerSelection(cardPlayerID)}
+              onSubmit={this.handleSelectedWinner}
             />
           ))}
         </div>

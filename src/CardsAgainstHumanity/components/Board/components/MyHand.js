@@ -14,7 +14,7 @@ export const MyHand = ({
     ? "bg-green-500 hover:bg-green-600 text-green-100"
     : "bg-green-400 text-gray-200 cursor-not-allowed";
   return (
-    <div className="fixed w-screen bottom-0 left-0">
+    <div className="fixed w-screen bottom-0 left-0 text-center">
       {!isSelectedCardSent &&
         !isMyTurn &&
         stage === STAGE_WHITE_CARDS_SELECTION && (
