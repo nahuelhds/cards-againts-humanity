@@ -1,15 +1,11 @@
+import { SelectedWhiteCards } from "./components/SelectedWhiteCards";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import { MyHand } from "./components/MyHand";
-import { SelectedWhiteCard } from "./components/Cards";
 import { BlackCardView } from "./components/BlackCardView";
 import { Status } from "./components/Status";
-import {
-  STAGE_CHOOSING_WINNER,
-  STAGE_CHOSEN_WINNER,
-  COUNT_DOWN_SECONDS,
-} from "../../constants";
+import { COUNT_DOWN_SECONDS } from "../../constants";
 
 export default class BoardContainer extends Component {
   static propTypes = {
@@ -79,10 +75,12 @@ export default class BoardContainer extends Component {
     if (currentPlayer === playerID) {
       this.props.moves.EndThisTurn();
     }
-    clearInterval(this.state.countDownIntervalID);
-    this.setState({
-      nextTurnInSeconds: COUNT_DOWN_SECONDS,
-    });
+    setTimeout(() => {
+      clearInterval(this.state.countDownIntervalID);
+      this.setState({
+        nextTurnInSeconds: COUNT_DOWN_SECONDS,
+      });
+    }, 1000);
   };
 
   render() {
@@ -127,24 +125,15 @@ export default class BoardContainer extends Component {
             blackDeck={blackDeck}
             handleDrawBlackCard={this.handleDrawBlackCard}
           />
-          {Object.keys(selectedWhiteCards).map((cardPlayerID, index) => (
-            <SelectedWhiteCard
-              key={`white-card-${index}`}
-              isMyTurn={isMyTurn}
-              show={
-                isMyTurn ||
-                [STAGE_CHOOSING_WINNER, STAGE_CHOSEN_WINNER].indexOf(stage) >
-                  -1 ||
-                selectedWhiteCards[playerID] ===
-                  selectedWhiteCards[cardPlayerID]
-              }
-              text={selectedWhiteCards[cardPlayerID]}
-              selected={selectedWinnerID === cardPlayerID}
-              winner={winnerPlayerID === cardPlayerID}
-              onSelect={() => this.handleWinnerSelection(cardPlayerID)}
-              onSubmit={this.handleSelectedWinner}
-            />
-          ))}
+          <SelectedWhiteCards
+            cards={selectedWhiteCards}
+            isMyTurn={isMyTurn}
+            stage={stage}
+            selectedWinnerID={selectedWinnerID}
+            winnerPlayerID={winnerPlayerID}
+            handleWinnerSelection={this.handleWinnerSelection}
+            handleSelectedWinner={this.handleSelectedWinner}
+          />
         </div>
         <MyHand
           stage={stage}
