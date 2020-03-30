@@ -1,7 +1,7 @@
 import React from "react";
 import {
   STAGE_DRAW_BLACK_CARD,
-  STAGE_SELECT_WHITE_CARDS,
+  STAGE_WHITE_CARDS_SELECTION,
   STAGE_CHOOSE_WINNER,
 } from "../../../constants";
 
@@ -15,15 +15,7 @@ export const Status = ({ stage, isMyTurn, currentPlayer }) => {
             Levantá una carta negra para comenzar el turno
           </StatusWarning>
         );
-      }
-      return (
-        <StatusBase>
-          Acción desconocida para el estado ${STAGE_DRAW_BLACK_CARD}
-        </StatusBase>
-      );
-    }
-    case STAGE_SELECT_WHITE_CARDS:
-      if (isMyTurn) {
+      } else {
         return (
           <StatusSuccess>
             Esperando que el Jugador #{currentPlayer} levante una carta negra
@@ -31,28 +23,39 @@ export const Status = ({ stage, isMyTurn, currentPlayer }) => {
           </StatusSuccess>
         );
       }
-      return (
-        <StatusBase>
-          Acción desconocida para el estado ${STAGE_SELECT_WHITE_CARDS}
-        </StatusBase>
-      );
+    }
+    case STAGE_WHITE_CARDS_SELECTION:
+      if (isMyTurn) {
+        return (
+          <StatusSuccess>
+            Esperando las respuestas de los demás jugadores
+          </StatusSuccess>
+        );
+      } else {
+        return (
+          <StatusWarning>
+            Elegí la que creas que es la mejor respuesta
+          </StatusWarning>
+        );
+      }
     case STAGE_CHOOSE_WINNER:
       if (isMyTurn) {
         return <StatusWarning>Elegí la respuesta ganadora</StatusWarning>;
+      } else {
+        return (
+          <StatusSuccess>
+            Jugador #{currentPlayer} esta eligiendo...
+          </StatusSuccess>
+        );
       }
-      return (
-        <StatusBase>
-          Acción desconocida para el estado ${STAGE_CHOOSE_WINNER}
-        </StatusBase>
-      );
     default:
       return <StatusBase>Acción desconocida</StatusBase>;
   }
 };
 
 const StatusBase = ({
-  bg = "bg-gray-400",
-  color = "text-gray-900",
+  bg = "bg-gray-500",
+  color = "text-gray-800",
   children,
 }) => (
   <div

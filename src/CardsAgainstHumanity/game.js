@@ -2,9 +2,9 @@ import { TurnOrder } from "boardgame.io/core";
 import shuffle from "lodash/shuffle";
 import {
   MAX_WHITE_CARDS,
-  STAGE_CHOOSE_WINNER,
   STAGE_DRAW_BLACK_CARD,
-  STAGE_SELECT_WHITE_CARDS,
+  STAGE_WHITE_CARDS_SELECTION,
+  STAGE_CHOOSE_WINNER,
 } from "./constants";
 import {
   DrawABlackCard,
@@ -22,23 +22,13 @@ export const CardsAgainstHumanity = {
   turn: {
     order: TurnOrder.DEFAULT,
     activePlayers: {
-      currentPlayer: {
-        stage: STAGE_DRAW_BLACK_CARD,
-        moveLimit: 1,
-      },
-      others: {
-        stage: STAGE_SELECT_WHITE_CARDS,
-        moveLimit: 1,
-      },
+      all: STAGE_DRAW_BLACK_CARD,
     },
     stages: {
       [STAGE_DRAW_BLACK_CARD]: {
-        moves: {
-          DrawABlackCard,
-        },
-        next: STAGE_CHOOSE_WINNER,
+        moves: { DrawABlackCard },
       },
-      [STAGE_SELECT_WHITE_CARDS]: {
+      [STAGE_WHITE_CARDS_SELECTION]: {
         moves: { SelectWhiteCard },
       },
       [STAGE_CHOOSE_WINNER]: {

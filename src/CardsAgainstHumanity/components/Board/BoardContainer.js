@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 import {
   STAGE_CHOOSE_WINNER,
   STAGE_DRAW_BLACK_CARD,
-  STAGE_SELECT_WHITE_CARDS,
+  STAGE_WHITE_CARDS_SELECTION,
 } from "../../constants";
 
 import { MyHand } from "./components/MyHand";
 import { BlackDeck, WhiteDeck, ActionableBlackDeck } from "./components/Decks";
 import { ActiveBlackCard, BlackCard } from "./components/Cards";
+import { BlackCardView } from "./components/BlackCardView";
 import { Status } from "./components/Status";
 
 const COUNT_DOWN_SECONDS = 5;
@@ -25,7 +26,7 @@ export default class BoardContainer extends Component {
   };
 
   state = {
-    selectedCard: "",
+    selectedWhiteCard: "",
     selectedWinnerId: "",
     nextTurnInSeconds: COUNT_DOWN_SECONDS,
     countDownIntervalID: false,
@@ -35,14 +36,14 @@ export default class BoardContainer extends Component {
     this.props.moves.DrawABlackCard();
   };
 
-  handleWhiteCardSelection = (event) => {
-    this.setState({ selectedCard: event.target.value });
+  handleWhiteCardSelection = (selectedWhiteCard) => {
+    this.setState({ selectedWhiteCard });
   };
 
   handleSelectedWhiteCard = () => {
     const { playerID } = this.props;
-    const { selectedCard } = this.state;
-    this.props.moves.SelectWhiteCard(playerID, selectedCard);
+    const { selectedWhiteCard } = this.state;
+    this.props.moves.SelectWhiteCard(playerID, selectedWhiteCard);
   };
 
   handleWinnerSelection = (event) => {
@@ -104,31 +105,36 @@ export default class BoardContainer extends Component {
       },
     } = this.props;
 
-    const { nextTurnInSeconds } = this.state;
+    const { selectedWhiteCard, nextTurnInSeconds } = this.state;
     const stage = activePlayers[playerID];
     const isMyTurn = currentPlayer === playerID;
 
     return (
-      <div className="bg-gray-300 h-screen">
+      <div className="bg-gray-400 h-screen">
         <div className="flex justify-center">
-          <Status stage={stage} isMyTurn currentPlayer={currentPlayer} />
+          <Status
+            stage={stage}
+            isMyTurn={isMyTurn}
+            currentPlayer={currentPlayer}
+          />
         </div>
         <div className="flex">
-          <div>
-            <div className={"m-2"}>
-              {stage === STAGE_DRAW_BLACK_CARD && isMyTurn ? (
-                <ActionableBlackDeck
-                  onClick={this.handleDrawBlackCard}
-                ></ActionableBlackDeck>
-              ) : activeBlackCard ? (
-                <BlackCard text={activeBlackCard} />
-              ) : (
-                <BlackDeck deck={blackDeck}></BlackDeck>
-              )}
-            </div>
-          </div>
+          <BlackCardView
+            stage={stage}
+            isMyTurn={isMyTurn}
+            activeBlackCard={activeBlackCard}
+            blackDeck={blackDeck}
+            handleDrawBlackCard={this.handleDrawBlackCard}
+          />
         </div>
-        <MyHand cards={hands[playerID]}></MyHand>
+        <MyHand
+          stage={stage}
+          cards={hands[playerID]}
+          isMyTurn={isMyTurn}
+          onSelect={this.handleWhiteCardSelection}
+          onSubmit={this.handleSelectedWhiteCard}
+          selectedCard={selectedWhiteCard}
+        ></MyHand>
       </div>
     );
   }
