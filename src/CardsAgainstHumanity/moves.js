@@ -17,16 +17,25 @@ export const DrawABlackCard = (G, ctx) => {
   };
 };
 
-export const SelectWhiteCard = (G, ctx, playerID, selectedWhiteCard) => {
+export const ChangeWhiteCard = (G, ctx, playerID, chosenCard) => ({
+  ...G,
+  chosenWhiteCard: {
+    ...G.chosenWhiteCard,
+    [playerID]: chosenCard,
+  },
+});
+
+export const SelectWhiteCard = (G, ctx, playerID) => {
+  const chosenWhiteCard = G.chosenWhiteCard[playerID];
   const hands = {
     ...G.hands,
     [playerID]: [...G.hands[playerID]].filter(
-      (whiteCard) => whiteCard !== selectedWhiteCard
+      (whiteCard) => whiteCard !== chosenWhiteCard
     ),
   };
   const selectedWhiteCards = {
     ...G.selectedWhiteCards,
-    [playerID]: selectedWhiteCard,
+    [playerID]: chosenWhiteCard,
   };
 
   const allWhiteCardsAreSelected =
@@ -45,14 +54,22 @@ export const SelectWhiteCard = (G, ctx, playerID, selectedWhiteCard) => {
   };
 };
 
-export const ChooseWinner = (G, ctx, playerID) => {
+export const ChangeWinner = (G, ctx, playerID) => ({
+  ...G,
+  chosenWinnerID: playerID,
+});
+
+export const SelectWinner = (G, ctx) => {
   ctx.events.setActivePlayers({ all: STAGE_CHOSEN_WINNER });
   return {
     ...G,
-    winnerPlayerID: playerID,
+    winnerPlayerID: G.chosenWinnerID,
     wonBlackCards: {
       ...G.wonBlackCards,
-      [playerID]: [...G.wonBlackCards[playerID], G.activeBlackCard],
+      [G.chosenWinnerID]: [
+        ...G.wonBlackCards[G.chosenWinnerID],
+        G.activeBlackCard,
+      ],
     },
   };
 };

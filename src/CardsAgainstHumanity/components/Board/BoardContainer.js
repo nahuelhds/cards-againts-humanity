@@ -24,8 +24,6 @@ export default class BoardContainer extends Component {
   countDownIntervalID = false;
 
   state = {
-    selectedWhiteCard: "",
-    selectedWinnerID: "",
     nextTurnInSeconds: COUNT_DOWN_SECONDS,
   };
 
@@ -42,12 +40,8 @@ export default class BoardContainer extends Component {
     ) {
       this.startCountDown();
     }
-    console.log(prevStage, stage);
     if (prevStage === STAGE_CHOSEN_WINNER && stage === STAGE_DRAW_BLACK_CARD) {
-      console.log("CHANGING");
       this.setState({
-        selectedWhiteCard: "",
-        selectedWinnerID: "",
         nextTurnInSeconds: COUNT_DOWN_SECONDS,
       });
     }
@@ -66,23 +60,22 @@ export default class BoardContainer extends Component {
     this.props.moves.DrawABlackCard();
   };
 
-  handleWhiteCardSelection = (selectedWhiteCard) => {
-    this.setState({ selectedWhiteCard });
+  handleWhiteCardSelection = (chosenWhiteCard) => {
+    const { playerID } = this.props;
+    this.props.moves.ChangeWhiteCard(playerID, chosenWhiteCard);
   };
 
   handleSelectedWhiteCard = () => {
     const { playerID } = this.props;
-    const { selectedWhiteCard } = this.state;
-    this.props.moves.SelectWhiteCard(playerID, selectedWhiteCard);
+    this.props.moves.SelectWhiteCard(playerID);
   };
 
-  handleWinnerSelection = (selectedWinnerID) => {
-    this.setState({ selectedWinnerID });
+  handleWinnerSelection = (chosenWinnerID) => {
+    this.props.moves.ChangeWinner(chosenWinnerID);
   };
 
   handleSelectedWinner = () => {
-    const { selectedWinnerID } = this.state;
-    this.props.moves.ChooseWinner(selectedWinnerID);
+    this.props.moves.SelectWinner();
   };
 
   handleEndThisTurn = () => {
@@ -111,21 +104,19 @@ export default class BoardContainer extends Component {
         activeBlackCard,
         selectedwhiteCardsOrder,
         selectedWhiteCards,
+        chosenWhiteCard,
         allWhiteCardsAreSelected,
+        chosenWinnerID,
         winnerPlayerID,
         wonBlackCards,
       },
     } = this.props;
 
-    const {
-      selectedWhiteCard,
-      selectedWinnerID,
-      nextTurnInSeconds,
-    } = this.state;
+    const { nextTurnInSeconds } = this.state;
     const stage = activePlayers[playerID];
     const isMyTurn = currentPlayer === playerID;
     const isSelectedWhiteCardSent =
-      selectedWhiteCards[playerID] && selectedWhiteCards[playerID] !== "";
+      selectedWhiteCards[playerID] && selectedWhiteCards[playerID] !== null;
     const myWonBlackCards = wonBlackCards[playerID];
 
     return (
@@ -155,8 +146,8 @@ export default class BoardContainer extends Component {
             cardsOrder={selectedwhiteCardsOrder}
             cards={selectedWhiteCards}
             isSelectable={allWhiteCardsAreSelected}
+            selectedWinnerID={chosenWinnerID}
             winnerPlayerID={winnerPlayerID}
-            selectedWinnerID={selectedWinnerID}
             handleWinnerSelection={this.handleWinnerSelection}
             handleSelectedWinner={this.handleSelectedWinner}
           />
@@ -167,7 +158,7 @@ export default class BoardContainer extends Component {
           isMyTurn={isMyTurn}
           onSelect={this.handleWhiteCardSelection}
           onSubmit={this.handleSelectedWhiteCard}
-          selectedCard={selectedWhiteCard}
+          selectedCard={chosenWhiteCard[playerID]}
           isSelectedCardSent={isSelectedWhiteCardSent}
         ></MyHand>
       </div>

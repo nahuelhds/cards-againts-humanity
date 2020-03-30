@@ -15,6 +15,9 @@ import PlayerSelection from "./components/PlayerSelection";
 
 const CardsAgainstHumanityClient = Client({
   debug: true,
+  enhancer:
+    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+    window.__REDUX_DEVTOOLS_EXTENSION__(),
   multiplayer: SocketIO({ server: "localhost:8000" }),
   numPlayers: 3,
   board,

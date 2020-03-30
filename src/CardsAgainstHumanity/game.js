@@ -9,8 +9,10 @@ import {
 } from "./constants";
 import {
   DrawABlackCard,
+  ChangeWhiteCard,
   SelectWhiteCard,
-  ChooseWinner,
+  ChangeWinner,
+  SelectWinner,
   EndThisTurn,
 } from "./moves";
 
@@ -30,10 +32,10 @@ export const CardsAgainstHumanity = {
         moves: { DrawABlackCard },
       },
       [STAGE_WHITE_CARDS_SELECTION]: {
-        moves: { SelectWhiteCard },
+        moves: { ChangeWhiteCard, SelectWhiteCard },
       },
       [STAGE_CHOOSING_WINNER]: {
-        moves: { ChooseWinner },
+        moves: { ChangeWinner, SelectWinner },
       },
       [STAGE_CHOSEN_WINNER]: {
         moves: { EndThisTurn },
@@ -49,10 +51,12 @@ function SetupState(ctx) {
   const hands = {};
   const wonBlackCards = {};
   const selectedWhiteCards = {};
+  const chosenWhiteCard = {};
   ctx.playOrder.forEach((playerID) => {
     hands[playerID] = [];
     wonBlackCards[playerID] = [];
     selectedWhiteCards[playerID] = null;
+    chosenWhiteCard[playerID] = null;
   });
 
   return {
@@ -60,7 +64,9 @@ function SetupState(ctx) {
     activeBlackCard: null,
     selectedwhiteCardsOrder: shuffle([...ctx.playOrder]),
     selectedWhiteCards,
+    chosenWhiteCard,
     allWhiteCardsAreSelected: false,
+    chosenWinnerID: null,
     winnerPlayerID: null,
     wonBlackCards,
     hands,
@@ -88,16 +94,20 @@ function RefillHands(G, ctx) {
 
 function PrepareStateForNextTurn(G, ctx) {
   const selectedWhiteCards = {};
+  const chosenWhiteCard = {};
   ctx.playOrder.forEach((playerID) => {
     selectedWhiteCards[playerID] = null;
+    chosenWhiteCard[playerID] = null;
   });
   return {
     ...G,
     activeBlackCard: null,
     selectedwhiteCardsOrder: shuffle([...ctx.playOrder]),
     allWhiteCardsAreSelected: false,
+    chosenWinnerID: null,
     winnerPlayerID: null,
     endThisTurn: false,
     selectedWhiteCards,
+    chosenWhiteCard,
   };
 }
