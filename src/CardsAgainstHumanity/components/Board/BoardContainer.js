@@ -1,17 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import {
-  STAGE_CHOOSE_WINNER,
-  STAGE_DRAW_BLACK_CARD,
-  STAGE_WHITE_CARDS_SELECTION,
-} from "../../constants";
-
 import { MyHand } from "./components/MyHand";
-import { BlackDeck, WhiteDeck, ActionableBlackDeck } from "./components/Decks";
-import { ActiveBlackCard, BlackCard } from "./components/Cards";
+import { SelectedWhiteCard } from "./components/Cards";
 import { BlackCardView } from "./components/BlackCardView";
 import { Status } from "./components/Status";
+import { STAGE_CHOOSING_WINNER } from "../../constants";
 
 const COUNT_DOWN_SECONDS = 5;
 
@@ -27,7 +21,7 @@ export default class BoardContainer extends Component {
 
   state = {
     selectedWhiteCard: "",
-    selectedWinnerId: "",
+    selectedWinnerID: "",
     nextTurnInSeconds: COUNT_DOWN_SECONDS,
     countDownIntervalID: false,
   };
@@ -46,13 +40,13 @@ export default class BoardContainer extends Component {
     this.props.moves.SelectWhiteCard(playerID, selectedWhiteCard);
   };
 
-  handleWinnerSelection = (event) => {
-    this.setState({ selectedWinnerId: event.target.value });
+  handleWinnerSelection = (selectedWinnerID) => {
+    this.setState({ selectedWinnerID });
   };
 
   handleSelectedWinner = () => {
-    const { selectedWinnerId } = this.state;
-    this.props.moves.ChooseWinner(selectedWinnerId);
+    const { selectedWinnerID } = this.state;
+    this.props.moves.ChooseWinner(selectedWinnerID);
   };
 
   componentDidUpdate(prevProps) {
@@ -105,9 +99,15 @@ export default class BoardContainer extends Component {
       },
     } = this.props;
 
-    const { selectedWhiteCard, nextTurnInSeconds } = this.state;
+    const {
+      selectedWhiteCard,
+      selectedWinnerID,
+      nextTurnInSeconds,
+    } = this.state;
     const stage = activePlayers[playerID];
     const isMyTurn = currentPlayer === playerID;
+    const isSelectedWhiteCardSent =
+      selectedWhiteCards[playerID] && selectedWhiteCards[playerID] !== "";
 
     return (
       <div className="bg-gray-400 h-screen">
@@ -126,6 +126,21 @@ export default class BoardContainer extends Component {
             blackDeck={blackDeck}
             handleDrawBlackCard={this.handleDrawBlackCard}
           />
+          {Object.keys(selectedWhiteCards).map((cardPlayerID, index) => (
+            <SelectedWhiteCard
+              key={`white-card-${index}`}
+              isMyTurn={isMyTurn}
+              show={
+                isMyTurn ||
+                stage === STAGE_CHOOSING_WINNER ||
+                selectedWhiteCards[playerID] ===
+                  selectedWhiteCards[cardPlayerID]
+              }
+              text={selectedWhiteCards[cardPlayerID]}
+              selected={selectedWinnerID === cardPlayerID}
+              onSelect={() => this.handleWinnerSelection(cardPlayerID)}
+            />
+          ))}
         </div>
         <MyHand
           stage={stage}
@@ -134,6 +149,7 @@ export default class BoardContainer extends Component {
           onSelect={this.handleWhiteCardSelection}
           onSubmit={this.handleSelectedWhiteCard}
           selectedCard={selectedWhiteCard}
+          isSelectedCardSent={isSelectedWhiteCardSent}
         ></MyHand>
       </div>
     );

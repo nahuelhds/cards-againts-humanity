@@ -4,7 +4,7 @@ import {
   MAX_WHITE_CARDS,
   STAGE_DRAW_BLACK_CARD,
   STAGE_WHITE_CARDS_SELECTION,
-  STAGE_CHOOSE_WINNER,
+  STAGE_CHOOSING_WINNER,
 } from "./constants";
 import {
   DrawABlackCard,
@@ -31,7 +31,7 @@ export const CardsAgainstHumanity = {
       [STAGE_WHITE_CARDS_SELECTION]: {
         moves: { SelectWhiteCard },
       },
-      [STAGE_CHOOSE_WINNER]: {
+      [STAGE_CHOOSING_WINNER]: {
         moves: { ChooseWinner, EndThisTurn },
       },
     },

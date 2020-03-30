@@ -1,4 +1,9 @@
-import { STAGE_WHITE_CARDS_SELECTION, STAGE_CHOOSE_WINNER } from "./constants";
+import shuffle from "lodash/shuffle";
+
+import {
+  STAGE_WHITE_CARDS_SELECTION,
+  STAGE_CHOOSING_WINNER,
+} from "./constants";
 
 export const DrawABlackCard = (G, ctx) => {
   const blackDeck = [...G.blackDeck];
@@ -27,12 +32,16 @@ export const SelectWhiteCard = (G, ctx, playerID, selectedWhiteCard) => {
     Object.values(selectedWhiteCards).length === ctx.playOrder.length - 1;
 
   if (allWhiteCardsAreSelected) {
-    ctx.events.setActivePlayers({ all: STAGE_CHOOSE_WINNER });
+    ctx.events.setActivePlayers({ all: STAGE_CHOOSING_WINNER });
   }
 
   return {
     ...G,
     hands,
+    // TODO: shuffle this
+    // selectedWhiteCards: shuffle(
+    //   Object.keys(selectedWhiteCards)
+    // ).map((playerID) => ({ [playerID]: selectedWhiteCards[playerID] })),
     selectedWhiteCards,
     allWhiteCardsAreSelected,
   };

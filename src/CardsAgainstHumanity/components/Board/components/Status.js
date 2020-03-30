@@ -2,7 +2,7 @@ import React from "react";
 import {
   STAGE_DRAW_BLACK_CARD,
   STAGE_WHITE_CARDS_SELECTION,
-  STAGE_CHOOSE_WINNER,
+  STAGE_CHOOSING_WINNER,
 } from "../../../constants";
 
 export const Status = ({ stage, isMyTurn, currentPlayer }) => {
@@ -38,7 +38,7 @@ export const Status = ({ stage, isMyTurn, currentPlayer }) => {
           </StatusWarning>
         );
       }
-    case STAGE_CHOOSE_WINNER:
+    case STAGE_CHOOSING_WINNER:
       if (isMyTurn) {
         return <StatusWarning>Elegí la respuesta ganadora</StatusWarning>;
       } else {
@@ -58,9 +58,7 @@ const StatusBase = ({
   color = "text-gray-800",
   children,
 }) => (
-  <div
-    className={`${bg} ${color} rounded py-3 px-6 m-2 -mb-12 text-xl shadow-md`}
-  >
+  <div className={`${bg} ${color} rounded py-3 px-6 m-2 text-xl shadow-md`}>
     {children}
   </div>
 );

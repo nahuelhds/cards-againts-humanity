@@ -8,21 +8,24 @@ export const MyHand = ({
   onSelect,
   onSubmit,
   selectedCard,
+  isSelectedCardSent,
 }) => {
   const buttonStyles = selectedCard
     ? "bg-green-500 hover:bg-green-600 text-green-100"
     : "bg-green-400 text-gray-200 cursor-not-allowed";
   return (
     <div className="fixed w-screen bottom-0 left-0">
-      {!isMyTurn && stage === STAGE_WHITE_CARDS_SELECTION && (
-        <button
-          className={`${buttonStyles} p-4 m-2 rounded text-xl w-64`}
-          disabled={!selectedCard}
-          onClick={onSubmit}
-        >
-          Enviar respuesta
-        </button>
-      )}
+      {!isSelectedCardSent &&
+        !isMyTurn &&
+        stage === STAGE_WHITE_CARDS_SELECTION && (
+          <button
+            className={`${buttonStyles} p-4 m-2 rounded text-xl w-64`}
+            disabled={!selectedCard}
+            onClick={onSubmit}
+          >
+            Enviar respuesta
+          </button>
+        )}
       <div className="flex overflow-x-auto overflow-y-visible">
         {cards.map((cardText, index) => (
           <WhiteCard

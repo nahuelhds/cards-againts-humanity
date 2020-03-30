@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import {
-  STAGE_CHOOSE_WINNER,
+  STAGE_CHOOSING_WINNER,
   STAGE_DRAW_BLACK_CARD,
   STAGE_SELECT_WHITE_CARDS,
 } from "../../constants";
@@ -21,7 +21,7 @@ export default class BoardContainer extends React.Component {
 
   state = {
     selectedCard: "",
-    selectedWinnerId: "",
+    selectedWinnerID: "",
     nextTurnInSeconds: COUNT_DOWN_SECONDS,
     countDownIntervalID: false,
   };
@@ -41,12 +41,12 @@ export default class BoardContainer extends React.Component {
   };
 
   handleWinnerSelection = (event) => {
-    this.setState({ selectedWinnerId: event.target.value });
+    this.setState({ selectedWinnerID: event.target.value });
   };
 
   handleSelectedWinner = () => {
-    const { selectedWinnerId } = this.state;
-    this.props.moves.ChooseWinner(selectedWinnerId);
+    const { selectedWinnerID } = this.state;
+    this.props.moves.ChooseWinner(selectedWinnerID);
   };
 
   componentDidUpdate(prevProps) {
@@ -141,12 +141,12 @@ export default class BoardContainer extends React.Component {
                     <div>Esperando que levante la carta negra</div>
                   )}
                   {!isMe && !isOthersTurn && <div>Esperando para jugar</div>}
-                  {stage === STAGE_CHOOSE_WINNER &&
+                  {stage === STAGE_CHOOSING_WINNER &&
                     isMe &&
                     !allWhiteCardsAreSelected && (
                       <p>Waiting for players to selected their white cards</p>
                     )}
-                  {stage === STAGE_CHOOSE_WINNER &&
+                  {stage === STAGE_CHOOSING_WINNER &&
                     isMe &&
                     allWhiteCardsAreSelected && (
                       <React.Fragment>
