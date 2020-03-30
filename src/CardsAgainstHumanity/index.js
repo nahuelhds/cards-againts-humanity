@@ -22,8 +22,8 @@ const CardsAgainstHumanityClient = Client({
 });
 
 const CardsAgainstHumanityLoader = () => {
-  const { playerId } = useParams();
-  return <CardsAgainstHumanityClient playerId={playerId} />;
+  const { playerID } = useParams();
+  return <CardsAgainstHumanityClient playerID={playerID} />;
 };
 
 export default class AppContainer extends Component {
@@ -33,7 +33,7 @@ export default class AppContainer extends Component {
         <Switch>
           <Route exact path="/" component={PlayerSelection} />
           <Route
-            path="/room/:roomId/player/:playerId"
+            path="/room/:roomId/player/:playerID"
             component={CardsAgainstHumanityLoader}
           />
         </Switch>

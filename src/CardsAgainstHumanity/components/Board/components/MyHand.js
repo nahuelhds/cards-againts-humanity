@@ -5,13 +5,9 @@ export const MyHand = ({ cards }) => (
     {cards.map((cardText, index) => (
       <WhiteCard
         key={`white-card-${index}`}
-        h="h-64"
-        w="w-48"
-        className={"m-1"}
         transform={`transform translate-y-12 hover:translate-y-0`}
-      >
-        {cardText}
-      </WhiteCard>
+        text={cardText}
+      ></WhiteCard>
     ))}
   </div>
 );

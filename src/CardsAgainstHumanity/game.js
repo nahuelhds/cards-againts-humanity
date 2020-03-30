@@ -54,9 +54,9 @@ export const CardsAgainstHumanity = {
 function SetupState(ctx) {
   const hands = {};
   const wonBlackCards = {};
-  ctx.playOrder.forEach((playerId) => {
-    hands[playerId] = [];
-    wonBlackCards[playerId] = [];
+  ctx.playOrder.forEach((playerID) => {
+    hands[playerID] = [];
+    wonBlackCards[playerID] = [];
   });
   return {
     activeBlackCard: null,
@@ -73,8 +73,8 @@ function SetupState(ctx) {
 
 function RefillHands(G, ctx) {
   const whiteDeck = [...G.whiteDeck];
-  const hands = ctx.playOrder.map((playerId) => {
-    const playerHand = [...G.hands[playerId]];
+  const hands = ctx.playOrder.map((playerID) => {
+    const playerHand = [...G.hands[playerID]];
     while (playerHand.length < MAX_WHITE_CARDS) {
       playerHand.push(whiteDeck.shift());
     }

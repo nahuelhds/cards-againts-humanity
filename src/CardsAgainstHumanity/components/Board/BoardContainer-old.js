@@ -14,7 +14,7 @@ export default class BoardContainer extends React.Component {
     G: PropTypes.any.isRequired,
     ctx: PropTypes.any.isRequired,
     moves: PropTypes.any.isRequired,
-    playerId: PropTypes.string,
+    playerID: PropTypes.string,
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool,
   };
@@ -35,9 +35,9 @@ export default class BoardContainer extends React.Component {
   };
 
   handleSelectedWhiteCard = () => {
-    const { playerId } = this.props;
+    const { playerID } = this.props;
     const { selectedCard } = this.state;
-    this.props.moves.SelectWhiteCard(playerId, selectedCard);
+    this.props.moves.SelectWhiteCard(playerID, selectedCard);
   };
 
   handleWinnerSelection = (event) => {
@@ -71,10 +71,10 @@ export default class BoardContainer extends React.Component {
 
   handleEndThisTurn = () => {
     const {
-      playerId,
+      playerID,
       ctx: { currentPlayer },
     } = this.props;
-    if (currentPlayer === playerId) {
+    if (currentPlayer === playerID) {
       this.props.moves.EndThisTurn();
     }
     clearInterval(this.state.countDownIntervalID);
@@ -86,7 +86,7 @@ export default class BoardContainer extends React.Component {
   render() {
     const {
       isActive,
-      playerId,
+      playerID,
       ctx: { currentPlayer, playOrder, activePlayers },
       G: {
         whiteDeck,
@@ -99,7 +99,7 @@ export default class BoardContainer extends React.Component {
     } = this.props;
 
     const { nextTurnInSeconds } = this.state;
-    const stage = activePlayers[playerId];
+    const stage = activePlayers[playerID];
 
     return (
       <table className={"BoardTable"}>
@@ -131,7 +131,7 @@ export default class BoardContainer extends React.Component {
         </thead>
         <tbody>
           {playOrder.map((player) => {
-            const isMe = player === playerId;
+            const isMe = player === playerID;
             const isOthersTurn = player === currentPlayer;
             return (
               <tr key={`player-${player}`}>
@@ -172,18 +172,18 @@ export default class BoardContainer extends React.Component {
                             <option value={""}>
                               Elige la mejor combinacion
                             </option>
-                            {Object.keys(selectedWhiteCards).map((playerId) => (
+                            {Object.keys(selectedWhiteCards).map((playerID) => (
                               <option
-                                key={`combination-${playerId}`}
-                                value={playerId}
+                                key={`combination-${playerID}`}
+                                value={playerID}
                               >
                                 {activeBlackCard.indexOf("{whiteCard}") > -1
                                   ? activeBlackCard.replace(
                                       "{whiteCard}",
-                                      selectedWhiteCards[playerId].toUpperCase()
+                                      selectedWhiteCards[playerID].toUpperCase()
                                     )
                                   : `${activeBlackCard} ${selectedWhiteCards[
-                                      playerId
+                                      playerID
                                     ].toUpperCase()}`}
                               </option>
                             ))}

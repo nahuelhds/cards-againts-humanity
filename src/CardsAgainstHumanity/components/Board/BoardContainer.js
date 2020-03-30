@@ -19,7 +19,7 @@ export default class BoardContainer extends Component {
     G: PropTypes.any.isRequired,
     ctx: PropTypes.any.isRequired,
     moves: PropTypes.any.isRequired,
-    playerId: PropTypes.string,
+    playerID: PropTypes.string,
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool,
   };
@@ -40,9 +40,9 @@ export default class BoardContainer extends Component {
   };
 
   handleSelectedWhiteCard = () => {
-    const { playerId } = this.props;
+    const { playerID } = this.props;
     const { selectedCard } = this.state;
-    this.props.moves.SelectWhiteCard(playerId, selectedCard);
+    this.props.moves.SelectWhiteCard(playerID, selectedCard);
   };
 
   handleWinnerSelection = (event) => {
@@ -76,10 +76,10 @@ export default class BoardContainer extends Component {
 
   handleEndThisTurn = () => {
     const {
-      playerId,
+      playerID,
       ctx: { currentPlayer },
     } = this.props;
-    if (currentPlayer === playerId) {
+    if (currentPlayer === playerID) {
       this.props.moves.EndThisTurn();
     }
     clearInterval(this.state.countDownIntervalID);
@@ -91,7 +91,7 @@ export default class BoardContainer extends Component {
   render() {
     const {
       isActive,
-      playerId,
+      playerID,
       ctx: { currentPlayer, playOrder, activePlayers },
       G: {
         whiteDeck,
@@ -105,8 +105,8 @@ export default class BoardContainer extends Component {
     } = this.props;
 
     const { nextTurnInSeconds } = this.state;
-    const stage = activePlayers[playerId];
-    const isMyTurn = currentPlayer === playerId;
+    const stage = activePlayers[playerID];
+    const isMyTurn = currentPlayer === playerID;
 
     return (
       <div className="bg-gray-300 h-screen">
@@ -120,18 +120,15 @@ export default class BoardContainer extends Component {
                 <ActionableBlackDeck
                   onClick={this.handleDrawBlackCard}
                 ></ActionableBlackDeck>
+              ) : activeBlackCard ? (
+                <BlackCard text={activeBlackCard} />
               ) : (
                 <BlackDeck deck={blackDeck}></BlackDeck>
               )}
             </div>
           </div>
-          {activeBlackCard && (
-            <BlackCard w="w-48" h="h-64">
-              {activeBlackCard}
-            </BlackCard>
-          )}
         </div>
-        <MyHand cards={hands[playerId]}></MyHand>
+        <MyHand cards={hands[playerID]}></MyHand>
       </div>
     );
   }

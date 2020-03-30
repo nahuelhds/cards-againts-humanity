@@ -1,45 +1,18 @@
 import React, { Fragment } from "react";
 import styles from "./Cards.module.css";
 
-export const WhiteCard = ({ children, ...props }) => (
-  <Card {...props}>{children}</Card>
-);
-
-export const BlackCard = ({ active, children, ...props }) => (
-  <Fragment>
-    {active && (
-      <Card bg={`bg-black`} color={`text-white`} {...props}>
-        {children}
-      </Card>
-    )}
-    {!active && (
-      <Card bg={`bg-gray-500`} color={`text-gray-1000`} {...props}>
-        Esperando por la nueva carta
-      </Card>
-    )}
-  </Fragment>
-);
-
-export const ActiveBlackCard = ({ card, ...props }) => {
-  return (
-    <BlackCard active={!!card} {...props} w="w-48" h="h-64">
-      {card}
-    </BlackCard>
-  );
-};
-
-const Card = ({
-  bg = "bg-white",
-  color = "text-black",
-  w = "w-24",
-  h = "h-48",
-  transform = "",
-  className,
-  children,
-}) => (
+export const WhiteCard = ({ transform, text }) => (
   <div
-    className={`${styles.whiteCard} ${bg} ${w} ${h} ${transform} ${className} p-4 rounded shadow-lg `}
+    className={`${styles.whiteCard} bg-white w-32 h-48 p-4 m-1 rounded shadow-lg ${transform} `}
   >
-    <div className={`${color} font-bold text-lg`}>{children}</div>
+    <div className={`text-black font-bold text-lg`}>{text}</div>
   </div>
 );
+
+export const BlackCard = ({ text }) => (
+  <div className={`bg-black w-48 h-64 p-8 rounded shadow-lg`}>
+    <div className={`text-white font-bold text-xl`}>{sanitizeText(text)}</div>
+  </div>
+);
+
+const sanitizeText = (text) => text.replace("{whiteCard}", "______________");
