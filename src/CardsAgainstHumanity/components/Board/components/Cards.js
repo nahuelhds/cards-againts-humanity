@@ -18,6 +18,7 @@ export const WhiteCard = ({
 
   bg = selected ? "bg-blue-600" : bg;
   color = selected ? "text-blue-100" : color;
+  // TODO: horizontal scroll
   return (
     <button
       className={`${styles.whiteCard} ${cursor} ${bg} ${color} font-bold text-md w-48 h-64 m-1 relative shadow-lg ${transform}`}
