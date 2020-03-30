@@ -6,7 +6,13 @@ import {
   STAGE_CHOSEN_WINNER,
 } from "../../../constants";
 
-export const Status = ({ stage, isMyTurn, currentPlayer, winnerPlayer }) => {
+export const Status = ({
+  stage,
+  isMyTurn,
+  currentPlayer,
+  winnerPlayer,
+  nextTurnInSeconds,
+}) => {
   switch (stage) {
     case STAGE_DRAW_BLACK_CARD: {
       if (isMyTurn) {
@@ -49,7 +55,8 @@ export const Status = ({ stage, isMyTurn, currentPlayer, winnerPlayer }) => {
     case STAGE_CHOSEN_WINNER:
       return (
         <StatusSuccess>
-          El ganaro de esta ronda es el jugador #{winnerPlayer}
+          El ganador es el jugador #{winnerPlayer}. El próximo turno inicia en{" "}
+          {nextTurnInSeconds}s...
         </StatusSuccess>
       );
     default:

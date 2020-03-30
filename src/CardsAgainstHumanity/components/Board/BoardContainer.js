@@ -7,8 +7,8 @@ import { BlackCardView } from "./components/BlackCardView";
 import { Status } from "./components/Status";
 import {
   STAGE_CHOOSING_WINNER,
-  COUNT_DOWN_SECONDS,
   STAGE_CHOSEN_WINNER,
+  COUNT_DOWN_SECONDS,
 } from "../../constants";
 
 export default class BoardContainer extends Component {
@@ -62,9 +62,9 @@ export default class BoardContainer extends Component {
   }
 
   startCountDown = () => {
-    // setTimeout(() => {
-    //   this.handleEndThisTurn();
-    // }, COUNT_DOWN_SECONDS * 1000);
+    setTimeout(() => {
+      this.handleEndThisTurn();
+    }, COUNT_DOWN_SECONDS * 1000);
     const countDownIntervalID = setInterval(() => {
       this.setState({ nextTurnInSeconds: this.state.nextTurnInSeconds - 1 });
     }, 1000);
@@ -87,15 +87,12 @@ export default class BoardContainer extends Component {
 
   render() {
     const {
-      isActive,
       playerID,
-      ctx: { currentPlayer, playOrder, activePlayers },
+      ctx: { currentPlayer, activePlayers },
       G: {
-        whiteDeck,
         blackDeck,
         hands,
         activeBlackCard,
-        allWhiteCardsAreSelected,
         selectedWhiteCards,
         winnerPlayerID,
       },
@@ -119,6 +116,7 @@ export default class BoardContainer extends Component {
             isMyTurn={isMyTurn}
             currentPlayer={currentPlayer}
             winnerPlayer={winnerPlayerID}
+            nextTurnInSeconds={nextTurnInSeconds}
           />
         </div>
         <div className="flex">
@@ -135,12 +133,14 @@ export default class BoardContainer extends Component {
               isMyTurn={isMyTurn}
               show={
                 isMyTurn ||
-                stage === STAGE_CHOOSING_WINNER ||
+                [STAGE_CHOOSING_WINNER, STAGE_CHOSEN_WINNER].indexOf(stage) >
+                  -1 ||
                 selectedWhiteCards[playerID] ===
                   selectedWhiteCards[cardPlayerID]
               }
               text={selectedWhiteCards[cardPlayerID]}
               selected={selectedWinnerID === cardPlayerID}
+              winner={winnerPlayerID === cardPlayerID}
               onSelect={() => this.handleWinnerSelection(cardPlayerID)}
               onSubmit={this.handleSelectedWinner}
             />

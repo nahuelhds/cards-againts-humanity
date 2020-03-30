@@ -36,6 +36,7 @@ export const SelectedWhiteCard = ({
   onSubmit,
   selected,
   text,
+  winner,
 }) => {
   let bg = !isMyTurn ? "bg-gray-200" : "bg-white";
   let color = !isMyTurn ? "text-gray-800" : "text-black";
@@ -43,6 +44,9 @@ export const SelectedWhiteCard = ({
 
   bg = selected ? "bg-blue-600" : bg;
   color = selected ? "text-blue-100" : color;
+
+  bg = winner ? "bg-green-600" : bg;
+  color = winner ? "text-green-100" : bg;
   return (
     <button
       className={`${styles.whiteCard} ${cursor} ${bg} ${color} font-bold text-md w-64 h-96 m-2 relative shadow-lg`}
@@ -54,7 +58,7 @@ export const SelectedWhiteCard = ({
           <div className={"absolute top-0 left-0 p-4 text-left w-full text-xl"}>
             {text}
           </div>
-          {selected && (
+          {!winner && selected && (
             <button
               className={`absolute bottom-0 left-0 p-4 w-full text-xl bg-blue-100 text-blue-600 hover:bg-blue-200 hover:text-blue-700`}
               onClick={onSubmit}
