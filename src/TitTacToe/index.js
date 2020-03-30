@@ -7,12 +7,13 @@ import { TicTacToe } from "./game";
 import { TicTacToeBoard } from "./board";
 
 const TicTacToeClient = Client({
+  debug: false,
   game: TicTacToe,
   board: TicTacToeBoard,
   multiplayer: SocketIO({ server: "localhost:8000" })
 });
 
-class App extends React.Component {
+export default class TicTacToeApp extends React.Component {
   state = { playerID: null };
 
   render() {
@@ -36,5 +37,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;
