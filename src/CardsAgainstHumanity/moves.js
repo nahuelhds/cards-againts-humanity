@@ -1,8 +1,9 @@
-import shuffle from "lodash/shuffle";
+// import shuffle from "lodash/shuffle";
 
 import {
   STAGE_WHITE_CARDS_SELECTION,
   STAGE_CHOOSING_WINNER,
+  STAGE_CHOSEN_WINNER,
 } from "./constants";
 
 export const DrawABlackCard = (G, ctx) => {
@@ -48,6 +49,7 @@ export const SelectWhiteCard = (G, ctx, playerID, selectedWhiteCard) => {
 };
 
 export const ChooseWinner = (G, ctx, playerID) => {
+  ctx.events.setActivePlayers({ all: STAGE_CHOSEN_WINNER });
   return {
     ...G,
     winnerPlayerID: playerID,

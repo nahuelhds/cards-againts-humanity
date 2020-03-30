@@ -5,9 +5,11 @@ import { MyHand } from "./components/MyHand";
 import { SelectedWhiteCard } from "./components/Cards";
 import { BlackCardView } from "./components/BlackCardView";
 import { Status } from "./components/Status";
-import { STAGE_CHOOSING_WINNER } from "../../constants";
-
-const COUNT_DOWN_SECONDS = 5;
+import {
+  STAGE_CHOOSING_WINNER,
+  COUNT_DOWN_SECONDS,
+  STAGE_CHOSEN_WINNER,
+} from "../../constants";
 
 export default class BoardContainer extends Component {
   static propTypes = {
@@ -60,9 +62,9 @@ export default class BoardContainer extends Component {
   }
 
   startCountDown = () => {
-    setTimeout(() => {
-      this.handleEndThisTurn();
-    }, COUNT_DOWN_SECONDS * 1000);
+    // setTimeout(() => {
+    //   this.handleEndThisTurn();
+    // }, COUNT_DOWN_SECONDS * 1000);
     const countDownIntervalID = setInterval(() => {
       this.setState({ nextTurnInSeconds: this.state.nextTurnInSeconds - 1 });
     }, 1000);
@@ -116,6 +118,7 @@ export default class BoardContainer extends Component {
             stage={stage}
             isMyTurn={isMyTurn}
             currentPlayer={currentPlayer}
+            winnerPlayer={winnerPlayerID}
           />
         </div>
         <div className="flex">

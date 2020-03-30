@@ -5,6 +5,7 @@ import {
   STAGE_DRAW_BLACK_CARD,
   STAGE_WHITE_CARDS_SELECTION,
   STAGE_CHOOSING_WINNER,
+  STAGE_CHOSEN_WINNER,
 } from "./constants";
 import {
   DrawABlackCard,
@@ -32,7 +33,10 @@ export const CardsAgainstHumanity = {
         moves: { SelectWhiteCard },
       },
       [STAGE_CHOOSING_WINNER]: {
-        moves: { ChooseWinner, EndThisTurn },
+        moves: { ChooseWinner },
+      },
+      [STAGE_CHOSEN_WINNER]: {
+        moves: { EndThisTurn },
       },
     },
     onBegin: RefillHands,

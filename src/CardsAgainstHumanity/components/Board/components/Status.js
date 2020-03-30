@@ -3,12 +3,12 @@ import {
   STAGE_DRAW_BLACK_CARD,
   STAGE_WHITE_CARDS_SELECTION,
   STAGE_CHOOSING_WINNER,
+  STAGE_CHOSEN_WINNER,
 } from "../../../constants";
 
-export const Status = ({ stage, isMyTurn, currentPlayer }) => {
+export const Status = ({ stage, isMyTurn, currentPlayer, winnerPlayer }) => {
   switch (stage) {
     case STAGE_DRAW_BLACK_CARD: {
-      // If it's me
       if (isMyTurn) {
         return (
           <StatusWarning>
@@ -17,19 +17,19 @@ export const Status = ({ stage, isMyTurn, currentPlayer }) => {
         );
       } else {
         return (
-          <StatusSuccess>
+          <StatusInfo>
             Esperando que el Jugador #{currentPlayer} levante una carta negra
             para comenzar
-          </StatusSuccess>
+          </StatusInfo>
         );
       }
     }
     case STAGE_WHITE_CARDS_SELECTION:
       if (isMyTurn) {
         return (
-          <StatusSuccess>
+          <StatusInfo>
             Esperando las respuestas de los demás jugadores
-          </StatusSuccess>
+          </StatusInfo>
         );
       } else {
         return (
@@ -43,11 +43,15 @@ export const Status = ({ stage, isMyTurn, currentPlayer }) => {
         return <StatusWarning>Elegí la respuesta ganadora</StatusWarning>;
       } else {
         return (
-          <StatusSuccess>
-            Jugador #{currentPlayer} esta eligiendo...
-          </StatusSuccess>
+          <StatusInfo>Jugador #{currentPlayer} esta eligiendo...</StatusInfo>
         );
       }
+    case STAGE_CHOSEN_WINNER:
+      return (
+        <StatusSuccess>
+          El ganaro de esta ronda es el jugador #{winnerPlayer}
+        </StatusSuccess>
+      );
     default:
       return <StatusBase>Acción desconocida</StatusBase>;
   }
