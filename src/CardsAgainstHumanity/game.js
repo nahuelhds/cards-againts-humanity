@@ -48,18 +48,20 @@ export const CardsAgainstHumanity = {
 function SetupState(ctx) {
   const hands = {};
   const wonBlackCards = {};
+  const selectedWhiteCards = {};
   ctx.playOrder.forEach((playerID) => {
     hands[playerID] = [];
     wonBlackCards[playerID] = [];
+    selectedWhiteCards[playerID] = null;
   });
   return {
     activeBlackCard: null,
     allWhiteCardsAreSelected: false,
-    selectedWhiteCards: {},
     winnerPlayerID: null,
-    wonBlackCards,
     endThisTurn: false,
     hands,
+    selectedWhiteCards,
+    wonBlackCards,
     blackDeck: shuffle(theBlackDeck),
     whiteDeck: shuffle(theWhiteDeck),
   };
@@ -83,12 +85,16 @@ function RefillHands(G, ctx) {
 }
 
 function PrepareStateForNextTurn(G, ctx) {
+  const selectedWhiteCards = {};
+  ctx.playOrder.forEach((playerID) => {
+    selectedWhiteCards[playerID] = null;
+  });
   return {
     ...G,
     activeBlackCard: null,
     allWhiteCardsAreSelected: false,
-    selectedWhiteCards: {},
     winnerPlayerID: null,
     endThisTurn: false,
+    selectedWhiteCards,
   };
 }

@@ -1,9 +1,9 @@
-import { SelectedWhiteCards } from "./components/SelectedWhiteCards";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import { MyHand } from "./components/MyHand";
 import { BlackCardView } from "./components/BlackCardView";
+import { WhiteCards } from "./components/WhiteCards";
 import { Status } from "./components/Status";
 import {
   COUNT_DOWN_SECONDS,
@@ -21,11 +21,12 @@ export default class BoardContainer extends Component {
     isMultiplayer: PropTypes.bool,
   };
 
+  countDownIntervalID = false;
+
   state = {
     selectedWhiteCard: "",
     selectedWinnerID: "",
     nextTurnInSeconds: COUNT_DOWN_SECONDS,
-    countDownIntervalID: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -48,7 +49,6 @@ export default class BoardContainer extends Component {
         selectedWhiteCard: "",
         selectedWinnerID: "",
         nextTurnInSeconds: COUNT_DOWN_SECONDS,
-        countDownIntervalID: false,
       });
     }
   }
@@ -57,10 +57,9 @@ export default class BoardContainer extends Component {
     setTimeout(() => {
       this.handleEndThisTurn();
     }, COUNT_DOWN_SECONDS * 1000);
-    const countDownIntervalID = setInterval(() => {
+    this.countDownIntervalID = setInterval(() => {
       this.setState({ nextTurnInSeconds: this.state.nextTurnInSeconds - 1 });
     }, 1000);
-    this.setState({ countDownIntervalID });
   };
 
   handleDrawBlackCard = () => {
@@ -95,7 +94,7 @@ export default class BoardContainer extends Component {
       this.props.moves.EndThisTurn();
     }
     setTimeout(() => {
-      clearInterval(this.state.countDownIntervalID);
+      clearInterval(this.countDownIntervalID);
       this.setState({
         nextTurnInSeconds: COUNT_DOWN_SECONDS,
       });
@@ -145,8 +144,9 @@ export default class BoardContainer extends Component {
             blackDeck={blackDeck}
             handleDrawBlackCard={this.handleDrawBlackCard}
           />
-          <SelectedWhiteCards
+          <WhiteCards
             stage={stage}
+            currentPlayer={currentPlayer}
             isMyTurn={isMyTurn}
             playerID={playerID}
             cards={selectedWhiteCards}

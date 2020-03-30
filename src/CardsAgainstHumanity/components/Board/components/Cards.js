@@ -1,7 +1,7 @@
 import React from "react";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { faQuestion, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./Cards.module.css";
 
@@ -33,6 +33,7 @@ export const WhiteCard = ({
 export const SelectedWhiteCard = ({
   isMyTurn,
   show,
+  waitingForPlayers,
   onSelect,
   onSubmit,
   selected,
@@ -50,6 +51,7 @@ export const SelectedWhiteCard = ({
 
   bg = winner ? "bg-green-600" : bg;
   color = winner ? "text-green-100" : bg;
+
   return (
     <div className="flex flex-col">
       <button
@@ -57,15 +59,23 @@ export const SelectedWhiteCard = ({
         disabled={!isMyTurn}
         onClick={!winnerPlayerID && isSelectable ? onSelect : undefined}
       >
-        {show && (
-          <div className={"absolute top-0 left-0 p-4 text-left w-full text-xl"}>
-            {text}
+        {!show && waitingForPlayers && (
+          <div className={`flex-1 p-8 text-center text-xl`}>
+            <Icon icon={faSpinner} spin className={`text-3xl mb-2`}></Icon>
+            <p>Esperando cartas...</p>
           </div>
         )}
-        {!show && (
-          <div className={`flex-1 text-center text-xl`}>
-            <Icon icon={faQuestion} className={`text-5xl mb-2`}></Icon>
-            <p>Esperando...</p>
+        {!show && !waitingForPlayers && (
+          <div className={`flex-1 p-8 text-center text-xl`}>
+            <Icon icon={faQuestion} className={`text-3xl mb-2`}></Icon>
+            <p>Esperando respuesta...</p>
+          </div>
+        )}
+        {show && (
+          <div
+            className={"absolute p-8 top-0 left-0 p-4 text-left w-full text-xl"}
+          >
+            {text}
           </div>
         )}
       </button>

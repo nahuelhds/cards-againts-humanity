@@ -30,7 +30,8 @@ export const SelectWhiteCard = (G, ctx, playerID, selectedWhiteCard) => {
   };
 
   const allWhiteCardsAreSelected =
-    Object.values(selectedWhiteCards).length === ctx.playOrder.length - 1;
+    Object.values(selectedWhiteCards).filter((text) => text !== null).length ===
+    ctx.playOrder.length - 1;
 
   if (allWhiteCardsAreSelected) {
     ctx.events.setActivePlayers({ all: STAGE_CHOOSING_WINNER });
