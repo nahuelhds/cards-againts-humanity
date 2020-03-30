@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
@@ -36,8 +36,10 @@ export const SelectedWhiteCard = ({
   onSelect,
   onSubmit,
   selected,
+  isSelectable,
   text,
   winner,
+  winnerPlayerID,
 }) => {
   let bg = !isMyTurn ? "bg-gray-200" : "bg-white";
   let color = !isMyTurn ? "text-gray-800" : "text-black";
@@ -49,33 +51,40 @@ export const SelectedWhiteCard = ({
   bg = winner ? "bg-green-600" : bg;
   color = winner ? "text-green-100" : bg;
   return (
-    <button
-      className={`${styles.whiteCard} ${cursor} ${bg} ${color} font-bold text-md w-64 h-96 m-2 relative shadow-lg`}
-      disabled={!isMyTurn}
-      onClick={onSelect}
-    >
-      {show && (
-        <Fragment>
+    <div className="flex flex-col">
+      <button
+        className={`${styles.whiteCard} ${cursor} ${bg} ${color} flex-1 font-bold text-md w-64 h-96 m-2 relative shadow-lg`}
+        disabled={!isMyTurn}
+        onClick={!winnerPlayerID && isSelectable ? onSelect : undefined}
+      >
+        {show && (
           <div className={"absolute top-0 left-0 p-4 text-left w-full text-xl"}>
             {text}
           </div>
-          {!winner && selected && (
-            <button
-              className={`absolute bottom-0 left-0 p-4 w-full text-xl bg-blue-100 text-blue-600 hover:bg-blue-200 hover:text-blue-700`}
-              onClick={onSubmit}
-            >
-              ¡Esta es la mejor!
-            </button>
-          )}
-        </Fragment>
+        )}
+        {!show && (
+          <div className={`flex-1 text-center text-xl`}>
+            <Icon icon={faQuestion} className={`text-5xl mb-2`}></Icon>
+            <p>Esperando...</p>
+          </div>
+        )}
+      </button>
+      {show && !winner && selected && (
+        <button
+          className={`text-xl h-16 m-2 -mt-2 bg-blue-100 text-blue-600 hover:bg-blue-200 hover:text-blue-700`}
+          onClick={onSubmit}
+        >
+          ¡Esta es la mejor!
+        </button>
       )}
-      {!show && (
-        <div className={`flex-1 text-center text-xl`}>
-          <Icon icon={faQuestion} className={`text-5xl mb-2`}></Icon>
-          <p>Esperando...</p>
+      {show && winner && (
+        <div
+          className={`text-xl h-16 m-2 -mt-2 bg-green-100 text-green-600 text-center flex items-center justify-center`}
+        >
+          Jugador #{winnerPlayerID}
         </div>
       )}
-    </button>
+    </div>
   );
 };
 

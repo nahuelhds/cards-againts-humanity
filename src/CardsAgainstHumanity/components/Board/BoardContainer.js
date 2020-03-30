@@ -5,7 +5,11 @@ import PropTypes from "prop-types";
 import { MyHand } from "./components/MyHand";
 import { BlackCardView } from "./components/BlackCardView";
 import { Status } from "./components/Status";
-import { COUNT_DOWN_SECONDS } from "../../constants";
+import {
+  COUNT_DOWN_SECONDS,
+  STAGE_CHOSEN_WINNER,
+  STAGE_DRAW_BLACK_CARD,
+} from "../../constants";
 
 export default class BoardContainer extends Component {
   static propTypes = {
@@ -22,6 +26,41 @@ export default class BoardContainer extends Component {
     selectedWinnerID: "",
     nextTurnInSeconds: COUNT_DOWN_SECONDS,
     countDownIntervalID: false,
+  };
+
+  componentDidUpdate(prevProps) {
+    const { ctx, G, playerID } = this.props;
+    const { activePlayers } = ctx;
+    const { winnerPlayerID } = G;
+
+    const prevStage = prevProps.ctx.activePlayers[playerID];
+    const stage = activePlayers[playerID];
+    if (
+      prevProps.G.winnerPlayerID !== winnerPlayerID &&
+      prevProps.G.winnerPlayerID === null
+    ) {
+      this.startCountDown();
+    }
+    console.log(prevStage, stage);
+    if (prevStage === STAGE_CHOSEN_WINNER && stage === STAGE_DRAW_BLACK_CARD) {
+      console.log("CHANGING");
+      this.setState({
+        selectedWhiteCard: "",
+        selectedWinnerID: "",
+        nextTurnInSeconds: COUNT_DOWN_SECONDS,
+        countDownIntervalID: false,
+      });
+    }
+  }
+
+  startCountDown = () => {
+    setTimeout(() => {
+      this.handleEndThisTurn();
+    }, COUNT_DOWN_SECONDS * 1000);
+    const countDownIntervalID = setInterval(() => {
+      this.setState({ nextTurnInSeconds: this.state.nextTurnInSeconds - 1 });
+    }, 1000);
+    this.setState({ countDownIntervalID });
   };
 
   handleDrawBlackCard = () => {
@@ -45,26 +84,6 @@ export default class BoardContainer extends Component {
   handleSelectedWinner = () => {
     const { selectedWinnerID } = this.state;
     this.props.moves.ChooseWinner(selectedWinnerID);
-  };
-
-  componentDidUpdate(prevProps) {
-    const { winnerPlayerID } = this.props.G;
-    if (
-      prevProps.G.winnerPlayerID !== winnerPlayerID &&
-      prevProps.G.winnerPlayerID === null
-    ) {
-      this.startCountDown();
-    }
-  }
-
-  startCountDown = () => {
-    setTimeout(() => {
-      this.handleEndThisTurn();
-    }, COUNT_DOWN_SECONDS * 1000);
-    const countDownIntervalID = setInterval(() => {
-      this.setState({ nextTurnInSeconds: this.state.nextTurnInSeconds - 1 });
-    }, 1000);
-    this.setState({ countDownIntervalID });
   };
 
   handleEndThisTurn = () => {
@@ -92,6 +111,7 @@ export default class BoardContainer extends Component {
         hands,
         activeBlackCard,
         selectedWhiteCards,
+        allWhiteCardsAreSelected,
         winnerPlayerID,
       },
     } = this.props;
@@ -126,11 +146,13 @@ export default class BoardContainer extends Component {
             handleDrawBlackCard={this.handleDrawBlackCard}
           />
           <SelectedWhiteCards
-            cards={selectedWhiteCards}
-            isMyTurn={isMyTurn}
             stage={stage}
-            selectedWinnerID={selectedWinnerID}
+            isMyTurn={isMyTurn}
+            playerID={playerID}
+            cards={selectedWhiteCards}
+            isSelectable={allWhiteCardsAreSelected}
             winnerPlayerID={winnerPlayerID}
+            selectedWinnerID={selectedWinnerID}
             handleWinnerSelection={this.handleWinnerSelection}
             handleSelectedWinner={this.handleSelectedWinner}
           />
