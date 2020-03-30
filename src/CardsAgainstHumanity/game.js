@@ -54,14 +54,16 @@ function SetupState(ctx) {
     wonBlackCards[playerID] = [];
     selectedWhiteCards[playerID] = null;
   });
+
   return {
+    endThisTurn: false,
     activeBlackCard: null,
+    selectedwhiteCardsOrder: shuffle([...ctx.playOrder]),
+    selectedWhiteCards,
     allWhiteCardsAreSelected: false,
     winnerPlayerID: null,
-    endThisTurn: false,
-    hands,
-    selectedWhiteCards,
     wonBlackCards,
+    hands,
     blackDeck: shuffle(theBlackDeck),
     whiteDeck: shuffle(theWhiteDeck),
   };
@@ -92,6 +94,7 @@ function PrepareStateForNextTurn(G, ctx) {
   return {
     ...G,
     activeBlackCard: null,
+    selectedwhiteCardsOrder: shuffle([...ctx.playOrder]),
     allWhiteCardsAreSelected: false,
     winnerPlayerID: null,
     endThisTurn: false,

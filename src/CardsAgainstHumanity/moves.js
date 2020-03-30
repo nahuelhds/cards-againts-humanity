@@ -40,10 +40,6 @@ export const SelectWhiteCard = (G, ctx, playerID, selectedWhiteCard) => {
   return {
     ...G,
     hands,
-    // TODO: shuffle this
-    // selectedWhiteCards: shuffle(
-    //   Object.keys(selectedWhiteCards)
-    // ).map((playerID) => ({ [playerID]: selectedWhiteCards[playerID] })),
     selectedWhiteCards,
     allWhiteCardsAreSelected,
   };

@@ -109,9 +109,11 @@ export default class BoardContainer extends Component {
         blackDeck,
         hands,
         activeBlackCard,
+        selectedwhiteCardsOrder,
         selectedWhiteCards,
         allWhiteCardsAreSelected,
         winnerPlayerID,
+        wonBlackCards,
       },
     } = this.props;
 
@@ -124,6 +126,7 @@ export default class BoardContainer extends Component {
     const isMyTurn = currentPlayer === playerID;
     const isSelectedWhiteCardSent =
       selectedWhiteCards[playerID] && selectedWhiteCards[playerID] !== "";
+    const myWonBlackCards = wonBlackCards[playerID];
 
     return (
       <div className="bg-gray-400 h-screen">
@@ -149,6 +152,7 @@ export default class BoardContainer extends Component {
             currentPlayer={currentPlayer}
             isMyTurn={isMyTurn}
             playerID={playerID}
+            cardsOrder={selectedwhiteCardsOrder}
             cards={selectedWhiteCards}
             isSelectable={allWhiteCardsAreSelected}
             winnerPlayerID={winnerPlayerID}

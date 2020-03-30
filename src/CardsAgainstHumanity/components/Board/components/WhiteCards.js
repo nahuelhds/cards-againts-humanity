@@ -12,6 +12,7 @@ export function WhiteCards({
   currentPlayer,
   isMyTurn,
   playerID,
+  cardsOrder,
   cards,
   isSelectable,
   selectedWinnerID,
@@ -29,7 +30,7 @@ export function WhiteCards({
 
   return (
     <Fragment>
-      {Object.keys(cards).map(
+      {cardsOrder.map(
         (cardPlayerID, index) =>
           cardPlayerID !== currentPlayer && (
             <SelectedWhiteCard
