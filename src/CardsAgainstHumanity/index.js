@@ -14,11 +14,11 @@ import board from "./components/Board";
 import PlayerSelection from "./components/PlayerSelection";
 
 const CardsAgainstHumanityClient = Client({
-  board,
-  debug: false,
-  game: CardsAgainstHumanity,
+  debug: true,
   multiplayer: SocketIO({ server: "localhost:8000" }),
   numPlayers: 3,
+  board,
+  game: CardsAgainstHumanity,
 });
 
 const CardsAgainstHumanityLoader = () => {

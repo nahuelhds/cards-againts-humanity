@@ -8,7 +8,10 @@ import {
 } from "../../constants";
 
 import { MyHand } from "./components/MyHand";
-import { BlackDeck, WhiteDeck } from "./components/Deck";
+import { BlackDeck, WhiteDeck } from "./components/Decks";
+import { ActiveBlackCard, BlackCard } from "./components/Cards";
+import { Status } from "./components/Status";
+import calculateTurnType from "../../turnType";
 
 const COUNT_DOWN_SECONDS = 5;
 
@@ -106,15 +109,27 @@ export default class BoardContainer extends Component {
     const stage = activePlayers[playerId];
 
     return (
-      <Fragment>
-        <div className="bg-gray-200 h-screen">
-          <div className="flex">
-            <BlackDeck deck={blackDeck}></BlackDeck>
-            <WhiteDeck deck={whiteDeck}></WhiteDeck>
-          </div>
+      <div className="bg-gray-300 h-screen">
+        <div className="flex justify-center">
+          <Status
+            stage={stage}
+            currentPlayer={currentPlayer}
+            playerId={playerId}
+          />
         </div>
-        <MyHand whiteCards={hands[playerId]}></MyHand>
-      </Fragment>
+        <div className="flex">
+          <div>
+            <BlackDeck className={"m-2"} deck={blackDeck}></BlackDeck>
+            <WhiteDeck className={"m-2"} deck={whiteDeck}></WhiteDeck>
+          </div>
+          {activeBlackCard && (
+            <BlackCard w="w-48" h="h-64">
+              {activeBlackCard}
+            </BlackCard>
+          )}
+        </div>
+        <MyHand cards={hands[playerId]}></MyHand>
+      </div>
     );
   }
 }
