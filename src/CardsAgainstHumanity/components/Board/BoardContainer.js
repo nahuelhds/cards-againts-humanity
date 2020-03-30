@@ -8,10 +8,9 @@ import {
 } from "../../constants";
 
 import { MyHand } from "./components/MyHand";
-import { BlackDeck, WhiteDeck } from "./components/Decks";
+import { BlackDeck, WhiteDeck, ActionableBlackDeck } from "./components/Decks";
 import { ActiveBlackCard, BlackCard } from "./components/Cards";
 import { Status } from "./components/Status";
-import calculateTurnType from "../../turnType";
 
 const COUNT_DOWN_SECONDS = 5;
 
@@ -107,20 +106,24 @@ export default class BoardContainer extends Component {
 
     const { nextTurnInSeconds } = this.state;
     const stage = activePlayers[playerId];
+    const isMyTurn = currentPlayer === playerId;
 
     return (
       <div className="bg-gray-300 h-screen">
         <div className="flex justify-center">
-          <Status
-            stage={stage}
-            currentPlayer={currentPlayer}
-            playerId={playerId}
-          />
+          <Status stage={stage} isMyTurn currentPlayer={currentPlayer} />
         </div>
         <div className="flex">
           <div>
-            <BlackDeck className={"m-2"} deck={blackDeck}></BlackDeck>
-            <WhiteDeck className={"m-2"} deck={whiteDeck}></WhiteDeck>
+            <div className={"m-2"}>
+              {stage === STAGE_DRAW_BLACK_CARD && isMyTurn ? (
+                <ActionableBlackDeck
+                  onClick={this.handleDrawBlackCard}
+                ></ActionableBlackDeck>
+              ) : (
+                <BlackDeck deck={blackDeck}></BlackDeck>
+              )}
+            </div>
           </div>
           {activeBlackCard && (
             <BlackCard w="w-48" h="h-64">

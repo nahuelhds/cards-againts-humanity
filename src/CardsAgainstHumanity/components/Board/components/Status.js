@@ -4,17 +4,12 @@ import {
   STAGE_SELECT_WHITE_CARDS,
   STAGE_CHOOSE_WINNER,
 } from "../../../constants";
-import calculateTurnType, {
-  IS_MY_TURN,
-  IS_ANOTHER_PLAYER_TURN,
-} from "../../../turnType";
 
-export const Status = ({ stage, currentPlayer, playerId }) => {
-  const turnType = calculateTurnType(currentPlayer, playerId);
+export const Status = ({ stage, isMyTurn, currentPlayer }) => {
   switch (stage) {
     case STAGE_DRAW_BLACK_CARD: {
       // If it's me
-      if (turnType === IS_MY_TURN) {
+      if (isMyTurn) {
         return (
           <StatusWarning>
             Levantá una carta negra para comenzar el turno
@@ -28,7 +23,7 @@ export const Status = ({ stage, currentPlayer, playerId }) => {
       );
     }
     case STAGE_SELECT_WHITE_CARDS:
-      if (turnType === IS_ANOTHER_PLAYER_TURN) {
+      if (isMyTurn) {
         return (
           <StatusSuccess>
             Esperando que el Jugador #{currentPlayer} levante una carta negra
@@ -42,7 +37,7 @@ export const Status = ({ stage, currentPlayer, playerId }) => {
         </StatusBase>
       );
     case STAGE_CHOOSE_WINNER:
-      if (turnType === IS_MY_TURN) {
+      if (isMyTurn) {
         return <StatusWarning>Elegí la respuesta ganadora</StatusWarning>;
       }
       return (

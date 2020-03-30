@@ -1,15 +1,23 @@
 import React from "react";
-export const BlackDeck = ({ deck, ...props }) => (
-  <Deck deck={deck} bg={"bg-black"} color={"text-white"} {...props}></Deck>
-);
-export const WhiteDeck = ({ deck, ...props }) => (
-  <Deck deck={deck} bg={"bg-white"} color={"text-gray-600"} {...props}></Deck>
-);
-const Deck = ({ bg, color, deck, className }) => (
-  <div className={`${className} w-36 h-48 ${bg} rounded shadow-md`}>
-    <div className="py-8 px-4 text-center">
-      <div className={`${color} font-bold text-5xl mb-2`}>{deck.length}</div>
-      <div className={`${color} text-lg`}>Cartas restantes</div>
+
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import { faQuestion, faHandPointDown } from "@fortawesome/free-solid-svg-icons";
+
+export const BlackDeck = ({ deck }) => (
+  <div className={`w-48 h-64 bg-gray-600 rounded shadow-md flex items-center`}>
+    <div className={`flex-1 text-center text-gray-100 text-xl`}>
+      <Icon icon={faQuestion} className={`text-5xl mb-2`}></Icon>
+      <p>Esperando...</p>
     </div>
   </div>
+);
+
+export const ActionableBlackDeck = ({ onClick }) => (
+  <button
+    className={`w-48 h-64 bg-gray-900 hover:bg-black text-gray-300 hover:text-white rounded-lg shadow-md text-xl`}
+    onClick={onClick}
+  >
+    <Icon icon={faHandPointDown} className={`text-5xl mb-2`}></Icon>
+    <p>Levantar carta</p>
+  </button>
 );
