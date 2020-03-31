@@ -1,5 +1,5 @@
 // src/server.js
 const Server = require("boardgame.io/server").Server;
-const { TicTacToe } = require("./game");
-const server = Server({ games: [TicTacToe] });
+const { CardsAgainstHumanity } = require("./CardsAgainstHumanity/game");
+const server = Server({ games: [CardsAgainstHumanity] });
 server.run(8000);
