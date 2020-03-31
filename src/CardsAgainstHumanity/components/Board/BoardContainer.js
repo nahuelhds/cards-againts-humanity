@@ -120,8 +120,8 @@ export default class BoardContainer extends Component {
     const myWonBlackCards = wonBlackCards[playerID];
 
     return (
-      <div className="bg-gray-400 h-screen">
-        <div className="flex justify-center">
+      <div className="pb-64">
+        <div className="flex justify-center sticky top-0 z-10">
           <Status
             stage={stage}
             isMyTurn={isMyTurn}
@@ -130,27 +130,30 @@ export default class BoardContainer extends Component {
             nextTurnInSeconds={nextTurnInSeconds}
           />
         </div>
-        <div className="flex">
+        <div className="flex items-start">
           <BlackCardView
+            className={`sticky top-0`}
             stage={stage}
             isMyTurn={isMyTurn}
             activeBlackCard={activeBlackCard}
             blackDeck={blackDeck}
             handleDrawBlackCard={this.handleDrawBlackCard}
           />
-          <WhiteCards
-            stage={stage}
-            currentPlayer={currentPlayer}
-            isMyTurn={isMyTurn}
-            playerID={playerID}
-            cardsOrder={selectedwhiteCardsOrder}
-            cards={selectedWhiteCards}
-            isSelectable={allWhiteCardsAreSelected}
-            selectedWinnerID={chosenWinnerID}
-            winnerPlayerID={winnerPlayerID}
-            handleWinnerSelection={this.handleWinnerSelection}
-            handleSelectedWinner={this.handleSelectedWinner}
-          />
+          <div className="flex-1 flex flex-wrap">
+            <WhiteCards
+              stage={stage}
+              currentPlayer={currentPlayer}
+              isMyTurn={isMyTurn}
+              playerID={playerID}
+              cardsOrder={selectedwhiteCardsOrder}
+              cards={selectedWhiteCards}
+              isSelectable={allWhiteCardsAreSelected}
+              selectedWinnerID={chosenWinnerID}
+              winnerPlayerID={winnerPlayerID}
+              handleWinnerSelection={this.handleWinnerSelection}
+              handleSelectedWinner={this.handleSelectedWinner}
+            />
+          </div>
         </div>
         <MyHand
           stage={stage}

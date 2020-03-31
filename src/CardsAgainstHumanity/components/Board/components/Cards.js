@@ -53,20 +53,20 @@ export const SelectedWhiteCard = ({
   color = winner ? "text-green-100" : bg;
 
   return (
-    <div className="flex flex-col">
+    <div className="w-64 h-96 m-2 flex flex-col">
       <button
-        className={`${styles.whiteCard} ${cursor} ${bg} ${color} flex-1 font-bold text-md w-64 h-96 m-2 relative shadow-lg`}
+        className={`${styles.whiteCard} ${cursor} ${bg} ${color} flex-1 font-bold text-md shadow-lg h-full w-full relative`}
         disabled={!isMyTurn}
         onClick={!winnerPlayerID && isSelectable ? onSelect : undefined}
       >
         {!show && waitingForPlayers && (
-          <div className={`flex-1 p-8 text-center text-xl`}>
+          <div className={`p-8 text-center text-xl`}>
             <Icon icon={faSpinner} spin className={`text-3xl mb-2`}></Icon>
             <p>Esperando cartas...</p>
           </div>
         )}
         {!show && !waitingForPlayers && (
-          <div className={`flex-1 p-8 text-center text-xl`}>
+          <div className={`p-8 text-center text-xl`}>
             <Icon icon={faQuestion} className={`text-3xl mb-2`}></Icon>
             <p>Esperando respuesta...</p>
           </div>
@@ -81,7 +81,7 @@ export const SelectedWhiteCard = ({
       </button>
       {show && !winner && selected && (
         <button
-          className={`text-xl h-16 m-2 -mt-2 bg-blue-100 text-blue-600 hover:bg-blue-200 hover:text-blue-700`}
+          className={`text-xl h-16 bg-blue-100 text-blue-600 hover:bg-blue-200 hover:text-blue-700`}
           onClick={onSubmit}
         >
           ¡Esta es la mejor!
@@ -89,7 +89,7 @@ export const SelectedWhiteCard = ({
       )}
       {show && winner && (
         <div
-          className={`text-xl h-16 m-2 -mt-2 bg-green-100 text-green-600 text-center flex items-center justify-center`}
+          className={`text-xl h-16 bg-green-100 text-green-600 text-center flex items-center justify-center`}
         >
           Jugador #{winnerPlayerID}
         </div>
