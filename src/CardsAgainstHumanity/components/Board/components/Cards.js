@@ -1,7 +1,11 @@
 import React from "react";
 
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faQuestion, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+  faQuestion,
+  faSpinner,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./Cards.module.css";
 
@@ -32,6 +36,7 @@ export const WhiteCard = ({
 
 export const SelectedWhiteCard = ({
   isMyTurn,
+  isMine,
   show,
   waitingForPlayers,
   onSelect,
@@ -59,10 +64,16 @@ export const SelectedWhiteCard = ({
         disabled={!isMyTurn}
         onClick={!winnerPlayerID && isSelectable ? onSelect : undefined}
       >
-        {!show && waitingForPlayers && (
+        {!show && waitingForPlayers && text === null && (
           <div className={`p-8 text-center text-xl`}>
             <Icon icon={faSpinner} spin className={`text-3xl mb-2`}></Icon>
             <p>Esperando cartas...</p>
+          </div>
+        )}
+        {!show && waitingForPlayers && text !== null && !isMine && (
+          <div className={`p-8 text-center text-xl`}>
+            <Icon icon={faCheck} className={`text-3xl mb-2`}></Icon>
+            <p>Carta entregada</p>
           </div>
         )}
         {!show && !waitingForPlayers && (

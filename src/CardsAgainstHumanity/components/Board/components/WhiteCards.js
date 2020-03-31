@@ -37,6 +37,7 @@ export function WhiteCards({
               key={`white-card-${index}`}
               isMyTurn={isMyTurn}
               waitingForPlayers={waitingForPlayers}
+              isMine={playerID === cardPlayerID}
               show={
                 (isMyTurn && !waitingForPlayers) ||
                 isChoosingWinner ||
