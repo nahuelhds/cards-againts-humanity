@@ -16,8 +16,8 @@ export const WhiteCard = ({
   transform,
   text,
 }) => {
-  let bg = disabled ? "bg-gray-200" : "bg-white";
-  let color = disabled ? "text-gray-800" : "text-black";
+  let bg = disabled ? "bg-gray-300" : "bg-white";
+  let color = disabled ? "text-gray-500" : "text-black";
   const cursor = disabled ? "cursor-not-allowed" : "cursor-pointer";
 
   bg = selected ? "bg-blue-600" : bg;

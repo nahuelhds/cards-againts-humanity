@@ -23,19 +23,19 @@ export const Status = ({
         );
       } else {
         return (
-          <StatusInfo>
+          <StatusSuccess>
             Esperando que el Jugador #{currentPlayer} levante una carta negra
             para comenzar
-          </StatusInfo>
+          </StatusSuccess>
         );
       }
     }
     case STAGE_WHITE_CARDS_SELECTION:
       if (isMyTurn) {
         return (
-          <StatusInfo>
+          <StatusSuccess>
             Esperando las respuestas de los demás jugadores
-          </StatusInfo>
+          </StatusSuccess>
         );
       } else {
         return (
@@ -49,7 +49,9 @@ export const Status = ({
         return <StatusWarning>Elegí la respuesta ganadora</StatusWarning>;
       } else {
         return (
-          <StatusInfo>Jugador #{currentPlayer} esta eligiendo...</StatusInfo>
+          <StatusSuccess>
+            Jugador #{currentPlayer} esta eligiendo...
+          </StatusSuccess>
         );
       }
     case STAGE_CHOSEN_WINNER:

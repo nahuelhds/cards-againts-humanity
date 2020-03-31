@@ -10,6 +10,7 @@ import {
   STAGE_CHOSEN_WINNER,
   STAGE_DRAW_BLACK_CARD,
 } from "../../constants";
+import { PositionsTable } from "./components/PositionsTable";
 
 export default class BoardContainer extends Component {
   static propTypes = {
@@ -97,7 +98,7 @@ export default class BoardContainer extends Component {
   render() {
     const {
       playerID,
-      ctx: { currentPlayer, activePlayers },
+      ctx: { currentPlayer, activePlayers, playOrder },
       G: {
         blackDeck,
         hands,
@@ -128,6 +129,12 @@ export default class BoardContainer extends Component {
             winnerPlayer={winnerPlayerID}
             nextTurnInSeconds={nextTurnInSeconds}
           />
+          <div className="absolute top-0 right-0 z-10">
+            <PositionsTable
+              wonBlackCards={wonBlackCards}
+              playerIDs={playOrder}
+            />
+          </div>
         </div>
         <div className="flex items-start">
           <BlackCardView
