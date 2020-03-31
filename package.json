@@ -5,6 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "server": "node -r esm src/server.js",
+    "expose": "ngrok start  -config=ngrok.yml --all ",
     "watch:start": "npm run watch:styles & react-scripts start",
     "watch:server": "nodemon -r esm src/server.js",
     "build": "react-scripts build",
