@@ -117,7 +117,6 @@ export default class BoardContainer extends Component {
     const isMyTurn = currentPlayer === playerID;
     const isSelectedWhiteCardSent =
       selectedWhiteCards[playerID] && selectedWhiteCards[playerID] !== null;
-    const myWonBlackCards = wonBlackCards[playerID];
 
     return (
       <div className="pb-64">
