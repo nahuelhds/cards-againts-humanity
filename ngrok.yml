@@ -1,0 +1,8 @@
+authtoken: 4pYQd1ah46GNdDyGNp7m_SgWMPtV51UKmHyuFyQ1Q
+tunnels:
+  app-client:
+    proto: http
+    addr: 3000
+  app-server:
+    proto: http
+    addr: 8000

@@ -2,19 +2,22 @@ import { TurnOrder } from "boardgame.io/core";
 import shuffle from "lodash/shuffle";
 import {
   MAX_WHITE_CARDS,
-  STAGE_CHOOSE_WINNER,
   STAGE_DRAW_BLACK_CARD,
-  STAGE_SELECT_WHITE_CARDS,
+  STAGE_WHITE_CARDS_SELECTION,
+  STAGE_CHOOSING_WINNER,
+  STAGE_CHOSEN_WINNER,
 } from "./constants";
 import {
   DrawABlackCard,
+  ChangeWhiteCard,
   SelectWhiteCard,
-  ChooseWinner,
+  ChangeWinner,
+  SelectWinner,
   EndThisTurn,
 } from "./moves";
 
-import theBlackDeck from "./decks/es_AR/black";
-import theWhiteDeck from "./decks/es_AR/white";
+import theBlackDeck from "./assets/decks/es_AR/black";
+import theWhiteDeck from "./assets/decks/es_AR/white";
 
 export const CardsAgainstHumanity = {
   name: "cards-against-humanity",
@@ -22,27 +25,20 @@ export const CardsAgainstHumanity = {
   turn: {
     order: TurnOrder.DEFAULT,
     activePlayers: {
-      currentPlayer: {
-        stage: STAGE_DRAW_BLACK_CARD,
-        moveLimit: 1,
-      },
-      others: {
-        stage: STAGE_SELECT_WHITE_CARDS,
-        moveLimit: 1,
-      },
+      all: STAGE_DRAW_BLACK_CARD,
     },
     stages: {
       [STAGE_DRAW_BLACK_CARD]: {
-        moves: {
-          DrawABlackCard,
-        },
-        next: STAGE_CHOOSE_WINNER,
+        moves: { DrawABlackCard },
       },
-      [STAGE_SELECT_WHITE_CARDS]: {
-        moves: { SelectWhiteCard },
+      [STAGE_WHITE_CARDS_SELECTION]: {
+        moves: { ChangeWhiteCard, SelectWhiteCard },
       },
-      [STAGE_CHOOSE_WINNER]: {
-        moves: { ChooseWinner, EndThisTurn },
+      [STAGE_CHOOSING_WINNER]: {
+        moves: { ChangeWinner, SelectWinner },
+      },
+      [STAGE_CHOSEN_WINNER]: {
+        moves: { EndThisTurn },
       },
     },
     onBegin: RefillHands,
@@ -54,17 +50,25 @@ export const CardsAgainstHumanity = {
 function SetupState(ctx) {
   const hands = {};
   const wonBlackCards = {};
+  const selectedWhiteCards = {};
+  const chosenWhiteCard = {};
   ctx.playOrder.forEach((playerID) => {
     hands[playerID] = [];
     wonBlackCards[playerID] = [];
+    selectedWhiteCards[playerID] = null;
+    chosenWhiteCard[playerID] = null;
   });
+
   return {
+    endThisTurn: false,
     activeBlackCard: null,
+    selectedwhiteCardsOrder: shuffle([...ctx.playOrder]),
+    selectedWhiteCards,
+    chosenWhiteCard,
     allWhiteCardsAreSelected: false,
-    selectedWhiteCards: {},
+    chosenWinnerID: null,
     winnerPlayerID: null,
     wonBlackCards,
-    endThisTurn: false,
     hands,
     blackDeck: shuffle(theBlackDeck),
     whiteDeck: shuffle(theWhiteDeck),
@@ -89,12 +93,21 @@ function RefillHands(G, ctx) {
 }
 
 function PrepareStateForNextTurn(G, ctx) {
+  const selectedWhiteCards = {};
+  const chosenWhiteCard = {};
+  ctx.playOrder.forEach((playerID) => {
+    selectedWhiteCards[playerID] = null;
+    chosenWhiteCard[playerID] = null;
+  });
   return {
     ...G,
     activeBlackCard: null,
+    selectedwhiteCardsOrder: shuffle([...ctx.playOrder]),
     allWhiteCardsAreSelected: false,
-    selectedWhiteCards: {},
+    chosenWinnerID: null,
     winnerPlayerID: null,
     endThisTurn: false,
+    selectedWhiteCards,
+    chosenWhiteCard,
   };
 }

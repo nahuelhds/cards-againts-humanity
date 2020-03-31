@@ -1,9 +1,15 @@
-import { STAGE_CHOOSE_WINNER } from "./constants";
+// import shuffle from "lodash/shuffle";
+
+import {
+  STAGE_WHITE_CARDS_SELECTION,
+  STAGE_CHOOSING_WINNER,
+  STAGE_CHOSEN_WINNER,
+} from "./constants";
 
 export const DrawABlackCard = (G, ctx) => {
   const blackDeck = [...G.blackDeck];
   const activeBlackCard = blackDeck.shift();
-  ctx.events.setStage(STAGE_CHOOSE_WINNER);
+  ctx.events.setActivePlayers({ all: STAGE_WHITE_CARDS_SELECTION });
   return {
     ...G,
     activeBlackCard,
@@ -11,34 +17,59 @@ export const DrawABlackCard = (G, ctx) => {
   };
 };
 
-export const SelectWhiteCard = (G, ctx, playerID, selectedWhiteCard) => {
+export const ChangeWhiteCard = (G, ctx, playerID, chosenCard) => ({
+  ...G,
+  chosenWhiteCard: {
+    ...G.chosenWhiteCard,
+    [playerID]: chosenCard,
+  },
+});
+
+export const SelectWhiteCard = (G, ctx, playerID) => {
+  const chosenWhiteCard = G.chosenWhiteCard[playerID];
   const hands = {
     ...G.hands,
     [playerID]: [...G.hands[playerID]].filter(
-      (whiteCard) => whiteCard !== selectedWhiteCard
+      (whiteCard) => whiteCard !== chosenWhiteCard
     ),
   };
   const selectedWhiteCards = {
     ...G.selectedWhiteCards,
-    [playerID]: selectedWhiteCard,
+    [playerID]: chosenWhiteCard,
   };
+
+  const allWhiteCardsAreSelected =
+    Object.values(selectedWhiteCards).filter((text) => text !== null).length ===
+    ctx.playOrder.length - 1;
+
+  if (allWhiteCardsAreSelected) {
+    ctx.events.setActivePlayers({ all: STAGE_CHOOSING_WINNER });
+  }
 
   return {
     ...G,
     hands,
     selectedWhiteCards,
-    allWhiteCardsAreSelected:
-      Object.values(selectedWhiteCards).length === ctx.playOrder.length - 1,
+    allWhiteCardsAreSelected,
   };
 };
 
-export const ChooseWinner = (G, ctx, playerID) => {
+export const ChangeWinner = (G, ctx, playerID) => ({
+  ...G,
+  chosenWinnerID: playerID,
+});
+
+export const SelectWinner = (G, ctx) => {
+  ctx.events.setActivePlayers({ all: STAGE_CHOSEN_WINNER });
   return {
     ...G,
-    winnerPlayerID: playerID,
+    winnerPlayerID: G.chosenWinnerID,
     wonBlackCards: {
       ...G.wonBlackCards,
-      [playerID]: [...G.wonBlackCards[playerID], G.activeBlackCard],
+      [G.chosenWinnerID]: [
+        ...G.wonBlackCards[G.chosenWinnerID],
+        G.activeBlackCard,
+      ],
     },
   };
 };
