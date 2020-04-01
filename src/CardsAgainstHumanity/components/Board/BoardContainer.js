@@ -61,14 +61,9 @@ export default class BoardContainer extends Component {
     this.props.moves.DrawABlackCard();
   };
 
-  handleWhiteCardSelection = (chosenWhiteCard) => {
+  handleSelectedWhiteCard = (chosenWhiteCard) => {
     const { playerID } = this.props;
-    this.props.moves.ChangeWhiteCard(playerID, chosenWhiteCard);
-  };
-
-  handleSelectedWhiteCard = () => {
-    const { playerID } = this.props;
-    this.props.moves.SelectWhiteCard(playerID);
+    this.props.moves.SelectWhiteCard(playerID, chosenWhiteCard);
   };
 
   handleWinnerSelection = (chosenWinnerID) => {
@@ -161,13 +156,10 @@ export default class BoardContainer extends Component {
           </div>
         </div>
         <MyHand
-          stage={stage}
           cards={hands[playerID]}
           isMyTurn={isMyTurn}
-          onSelect={this.handleWhiteCardSelection}
-          onSubmit={this.handleSelectedWhiteCard}
-          selectedCard={chosenWhiteCard[playerID]}
-          isSelectedCardSent={isSelectedWhiteCardSent}
+          selected={chosenWhiteCard[playerID] !== null}
+          onSelect={this.handleSelectedWhiteCard}
         ></MyHand>
       </div>
     );

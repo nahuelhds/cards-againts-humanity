@@ -10,7 +10,6 @@ import {
 } from "./constants";
 import {
   DrawABlackCard,
-  ChangeWhiteCard,
   SelectWhiteCard,
   ChangeWinner,
   SelectWinner,
@@ -34,7 +33,7 @@ export const CardsAgainstHumanity = {
         moves: { DrawABlackCard },
       },
       [STAGE_WHITE_CARDS_SELECTION]: {
-        moves: { ChangeWhiteCard, SelectWhiteCard },
+        moves: { SelectWhiteCard },
       },
       [STAGE_CHOOSING_WINNER]: {
         moves: { ChangeWinner, SelectWinner },

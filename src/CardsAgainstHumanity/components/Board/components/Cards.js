@@ -12,20 +12,16 @@ import styles from "./Cards.module.css";
 export const WhiteCard = ({
   disabled,
   onSelect,
-  selected,
   transform,
   text,
 }) => {
   let bg = disabled ? "bg-gray-300" : "bg-white";
   let color = disabled ? "text-gray-500" : "text-black";
   const cursor = disabled ? "cursor-not-allowed" : "cursor-pointer";
-
-  bg = selected ? "bg-blue-600" : bg;
-  color = selected ? "text-blue-100" : color;
   // TODO: horizontal scroll
   return (
     <button
-      className={`${styles.whiteCard} ${cursor} ${bg} ${color} font-bold text-md w-48 h-64 m-1 relative shadow-lg ${transform}`}
+      className={`${styles.whiteCard} ${cursor} ${bg} ${color} flex-shrink-0 font-bold text-md w-32 h-56 md:w-48 md:h-64 m-1 relative shadow-lg ${transform}`}
       disabled={disabled}
       onClick={() => onSelect(text)}
     >
@@ -55,7 +51,7 @@ export const SelectedWhiteCard = ({
   color = isMyTurn && selected ? "text-blue-600" : color;
 
   bg = winner ? "bg-green-600" : bg;
-  color = winner ? "text-green-100" : bg;
+  color = winner ? "text-green-100" : color;
 
   return (
     <div className="w-64 h-96 m-2 flex flex-col">

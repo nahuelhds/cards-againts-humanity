@@ -17,16 +17,7 @@ export const DrawABlackCard = (G, ctx) => {
   };
 };
 
-export const ChangeWhiteCard = (G, ctx, playerID, chosenCard) => ({
-  ...G,
-  chosenWhiteCard: {
-    ...G.chosenWhiteCard,
-    [playerID]: chosenCard,
-  },
-});
-
-export const SelectWhiteCard = (G, ctx, playerID) => {
-  const chosenWhiteCard = G.chosenWhiteCard[playerID];
+export const SelectWhiteCard = (G, ctx, playerID, chosenWhiteCard) => {
   const hands = {
     ...G.hands,
     [playerID]: [...G.hands[playerID]].filter(
@@ -51,6 +42,10 @@ export const SelectWhiteCard = (G, ctx, playerID) => {
     hands,
     selectedWhiteCards,
     allWhiteCardsAreSelected,
+    chosenWhiteCard: {
+      ...G.chosenWhiteCard,
+      [playerID]: chosenWhiteCard,
+    },
   };
 };
 
