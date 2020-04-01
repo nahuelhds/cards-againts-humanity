@@ -7,13 +7,13 @@ require("dotenv").config();
   const urlClient = await ngrok.connect({
     proto: "http",
     addr: 3000,
-    bind_tls: false,
+    bind_tls: true,
   });
 
   const urlServer = await ngrok.connect({
     proto: "http",
     addr: 8000,
-    bind_tls: false,
+    bind_tls: true,
   });
   console.log(process.cwd());
   const npmStart = child_process.spawn("env", [
