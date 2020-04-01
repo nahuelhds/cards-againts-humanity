@@ -18,7 +18,7 @@ export const BlackCardView = ({
     ) : activeBlackCard ? (
       <BlackCard text={activeBlackCard} />
     ) : (
-      <BlackDeck deck={blackDeck}></BlackDeck>
+      <BlackDeck></BlackDeck>
     )}
   </div>
 );

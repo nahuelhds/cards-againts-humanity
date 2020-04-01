@@ -3,7 +3,8 @@ import React from "react";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faQuestion, faHandPointDown } from "@fortawesome/free-solid-svg-icons";
 
-export const BlackDeck = ({ deck }) => (
+// w-32 h-56 md:w-48 md:h-64
+export const BlackDeck = () => (
   <div className={`w-64 h-96 bg-gray-600 rounded shadow-md flex items-center`}>
     <div className={`flex-1 text-center text-gray-100 text-xl`}>
       <Icon icon={faQuestion} className={`text-5xl mb-2`}></Icon>

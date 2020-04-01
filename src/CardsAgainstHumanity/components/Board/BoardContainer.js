@@ -142,7 +142,6 @@ export default class BoardContainer extends Component {
             stage={stage}
             isMyTurn={isMyTurn}
             activeBlackCard={activeBlackCard}
-            blackDeck={blackDeck}
             handleDrawBlackCard={this.handleDrawBlackCard}
           />
           <div className="flex-1 flex flex-wrap">
