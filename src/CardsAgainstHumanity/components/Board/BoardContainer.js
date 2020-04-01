@@ -91,8 +91,7 @@ export default class BoardContainer extends Component {
       playerID,
       ctx: { currentPlayer, activePlayers, playOrder },
       G: {
-        hands,
-        activeBlackCard,
+        hands, activeBlackCard,
         selectedWhiteCardsOrder,
         selectedWhiteCards,
         chosenWhiteCard,
