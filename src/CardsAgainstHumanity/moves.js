@@ -59,10 +59,7 @@ export const SelectWinner = (G, ctx, playerID) => {
     chosenWinnerID: playerID,
     wonBlackCards: {
       ...G.wonBlackCards,
-      [playerID]: [
-        ...G.wonBlackCards[playerID],
-        G.activeBlackCard,
-      ],
+      [playerID]: [...G.wonBlackCards[playerID], G.activeBlackCard],
     },
   };
 };

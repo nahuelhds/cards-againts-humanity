@@ -31,12 +31,12 @@ export const SelectedWhiteCard = ({
   show,
   cardPlayerID,
   waitingForPlayers,
-                                    onSelect,
+  onSelect,
   selected,
   isSelectable,
   text,
   winner,
-                                    chosenWinnerID,
+  chosenWinnerID,
 }) => {
   let bg = !isMyTurn ? "bg-gray-200" : "bg-white";
   let color = !isMyTurn ? "text-gray-800" : "text-black";

@@ -16,7 +16,7 @@ export function WhiteCards({
   cards,
   isSelectable,
   selectedWinnerID,
-                             chosenWinnerID,
+  chosenWinnerID,
   handleSelectedWinner,
 }) {
   if (stage === STAGE_DRAW_BLACK_CARD) {

@@ -42,7 +42,7 @@ export const CardsAgainstHumanity = {
       },
     },
     onBegin: RefillHands,
-    endIf: G => G.endThisTurn === true,
+    endIf: (G) => G.endThisTurn === true,
     onEnd: PrepareStateForNextTurn,
   },
 };
