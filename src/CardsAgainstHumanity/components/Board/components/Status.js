@@ -71,7 +71,7 @@ const StatusBase = ({
   color = "text-gray-800",
   children,
 }) => (
-  <div className={`${bg} ${color} rounded py-3 px-6 m-2 text-xl shadow-md`}>
+  <div className={`${bg} ${color} rounded py-2 px-4 text-sm sm:text-lg lg:py-3 lg:px-6 lg:text-xl m-2 shadow-md`}>
     {children}
   </div>
 );
