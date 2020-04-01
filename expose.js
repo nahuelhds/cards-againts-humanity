@@ -23,6 +23,7 @@ require("dotenv").config();
     "start",
   ]);
 
+  console.log("Client is at:", urlClient);
   console.log("Server is at:", urlServer);
   npmStart.stdout.on("data", (data) => {
     console.log(`stdout: ${data}`);

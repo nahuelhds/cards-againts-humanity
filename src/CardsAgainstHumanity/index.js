@@ -16,18 +16,6 @@ import PlayerSelection from "./components/PlayerSelection";
 
 const reduxDevToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__;
 
-if (process.env.REACT_APP_MULTIPLAYER_SERVER) {
-  console.info(
-    "#################################################",
-    "\n#                                               #",
-    "\n# Starting exposed at:",
-    process.env.REACT_APP_MULTIPLAYER_CLIENT,
-    "#",
-    "\n#                                               #",
-    "\n#################################################"
-  );
-}
-
 const CardsAgainstHumanityLoader = () => {
   const { playerID, gameID = "default", size = "4" } = useParams();
   const location = useLocation();
