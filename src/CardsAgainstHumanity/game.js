@@ -1,17 +1,16 @@
-import { TurnOrder } from "boardgame.io/core";
 import shuffle from "lodash/shuffle";
+import { TurnOrder } from "boardgame.io/core";
 import {
   MAX_WHITE_CARDS,
   STAGE_DRAW_BLACK_CARD,
   STAGE_WHITE_CARDS_SELECTION,
   STAGE_CHOOSING_WINNER,
   STAGE_CHOSEN_WINNER,
+  ROUNDS_QUANTITY,
 } from "./constants";
 import {
   DrawABlackCard,
-  ChangeWhiteCard,
   SelectWhiteCard,
-  ChangeWinner,
   SelectWinner,
   EndThisTurn,
 } from "./moves";
@@ -22,6 +21,7 @@ import theWhiteDeck from "./assets/decks/es_AR/white";
 export const CardsAgainstHumanity = {
   name: "cards-against-humanity",
   setup: SetupState,
+  endIf: (G, ctx) => ctx.turn === ROUNDS_QUANTITY,
   turn: {
     order: TurnOrder.DEFAULT,
     activePlayers: {
@@ -32,17 +32,17 @@ export const CardsAgainstHumanity = {
         moves: { DrawABlackCard },
       },
       [STAGE_WHITE_CARDS_SELECTION]: {
-        moves: { ChangeWhiteCard, SelectWhiteCard },
+        moves: { SelectWhiteCard },
       },
       [STAGE_CHOOSING_WINNER]: {
-        moves: { ChangeWinner, SelectWinner },
+        moves: { SelectWinner },
       },
       [STAGE_CHOSEN_WINNER]: {
         moves: { EndThisTurn },
       },
     },
     onBegin: RefillHands,
-    endIf: (G, ctx) => G.endThisTurn,
+    endIf: (G) => G.endThisTurn === true,
     onEnd: PrepareStateForNextTurn,
   },
 };
@@ -62,12 +62,11 @@ function SetupState(ctx) {
   return {
     endThisTurn: false,
     activeBlackCard: null,
-    selectedwhiteCardsOrder: shuffle([...ctx.playOrder]),
+    selectedWhiteCardsOrder: [...ctx.playOrder],
     selectedWhiteCards,
     chosenWhiteCard,
     allWhiteCardsAreSelected: false,
     chosenWinnerID: null,
-    winnerPlayerID: null,
     wonBlackCards,
     hands,
     blackDeck: shuffle(theBlackDeck),
@@ -102,10 +101,9 @@ function PrepareStateForNextTurn(G, ctx) {
   return {
     ...G,
     activeBlackCard: null,
-    selectedwhiteCardsOrder: shuffle([...ctx.playOrder]),
+    selectedWhiteCardsOrder: [...ctx.playOrder],
     allWhiteCardsAreSelected: false,
     chosenWinnerID: null,
-    winnerPlayerID: null,
     endThisTurn: false,
     selectedWhiteCards,
     chosenWhiteCard,
