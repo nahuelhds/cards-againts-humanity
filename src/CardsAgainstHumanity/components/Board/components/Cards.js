@@ -9,12 +9,7 @@ import {
 
 import styles from "./Cards.module.css";
 
-export const WhiteCard = ({
-  disabled,
-  onSelect,
-  transform,
-  text,
-}) => {
+export const WhiteCard = ({ disabled, onSelect, transform, text }) => {
   let bg = disabled ? "bg-gray-300" : "bg-white";
   let color = disabled ? "text-gray-500" : "text-black";
   const cursor = disabled ? "cursor-not-allowed" : "cursor-pointer";
