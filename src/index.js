@@ -8,7 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 import App from "./CardsAgainstHumanity";
 
-const bugsnagClient = bugsnag(process.env.REACT_APP_BUGSNAG_TOKEN);
+const bugsnagClient = bugsnag(process.env.REACT_APP_BUGSNAG_API_KEY);
 bugsnagClient.use(bugsnagReact, React);
 
 const ErrorBoundary = bugsnagClient.getPlugin("react");
