@@ -1,5 +1,5 @@
-import { TurnOrder } from "boardgame.io/core";
 import shuffle from "lodash/shuffle";
+import { TurnOrder } from "boardgame.io/core";
 import {
   MAX_WHITE_CARDS,
   STAGE_DRAW_BLACK_CARD,
@@ -11,7 +11,6 @@ import {
 import {
   DrawABlackCard,
   SelectWhiteCard,
-  ChangeWinner,
   SelectWinner,
   EndThisTurn,
 } from "./moves";
@@ -36,14 +35,14 @@ export const CardsAgainstHumanity = {
         moves: { SelectWhiteCard },
       },
       [STAGE_CHOOSING_WINNER]: {
-        moves: { ChangeWinner, SelectWinner },
+        moves: { SelectWinner },
       },
       [STAGE_CHOSEN_WINNER]: {
         moves: { EndThisTurn },
       },
     },
     onBegin: RefillHands,
-    endIf: (G, ctx) => G.endThisTurn,
+    endIf: G => G.endThisTurn === true,
     onEnd: PrepareStateForNextTurn,
   },
 };
@@ -63,12 +62,11 @@ function SetupState(ctx) {
   return {
     endThisTurn: false,
     activeBlackCard: null,
-    selectedwhiteCardsOrder: shuffle([...ctx.playOrder]),
+    selectedWhiteCardsOrder: [...ctx.playOrder],
     selectedWhiteCards,
     chosenWhiteCard,
     allWhiteCardsAreSelected: false,
     chosenWinnerID: null,
-    winnerPlayerID: null,
     wonBlackCards,
     hands,
     blackDeck: shuffle(theBlackDeck),
@@ -103,10 +101,9 @@ function PrepareStateForNextTurn(G, ctx) {
   return {
     ...G,
     activeBlackCard: null,
-    selectedwhiteCardsOrder: shuffle([...ctx.playOrder]),
+    selectedWhiteCardsOrder: [...ctx.playOrder],
     allWhiteCardsAreSelected: false,
     chosenWinnerID: null,
-    winnerPlayerID: null,
     endThisTurn: false,
     selectedWhiteCards,
     chosenWhiteCard,

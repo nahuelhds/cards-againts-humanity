@@ -29,14 +29,14 @@ export const SelectedWhiteCard = ({
   isMyTurn,
   isMine,
   show,
+  cardPlayerID,
   waitingForPlayers,
-  onSelect,
-  onSubmit,
+                                    onSelect,
   selected,
   isSelectable,
   text,
   winner,
-  winnerPlayerID,
+                                    chosenWinnerID,
 }) => {
   let bg = !isMyTurn ? "bg-gray-200" : "bg-white";
   let color = !isMyTurn ? "text-gray-800" : "text-black";
@@ -52,13 +52,13 @@ export const SelectedWhiteCard = ({
     <div className="w-64 h-96 m-2 flex flex-col">
       <button
         className={`${styles.whiteCard} ${cursor} ${bg} ${color} flex-1 font-bold text-md shadow-lg h-full w-full relative`}
-        disabled={!isMyTurn}
-        onClick={!winnerPlayerID && isSelectable ? onSelect : undefined}
+        disabled={chosenWinnerID !== null || !isMyTurn}
+        onClick={chosenWinnerID === null && isSelectable ? onSelect : undefined}
       >
         {!show && waitingForPlayers && text === null && (
           <div className={`p-8 text-center text-xl`}>
             <Icon icon={faSpinner} spin className={`text-3xl mb-2`}></Icon>
-            <p>Esperando cartas...</p>
+            <p>Esperando a Jugador #{cardPlayerID}...</p>
           </div>
         )}
         {!show && waitingForPlayers && text !== null && !isMine && (
@@ -81,19 +81,11 @@ export const SelectedWhiteCard = ({
           </div>
         )}
       </button>
-      {show && !winner && isMyTurn && selected && (
-        <button
-          className={`text-xl h-16 bg-blue-600 text-blue-100 hover:bg-blue-800 hover:text-blue-100`}
-          onClick={onSubmit}
-        >
-          Elegir como ganadora
-        </button>
-      )}
       {show && winner && (
         <div
           className={`text-xl h-16 bg-green-100 text-green-600 text-center flex items-center justify-center`}
         >
-          Jugador #{winnerPlayerID}
+          Jugador #{chosenWinnerID}
         </div>
       )}
     </div>

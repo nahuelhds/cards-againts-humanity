@@ -1,4 +1,4 @@
-// import shuffle from "lodash/shuffle";
+import shuffle from "lodash/shuffle";
 
 import {
   STAGE_WHITE_CARDS_SELECTION,
@@ -33,13 +33,16 @@ export const SelectWhiteCard = (G, ctx, playerID, chosenWhiteCard) => {
     Object.values(selectedWhiteCards).filter((text) => text !== null).length ===
     ctx.playOrder.length - 1;
 
+  let selectedWhiteCardsOrder = [...G.selectedWhiteCardsOrder];
   if (allWhiteCardsAreSelected) {
     ctx.events.setActivePlayers({ all: STAGE_CHOOSING_WINNER });
+    selectedWhiteCardsOrder = shuffle(selectedWhiteCardsOrder);
   }
 
   return {
     ...G,
     hands,
+    selectedWhiteCardsOrder,
     selectedWhiteCards,
     allWhiteCardsAreSelected,
     chosenWhiteCard: {
@@ -49,27 +52,22 @@ export const SelectWhiteCard = (G, ctx, playerID, chosenWhiteCard) => {
   };
 };
 
-export const ChangeWinner = (G, ctx, playerID) => ({
-  ...G,
-  chosenWinnerID: playerID,
-});
-
-export const SelectWinner = (G, ctx) => {
+export const SelectWinner = (G, ctx, playerID) => {
   ctx.events.setActivePlayers({ all: STAGE_CHOSEN_WINNER });
   return {
     ...G,
-    winnerPlayerID: G.chosenWinnerID,
+    chosenWinnerID: playerID,
     wonBlackCards: {
       ...G.wonBlackCards,
-      [G.chosenWinnerID]: [
-        ...G.wonBlackCards[G.chosenWinnerID],
+      [playerID]: [
+        ...G.wonBlackCards[playerID],
         G.activeBlackCard,
       ],
     },
   };
 };
 
-export const EndThisTurn = (G, ctx) => {
+export const EndThisTurn = (G) => {
   return {
     ...G,
     endThisTurn: true,

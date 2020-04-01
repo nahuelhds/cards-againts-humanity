@@ -16,8 +16,7 @@ export function WhiteCards({
   cards,
   isSelectable,
   selectedWinnerID,
-  winnerPlayerID,
-  handleWinnerSelection,
+                             chosenWinnerID,
   handleSelectedWinner,
 }) {
   if (stage === STAGE_DRAW_BLACK_CARD) {
@@ -35,6 +34,7 @@ export function WhiteCards({
           cardPlayerID !== currentPlayer && (
             <SelectedWhiteCard
               key={`white-card-${index}`}
+              cardPlayerID={cardPlayerID}
               isMyTurn={isMyTurn}
               waitingForPlayers={waitingForPlayers}
               isMine={playerID === cardPlayerID}
@@ -47,10 +47,9 @@ export function WhiteCards({
               text={cards[cardPlayerID]}
               isSelectable={isSelectable}
               selected={selectedWinnerID === cardPlayerID}
-              winner={winnerPlayerID === cardPlayerID}
-              winnerPlayerID={winnerPlayerID}
-              onSelect={() => handleWinnerSelection(cardPlayerID)}
-              onSubmit={handleSelectedWinner}
+              winner={chosenWinnerID === cardPlayerID}
+              chosenWinnerID={chosenWinnerID}
+              onSelect={() => handleSelectedWinner(cardPlayerID)}
             />
           )
       )}

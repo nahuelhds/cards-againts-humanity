@@ -31,13 +31,13 @@ export default class BoardContainer extends Component {
   componentDidUpdate(prevProps) {
     const { ctx, G, playerID } = this.props;
     const { activePlayers } = ctx;
-    const { winnerPlayerID } = G;
+    const { chosenWinnerID } = G;
 
     const prevStage = prevProps.ctx.activePlayers[playerID];
     const stage = activePlayers[playerID];
     if (
-      prevProps.G.winnerPlayerID !== winnerPlayerID &&
-      prevProps.G.winnerPlayerID === null
+      prevProps.G.chosenWinnerID !== chosenWinnerID &&
+      prevProps.G.chosenWinnerID === null
     ) {
       this.startCountDown();
     }
@@ -66,12 +66,8 @@ export default class BoardContainer extends Component {
     this.props.moves.SelectWhiteCard(playerID, chosenWhiteCard);
   };
 
-  handleWinnerSelection = (chosenWinnerID) => {
-    this.props.moves.ChangeWinner(chosenWinnerID);
-  };
-
-  handleSelectedWinner = () => {
-    this.props.moves.SelectWinner();
+  handleSelectedWinner = (chosenWinnerID) => {
+    this.props.moves.SelectWinner(chosenWinnerID);
   };
 
   handleEndThisTurn = () => {
@@ -95,15 +91,13 @@ export default class BoardContainer extends Component {
       playerID,
       ctx: { currentPlayer, activePlayers, playOrder },
       G: {
-        blackDeck,
         hands,
         activeBlackCard,
-        selectedwhiteCardsOrder,
+        selectedWhiteCardsOrder,
         selectedWhiteCards,
         chosenWhiteCard,
         allWhiteCardsAreSelected,
         chosenWinnerID,
-        winnerPlayerID,
         wonBlackCards,
       },
     } = this.props;
@@ -111,8 +105,6 @@ export default class BoardContainer extends Component {
     const { nextTurnInSeconds } = this.state;
     const stage = activePlayers[playerID];
     const isMyTurn = currentPlayer === playerID;
-    const isSelectedWhiteCardSent =
-      selectedWhiteCards[playerID] && selectedWhiteCards[playerID] !== null;
 
     return (
       <div className="pb-64">
@@ -121,7 +113,7 @@ export default class BoardContainer extends Component {
             stage={stage}
             isMyTurn={isMyTurn}
             currentPlayer={currentPlayer}
-            winnerPlayer={winnerPlayerID}
+            winnerPlayer={chosenWinnerID}
             nextTurnInSeconds={nextTurnInSeconds}
           />
           <div className="absolute top-0 right-0 z-10">
@@ -145,12 +137,10 @@ export default class BoardContainer extends Component {
               currentPlayer={currentPlayer}
               isMyTurn={isMyTurn}
               playerID={playerID}
-              cardsOrder={selectedwhiteCardsOrder}
+              cardsOrder={selectedWhiteCardsOrder}
               cards={selectedWhiteCards}
               isSelectable={allWhiteCardsAreSelected}
-              selectedWinnerID={chosenWinnerID}
-              winnerPlayerID={winnerPlayerID}
-              handleWinnerSelection={this.handleWinnerSelection}
+              chosenWinnerID={chosenWinnerID}
               handleSelectedWinner={this.handleSelectedWinner}
             />
           </div>
