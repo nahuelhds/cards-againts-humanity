@@ -150,7 +150,7 @@ export default class BoardContainer extends Component {
           isMyTurn={isMyTurn}
           selected={chosenWhiteCard[playerID] !== null}
           onSelect={this.handleSelectedWhiteCard}
-        ></MyHand>
+        />
       </div>
     );
   }
