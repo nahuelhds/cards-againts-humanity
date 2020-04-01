@@ -6,6 +6,7 @@ import {
   STAGE_WHITE_CARDS_SELECTION,
   STAGE_CHOOSING_WINNER,
   STAGE_CHOSEN_WINNER,
+  ROUNDS_QUANTITY,
 } from "./constants";
 import {
   DrawABlackCard,
@@ -22,6 +23,7 @@ import theWhiteDeck from "./assets/decks/es_AR/white";
 export const CardsAgainstHumanity = {
   name: "cards-against-humanity",
   setup: SetupState,
+  endIf: (G, ctx) => ctx.turn === ROUNDS_QUANTITY,
   turn: {
     order: TurnOrder.DEFAULT,
     activePlayers: {

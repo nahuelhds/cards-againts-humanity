@@ -51,8 +51,8 @@ export const SelectedWhiteCard = ({
   let color = !isMyTurn ? "text-gray-800" : "text-black";
   const cursor = !isMyTurn ? "cursor-not-allowed" : "cursor-pointer";
 
-  bg = isMyTurn && selected ? "bg-blue-600" : bg;
-  color = isMyTurn && selected ? "text-blue-100" : color;
+  bg = isMyTurn && selected ? "bg-blue-200" : bg;
+  color = isMyTurn && selected ? "text-blue-600" : color;
 
   bg = winner ? "bg-green-600" : bg;
   color = winner ? "text-green-100" : bg;
@@ -92,7 +92,7 @@ export const SelectedWhiteCard = ({
       </button>
       {show && !winner && isMyTurn && selected && (
         <button
-          className={`text-xl h-16 bg-blue-100 text-blue-600 hover:bg-blue-200 hover:text-blue-700`}
+          className={`text-xl h-16 bg-blue-600 text-blue-100 hover:bg-blue-800 hover:text-blue-100`}
           onClick={onSubmit}
         >
           Elegir como ganadora

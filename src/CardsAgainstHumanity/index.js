@@ -35,15 +35,14 @@ const CardsAgainstHumanityLoader = () => {
   const debug = params.get("debug") === "true";
   const numPlayers = parseInt(size);
   const CardsAgainstHumanityClient = Client({
+    board,
+    game: CardsAgainstHumanity,
+    numPlayers,
     debug,
     enhancer: reduxDevToolsExtension && reduxDevToolsExtension(),
     multiplayer: SocketIO({
       server: process.env.REACT_APP_MULTIPLAYER_SERVER || "localhost:8000",
     }),
-    // multiplayer: SocketIO({ server: "http://fc069ba3.ngrok.io" }),
-    numPlayers,
-    board,
-    game: CardsAgainstHumanity,
   });
 
   return <CardsAgainstHumanityClient gameID={gameID} playerID={playerID} />;
