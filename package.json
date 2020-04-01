@@ -63,10 +63,7 @@
     "watch:styles": "postcss src/index.pcss -o src/index.css -w"
   },
   "lint-staged": {
-    "**/*.+(js|jsx)": [
-      "eslint --fix"
-    ],
-    "**/*.+(json|yml|yaml|css|md)": [
+    "**/*.+(js|jsx|json|yml|yaml|css|md)": [
       "prettier --write"
     ],
     "webpack.config.js": [
