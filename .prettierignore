@@ -1,0 +1,6 @@
+.idea
+.storybook
+.vscode
+node_modules
+package-lock.json
+src/index.css

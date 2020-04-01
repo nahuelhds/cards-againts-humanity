@@ -2,23 +2,6 @@
   "name": "game",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "server": "node -r esm src/server.js",
-    "start": "react-scripts start",
-    "start:exposed": "node expose.js",
-    "watch:start": "npm run watch:styles & react-scripts start",
-    "watch:server": "nodemon -r esm src/server.js",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint .",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public",
-    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
-    "prestart": "npm run build:styles",
-    "build:styles": "postcss src/index.pcss -o src/index.css",
-    "watch:styles": "postcss src/index.pcss -o src/index.css -w"
-  },
   "dependencies": {
     "@bugsnag/js": "^6.5.2",
     "@bugsnag/plugin-react": "^6.5.0",
@@ -62,19 +45,44 @@
     "prettier": "^2.0.2",
     "tailwindcss": "^1.2.0"
   },
+  "scripts": {
+    "server": "node -r esm src/server.js",
+    "start": "react-scripts start",
+    "start:exposed": "node expose.js",
+    "watch:start": "npm run watch:styles & react-scripts start",
+    "watch:server": "nodemon -r esm src/server.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint .",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public",
+    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
+    "prestart": "npm run build:styles",
+    "build:styles": "postcss src/index.pcss -o src/index.css",
+    "watch:styles": "postcss src/index.pcss -o src/index.css -w"
+  },
   "lint-staged": {
-    "*.+(js|jsx)": [
+    "**/*.+(js|jsx)": [
       "eslint --fix",
       "git add"
     ],
-    "*.+(json|css|md)": [
+    "**/*.+(json|yml|yaml|css|md)": [
+      "prettier --write",
+      "git add"
+    ],
+    "webpack.config.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "package.json": [
       "prettier --write",
       "git add"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run format"
+      "pre-commit": "lint-staged"
     }
   },
   "eslintConfig": {
