@@ -5,7 +5,6 @@ import {
   STAGE_CHOOSING_WINNER,
   STAGE_CHOSEN_WINNER,
 } from "../../../constants";
-import { PositionsTable } from "./PositionsTable";
 
 export const Status = ({
   stage,
@@ -18,12 +17,14 @@ export const Status = ({
     case STAGE_DRAW_BLACK_CARD: {
       if (isMyTurn) {
         return (
-          <StatusWarning>¡Es tu turno! Levantá la carta negra...</StatusWarning>
+          <StatusWarning>
+            ¡Es tu turno! Levantá la carta negra... 👋
+          </StatusWarning>
         );
       } else {
         return (
           <StatusSuccess>
-            El Jugador #{currentPlayer} está levantando una carta negra
+            Jugador #{currentPlayer} está levantando la carta. 🙄
           </StatusSuccess>
         );
       }
@@ -38,13 +39,13 @@ export const Status = ({
       } else {
         return (
           <StatusWarning>
-            Elegí la que creas que es la mejor respuesta
+            Elegí una carta de tu mano para responder
           </StatusWarning>
         );
       }
     case STAGE_CHOOSING_WINNER:
       if (isMyTurn) {
-        return <StatusWarning>Elegí la respuesta ganadora</StatusWarning>;
+        return <StatusWarning>Elegí la mejor respuesta 😅</StatusWarning>;
       } else {
         return (
           <StatusSuccess>
@@ -55,7 +56,7 @@ export const Status = ({
     case STAGE_CHOSEN_WINNER:
       return (
         <StatusSuccess>
-          El ganador es el jugador #{winnerPlayer}. El próximo turno inicia en{" "}
+          ¡Punto para el Jugador #{winnerPlayer}! Iniciando en{" "}
           {nextTurnInSeconds}s...
         </StatusSuccess>
       );
