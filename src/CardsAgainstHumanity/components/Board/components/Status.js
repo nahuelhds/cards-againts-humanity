@@ -23,8 +23,7 @@ export const Status = ({
       } else {
         return (
           <StatusSuccess>
-            Esperando que el Jugador #{currentPlayer} levante una carta negra
-            para comenzar
+            El Jugador #{currentPlayer} está levantando una carta negra
           </StatusSuccess>
         );
       }
@@ -33,7 +32,7 @@ export const Status = ({
       if (isMyTurn) {
         return (
           <StatusSuccess>
-            Esperando las respuestas de los demás jugadores
+            Esperando las cartas de los otros jugadores
           </StatusSuccess>
         );
       } else {

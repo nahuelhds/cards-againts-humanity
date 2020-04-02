@@ -5,7 +5,7 @@ import {
   STAGE_CHOOSING_WINNER,
   STAGE_CHOSEN_WINNER,
 } from "../../../constants";
-import { SelectedWhiteCard } from "./Cards";
+import { WhiteCard } from "./Cards";
 
 export function WhiteCards({
   stage,
@@ -32,7 +32,7 @@ export function WhiteCards({
       {cardsOrder.map(
         (cardPlayerID, index) =>
           cardPlayerID !== currentPlayer && (
-            <SelectedWhiteCard
+            <WhiteCard
               key={`white-card-${index}`}
               cardPlayerID={cardPlayerID}
               isMyTurn={isMyTurn}

@@ -10,18 +10,33 @@ import {
 
 import styles from "./Cards.module.css";
 
-const cardSize = `w-40 h-56 text-xs sm:text-md md:w-56 md:h-80 md:text-lg lg:w-64 lg:h-96 lg:text-xl`;
-const cardIconFont = `text-3xl lg:text-5xl`;
-const cardPadding = "p-6 md:p-7 lg:p-8";
+const iconFond = `text-3xl lg:text-5xl`;
 
-export const WhiteCard = ({ disabled, onSelect, transform, text }) => {
+const BaseCard = ({
+  className,
+  outerMargin = "my-2",
+  margin = "mx-2",
+  padding = "p-4 md:p-7 lg:p-8",
+  size = "w-40 h-56",
+  children,
+}) => (
+  <div className={`${size} ${outerMargin}`}>
+    <div
+      className={`${margin} ${className} ${padding} h-full rounded shadow-md`}
+    >
+      {children}
+    </div>
+  </div>
+);
+
+export const HandCard = ({ disabled, onSelect, transform, text }) => {
   let bg = disabled ? "bg-gray-300" : "bg-white";
   let color = disabled ? "text-gray-500" : "text-black";
   const cursor = disabled ? "cursor-not-allowed" : "cursor-pointer";
   // TODO: horizontal scroll
   return (
     <button
-      className={`${styles.whiteCard} ${cursor} ${bg} ${color} flex-shrink-0 font-bold text-md w-32 h-56 md:w-48 md:h-64 m-1 relative shadow-lg ${transform}`}
+      className={`w-32 h-56 m-1 flex-shrink-0 font-bold relative ${styles.whiteCard} ${cursor} ${bg} ${color}  ${transform}`}
       disabled={disabled}
       onClick={() => onSelect(text)}
     >
@@ -30,7 +45,7 @@ export const WhiteCard = ({ disabled, onSelect, transform, text }) => {
   );
 };
 
-export const SelectedWhiteCard = ({
+export const WhiteCard = ({
   isMyTurn,
   isMine,
   show,
@@ -54,38 +69,32 @@ export const SelectedWhiteCard = ({
   color = winner ? "text-green-100" : color;
 
   return (
-    <div className={`${cardSize} m-2 flex flex-col`}>
+    <BaseCard className={`${cursor} ${bg} ${color} text-center`}>
       <button
-        className={`${styles.whiteCard} ${cursor} ${bg} ${color} ${cardPadding} flex-1 font-bold text-md shadow-lg h-full w-full relative`}
+        className={`${styles.whiteCard} h-full font-bold text-md relative`}
         disabled={chosenWinnerID !== null || !isMyTurn}
         onClick={chosenWinnerID === null && isSelectable ? onSelect : undefined}
       >
         {!show && waitingForPlayers && text === null && (
-          <div className={`text-center`}>
-            <Icon
-              icon={faSpinner}
-              spin
-              className={`${cardIconFont}  mb-2`}
-            ></Icon>
+          <div>
+            <Icon icon={faSpinner} spin className={`${iconFond}  mb-2`}></Icon>
             <p>Esperando a Jugador #{cardPlayerID}...</p>
           </div>
         )}
         {!show && waitingForPlayers && text !== null && !isMine && (
-          <div className={`text-center`}>
-            <Icon icon={faCheck} className={`${cardIconFont}  mb-2`}></Icon>
+          <div>
+            <Icon icon={faCheck} className={`${iconFond}  mb-2`}></Icon>
             <p>Carta entregada</p>
           </div>
         )}
         {!show && !waitingForPlayers && (
-          <div className={`text-center`}>
-            <Icon icon={faQuestion} className={`${cardIconFont} mb-2`}></Icon>
+          <div>
+            <Icon icon={faQuestion} className={`${iconFond} mb-2`}></Icon>
             <p>Esperando respuesta...</p>
           </div>
         )}
         {show && (
-          <div
-            className={`absolute ${cardPadding} top-0 left-0 text-left w-full text-xl`}
-          >
+          <div className={`absolute top-0 left-0 text-left w-full text-xl`}>
             {text}
           </div>
         )}
@@ -97,35 +106,33 @@ export const SelectedWhiteCard = ({
           Jugador #{chosenWinnerID}
         </div>
       )}
-    </div>
+    </BaseCard>
   );
 };
 
 export const BlackCard = ({ text }) => (
-  <div className={`${cardSize} ${cardPadding} bg-black rounded shadow-lg`}>
+  <BaseCard className={`bg-black h-full mb-4 rounded shadow-lg`}>
     <div className={`text-white font-bold`}>{sanitizeText(text)}</div>
-  </div>
+  </BaseCard>
 );
 
 export const BlackDeck = () => (
-  <div
-    className={`${cardSize} ${cardPadding} bg-gray-600 rounded shadow-md flex items-center`}
-  >
+  <BaseCard className={`bg-gray-600 rounded shadow-md flex items-center`}>
     <div className={`flex-1 text-center text-gray-100`}>
-      <Icon icon={faQuestion} className={`${cardIconFont} mb-2`} />
+      <Icon icon={faQuestion} className={`${iconFond} mb-2`} />
       <p>Esperando...</p>
     </div>
-  </div>
+  </BaseCard>
 );
 
 export const ActionableBlackDeck = ({ onClick }) => (
-  <button
-    className={`${cardSize} ${cardPadding} bg-gray-900 hover:bg-black text-gray-300 hover:text-white rounded-lg shadow-md`}
+  <BaseCard
+    className={`bg-gray-900 hover:bg-black text-gray-300 hover:text-white rounded-lg shadow-md`}
     onClick={onClick}
   >
-    <Icon icon={faHandPointDown} className={`${cardIconFont} mb-2`} />
+    <Icon icon={faHandPointDown} className={`${iconFond} mb-2`} />
     <p>Levantar carta</p>
-  </button>
+  </BaseCard>
 );
 
 const sanitizeText = (text) => text.replace("{whiteCard}", "______________");

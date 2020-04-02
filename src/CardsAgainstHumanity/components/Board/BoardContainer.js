@@ -107,7 +107,7 @@ export default class BoardContainer extends Component {
     const isMyTurn = currentPlayer === playerID;
 
     return (
-      <div className="pb-64">
+      <div className="pb-48">
         <PositionsTable wonBlackCards={wonBlackCards} playerIDs={playOrder} />
         <Status
           stage={stage}
@@ -116,27 +116,24 @@ export default class BoardContainer extends Component {
           winnerPlayer={chosenWinnerID}
           nextTurnInSeconds={nextTurnInSeconds}
         />
-        <div className="flex items-start">
+        <div className="flex items-start flex-wrap">
           <BlackCardView
-            className={`sticky top-0`}
             stage={stage}
             isMyTurn={isMyTurn}
             activeBlackCard={activeBlackCard}
             handleDrawBlackCard={this.handleDrawBlackCard}
           />
-          <div className="flex-1 flex flex-wrap">
-            <WhiteCards
-              stage={stage}
-              currentPlayer={currentPlayer}
-              isMyTurn={isMyTurn}
-              playerID={playerID}
-              cardsOrder={selectedWhiteCardsOrder}
-              cards={selectedWhiteCards}
-              isSelectable={allWhiteCardsAreSelected}
-              chosenWinnerID={chosenWinnerID}
-              handleSelectedWinner={this.handleSelectedWinner}
-            />
-          </div>
+          <WhiteCards
+            stage={stage}
+            currentPlayer={currentPlayer}
+            isMyTurn={isMyTurn}
+            playerID={playerID}
+            cardsOrder={selectedWhiteCardsOrder}
+            cards={selectedWhiteCards}
+            isSelectable={allWhiteCardsAreSelected}
+            chosenWinnerID={chosenWinnerID}
+            handleSelectedWinner={this.handleSelectedWinner}
+          />
         </div>
         <MyHand
           cards={hands[playerID]}
