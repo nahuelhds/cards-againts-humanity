@@ -4,12 +4,13 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import {
   faQuestion,
   faSpinner,
-  faCheck, faHandPointDown,
+  faCheck,
+  faHandPointDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./Cards.module.css";
 
-const cardSize = `w-40 h-56 md:w-56 md:h-80 lg:w-64 lg:h-96 text-sm sm:text-md md:text-lg lg:text-xl`;
+const cardSize = `w-40 h-56 text-xs sm:text-md md:w-56 md:h-80 md:text-lg lg:w-64 lg:h-96 lg:text-xl`;
 const cardIconFont = `text-3xl lg:text-5xl`;
 const cardPadding = "p-6 md:p-7 lg:p-8";
 
@@ -61,7 +62,11 @@ export const SelectedWhiteCard = ({
       >
         {!show && waitingForPlayers && text === null && (
           <div className={`text-center`}>
-            <Icon icon={faSpinner} spin className={`${cardIconFont}  mb-2`}></Icon>
+            <Icon
+              icon={faSpinner}
+              spin
+              className={`${cardIconFont}  mb-2`}
+            ></Icon>
             <p>Esperando a Jugador #{cardPlayerID}...</p>
           </div>
         )}
@@ -103,9 +108,11 @@ export const BlackCard = ({ text }) => (
 );
 
 export const BlackDeck = () => (
-  <div className={`${cardSize} ${cardPadding} bg-gray-600 rounded shadow-md flex items-center`}>
+  <div
+    className={`${cardSize} ${cardPadding} bg-gray-600 rounded shadow-md flex items-center`}
+  >
     <div className={`flex-1 text-center text-gray-100`}>
-      <Icon icon={faQuestion} className={`${cardIconFont} mb-2`}/>
+      <Icon icon={faQuestion} className={`${cardIconFont} mb-2`} />
       <p>Esperando...</p>
     </div>
   </div>
@@ -116,7 +123,7 @@ export const ActionableBlackDeck = ({ onClick }) => (
     className={`${cardSize} ${cardPadding} bg-gray-900 hover:bg-black text-gray-300 hover:text-white rounded-lg shadow-md`}
     onClick={onClick}
   >
-    <Icon icon={faHandPointDown} className={`${cardIconFont} mb-2`}/>
+    <Icon icon={faHandPointDown} className={`${cardIconFont} mb-2`} />
     <p>Levantar carta</p>
   </button>
 );

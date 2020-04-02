@@ -108,21 +108,14 @@ export default class BoardContainer extends Component {
 
     return (
       <div className="pb-64">
-        <div className="flex justify-center sticky top-0 z-10">
-          <Status
-            stage={stage}
-            isMyTurn={isMyTurn}
-            currentPlayer={currentPlayer}
-            winnerPlayer={chosenWinnerID}
-            nextTurnInSeconds={nextTurnInSeconds}
-          />
-          <div className="absolute top-0 right-0 z-10">
-            <PositionsTable
-              wonBlackCards={wonBlackCards}
-              playerIDs={playOrder}
-            />
-          </div>
-        </div>
+        <PositionsTable wonBlackCards={wonBlackCards} playerIDs={playOrder} />
+        <Status
+          stage={stage}
+          isMyTurn={isMyTurn}
+          currentPlayer={currentPlayer}
+          winnerPlayer={chosenWinnerID}
+          nextTurnInSeconds={nextTurnInSeconds}
+        />
         <div className="flex items-start">
           <BlackCardView
             className={`sticky top-0`}

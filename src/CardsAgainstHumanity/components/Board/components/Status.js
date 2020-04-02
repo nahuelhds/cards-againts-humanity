@@ -5,6 +5,7 @@ import {
   STAGE_CHOOSING_WINNER,
   STAGE_CHOSEN_WINNER,
 } from "../../../constants";
+import { PositionsTable } from "./PositionsTable";
 
 export const Status = ({
   stage,
@@ -17,9 +18,7 @@ export const Status = ({
     case STAGE_DRAW_BLACK_CARD: {
       if (isMyTurn) {
         return (
-          <StatusWarning>
-            Levantá una carta negra para comenzar el turno
-          </StatusWarning>
+          <StatusWarning>¡Es tu turno! Levantá la carta negra...</StatusWarning>
         );
       } else {
         return (
@@ -71,8 +70,12 @@ const StatusBase = ({
   color = "text-gray-800",
   children,
 }) => (
-  <div className={`${bg} ${color} rounded py-2 px-4 text-sm sm:text-lg lg:py-3 lg:px-6 lg:text-xl m-2 shadow-md`}>
-    {children}
+  <div className="justify-center text-center sm:sticky sm:top-0 sm:z-10">
+    <div
+      className={`${bg} ${color} rounded py-2 px-4 lg:py-3 lg:px-6 m-2 shadow-md`}
+    >
+      {children}
+    </div>
   </div>
 );
 
