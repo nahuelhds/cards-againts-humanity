@@ -8,15 +8,11 @@ export const BlackCardView = ({
   isMyTurn,
   activeBlackCard,
   handleDrawBlackCard,
-  className,
-}) => (
-  <div className={`p-2 ${className}`}>
-    {stage === STAGE_DRAW_BLACK_CARD && isMyTurn ? (
-      <ActionableBlackDeck onClick={handleDrawBlackCard} />
-    ) : activeBlackCard ? (
-      <BlackCard text={activeBlackCard} />
-    ) : (
-      <BlackDeck/>
-    )}
-  </div>
-);
+}) =>
+  stage === STAGE_DRAW_BLACK_CARD && isMyTurn ? (
+    <ActionableBlackDeck onClick={handleDrawBlackCard} />
+  ) : activeBlackCard ? (
+    <BlackCard text={activeBlackCard} />
+  ) : (
+    <BlackDeck />
+  );
