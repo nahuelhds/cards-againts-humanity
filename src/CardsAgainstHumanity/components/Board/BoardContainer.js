@@ -108,14 +108,16 @@ export default class BoardContainer extends Component {
 
     return (
       <div className="pb-48 text-sm sm:text-md md:text-lg lg:text-xl">
-        <PositionsTable wonBlackCards={wonBlackCards} playerIDs={playOrder} />
-        <Status
-          stage={stage}
-          isMyTurn={isMyTurn}
-          currentPlayer={currentPlayer}
-          winnerPlayer={chosenWinnerID}
-          nextTurnInSeconds={nextTurnInSeconds}
-        />
+        <div className={"flex flex-col"}>
+          <PositionsTable wonBlackCards={wonBlackCards} playerIDs={playOrder} />
+          <Status
+            stage={stage}
+            isMyTurn={isMyTurn}
+            currentPlayer={currentPlayer}
+            winnerPlayer={chosenWinnerID}
+            nextTurnInSeconds={nextTurnInSeconds}
+          />
+        </div>
         <div className="flex items-start flex-wrap">
           <BlackCardView
             stage={stage}

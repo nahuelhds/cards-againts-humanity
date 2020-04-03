@@ -70,8 +70,12 @@ const StatusBase = ({
   color = "text-gray-800",
   children,
 }) => (
-  <div className="justify-center text-center sm:sticky sm:top-0 sm:z-10">
-    <div className={`${bg} ${color} rounded p-1 m-1`}>{children}</div>
+  <div className={"md:self-center"}>
+    <div
+      className={`${bg} ${color} text-center p-2 my-0 m-1 sm:mx-2 md:my-2 md:px-4 text-lg md:text-xl lg:text-1xl xl:text-2xl shadow-lg`}
+    >
+      {children}
+    </div>
   </div>
 );
 
