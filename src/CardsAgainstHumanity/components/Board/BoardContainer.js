@@ -107,36 +107,35 @@ export default class BoardContainer extends Component {
     const isMyTurn = currentPlayer === playerID;
 
     return (
-      <div className="pb-64">
-        <PositionsTable wonBlackCards={wonBlackCards} playerIDs={playOrder} />
-        <Status
-          stage={stage}
-          isMyTurn={isMyTurn}
-          currentPlayer={currentPlayer}
-          winnerPlayer={chosenWinnerID}
-          nextTurnInSeconds={nextTurnInSeconds}
-        />
-        <div className="flex items-start">
+      <div className="pb-48 text-sm sm:text-md md:text-lg lg:text-xl">
+        <div className={"flex flex-col"}>
+          <PositionsTable wonBlackCards={wonBlackCards} playerIDs={playOrder} />
+          <Status
+            stage={stage}
+            isMyTurn={isMyTurn}
+            currentPlayer={currentPlayer}
+            winnerPlayer={chosenWinnerID}
+            nextTurnInSeconds={nextTurnInSeconds}
+          />
+        </div>
+        <div className="flex items-start flex-wrap">
           <BlackCardView
-            className={`sticky top-0`}
             stage={stage}
             isMyTurn={isMyTurn}
             activeBlackCard={activeBlackCard}
             handleDrawBlackCard={this.handleDrawBlackCard}
           />
-          <div className="flex-1 flex flex-wrap">
-            <WhiteCards
-              stage={stage}
-              currentPlayer={currentPlayer}
-              isMyTurn={isMyTurn}
-              playerID={playerID}
-              cardsOrder={selectedWhiteCardsOrder}
-              cards={selectedWhiteCards}
-              isSelectable={allWhiteCardsAreSelected}
-              chosenWinnerID={chosenWinnerID}
-              handleSelectedWinner={this.handleSelectedWinner}
-            />
-          </div>
+          <WhiteCards
+            stage={stage}
+            currentPlayer={currentPlayer}
+            isMyTurn={isMyTurn}
+            playerID={playerID}
+            cardsOrder={selectedWhiteCardsOrder}
+            cards={selectedWhiteCards}
+            isSelectable={allWhiteCardsAreSelected}
+            chosenWinnerID={chosenWinnerID}
+            handleSelectedWinner={this.handleSelectedWinner}
+          />
         </div>
         <MyHand
           cards={hands[playerID]}

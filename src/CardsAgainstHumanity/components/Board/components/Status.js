@@ -5,7 +5,6 @@ import {
   STAGE_CHOOSING_WINNER,
   STAGE_CHOSEN_WINNER,
 } from "../../../constants";
-import { PositionsTable } from "./PositionsTable";
 
 export const Status = ({
   stage,
@@ -18,13 +17,14 @@ export const Status = ({
     case STAGE_DRAW_BLACK_CARD: {
       if (isMyTurn) {
         return (
-          <StatusWarning>¡Es tu turno! Levantá la carta negra...</StatusWarning>
+          <StatusWarning>
+            ¡Es tu turno! Levantá la carta negra... 👋
+          </StatusWarning>
         );
       } else {
         return (
           <StatusSuccess>
-            Esperando que el Jugador #{currentPlayer} levante una carta negra
-            para comenzar
+            Jugador #{currentPlayer} está levantando la carta. 🙄
           </StatusSuccess>
         );
       }
@@ -33,19 +33,19 @@ export const Status = ({
       if (isMyTurn) {
         return (
           <StatusSuccess>
-            Esperando las respuestas de los demás jugadores
+            Esperando las cartas de los otros jugadores
           </StatusSuccess>
         );
       } else {
         return (
           <StatusWarning>
-            Elegí la que creas que es la mejor respuesta
+            Elegí una carta de tu mano para responder
           </StatusWarning>
         );
       }
     case STAGE_CHOOSING_WINNER:
       if (isMyTurn) {
-        return <StatusWarning>Elegí la respuesta ganadora</StatusWarning>;
+        return <StatusWarning>Elegí la mejor respuesta 😅</StatusWarning>;
       } else {
         return (
           <StatusSuccess>
@@ -56,7 +56,7 @@ export const Status = ({
     case STAGE_CHOSEN_WINNER:
       return (
         <StatusSuccess>
-          El ganador es el jugador #{winnerPlayer}. El próximo turno inicia en{" "}
+          ¡Punto para el Jugador #{winnerPlayer}! Iniciando en{" "}
           {nextTurnInSeconds}s...
         </StatusSuccess>
       );
@@ -70,9 +70,9 @@ const StatusBase = ({
   color = "text-gray-800",
   children,
 }) => (
-  <div className="justify-center text-center sm:sticky sm:top-0 sm:z-10">
+  <div className={"md:self-center"}>
     <div
-      className={`${bg} ${color} rounded py-2 px-4 lg:py-3 lg:px-6 m-2 shadow-md`}
+      className={`${bg} ${color} text-center p-2 my-0 m-1 sm:mx-2 md:my-2 md:px-4 text-lg md:text-xl lg:text-1xl xl:text-2xl shadow-lg`}
     >
       {children}
     </div>

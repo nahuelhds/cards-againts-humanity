@@ -42,6 +42,8 @@
     "ngrok": "^3.2.7",
     "nodemon": "^2.0.2",
     "postcss-cli": "^7.1.0",
+    "postcss-import": "^12.0.1",
+    "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.2",
     "tailwindcss": "^1.2.0"
   },

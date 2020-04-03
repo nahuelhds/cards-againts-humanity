@@ -41,7 +41,7 @@ export default class AppContainer extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={PlayerSelection} />
+          {/*<Route exact path="/" component={PlayerSelection} />*/}
           <Route
             path="/game/:gameID/size/:size/player/:playerID"
             component={CardsAgainstHumanityLoader}
