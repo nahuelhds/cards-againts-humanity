@@ -21,7 +21,7 @@ export const HandCard = ({ disabled, onSelect, text }) => {
       className={`w-32 h-40 my-0 p-2 mx-1
         sm:w-40 sm:h-48 sm:p-3 sm:mx-1
         md:w-48 md:h-56 md:p-4 md:mx-1
-        lg:w-48 lg:h-64 lg:p-6 lg:mx-2
+        lg:w-48 lg:h-64 lg:p-5 lg:mx-2
         xl:w-56 xl:h-64 xl:p-6 xl:mx-2
         flex-shrink-0 font-bold text-left
         ${cursor} ${bg} ${color}`}
@@ -71,8 +71,14 @@ export const WhiteCard = ({
   winner,
   chosenWinnerID,
 }) => {
-  let bg = !isMyTurn ? "bg-gray-400" : "bg-white";
-  let color = !isMyTurn ? "text-gray-800" : "text-black";
+  let bg =
+    !isMyTurn && !(waitingForPlayers && text !== null) && !show
+      ? "bg-gray-400"
+      : "bg-white";
+  let color =
+    !isMyTurn && !(waitingForPlayers && text !== null) && !show
+      ? "text-gray-800"
+      : "text-black";
   const cursor = !isMyTurn ? "cursor-not-allowed" : "cursor-pointer";
 
   bg = isMyTurn && selected ? "bg-blue-200" : bg;

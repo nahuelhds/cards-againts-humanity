@@ -71,11 +71,7 @@ const StatusBase = ({
   children,
 }) => (
   <div className="justify-center text-center sm:sticky sm:top-0 sm:z-10">
-    <div
-      className={`${bg} ${color} rounded py-2 px-4 lg:py-3 lg:px-6 m-2 shadow-md`}
-    >
-      {children}
-    </div>
+    <div className={`${bg} ${color} rounded p-1 m-1`}>{children}</div>
   </div>
 );
 
