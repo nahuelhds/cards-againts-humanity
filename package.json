@@ -62,7 +62,8 @@
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
     "prestart": "npm run build:styles",
     "build:styles": "postcss src/index.pcss -o src/index.css",
-    "watch:styles": "postcss src/index.pcss -o src/index.css -w"
+    "watch:styles": "postcss src/index.pcss -o src/index.css -w",
+    "changelog": "github_changelog_generator -u nahuelhds -p cards-against-humanity"
   },
   "lint-staged": {
     "**/*.+(js|jsx|json|yml|yaml|css|md)": [
