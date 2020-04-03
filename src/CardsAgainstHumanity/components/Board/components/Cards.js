@@ -10,19 +10,53 @@ import {
 
 const iconStyles = `text-3xl mx-auto my-2`;
 
+const sanitizeText = (text) => text.replace("{whiteCard}", "______________");
+
 export const HandCard = ({ disabled, onSelect, text }) => {
   let bg = disabled ? "bg-gray-300" : "bg-white";
   let color = disabled ? "text-gray-600" : "text-black";
   const cursor = disabled ? "cursor-not-allowed" : "cursor-pointer";
   return (
     <div
-      className={`w-32 h-40 m-1 p-2 flex-shrink-0 font-bold text-left ${cursor} ${bg} ${color}`}
+      className={`w-32 h-40 my-0 p-2 mx-1
+        sm:w-40 sm:h-48 sm:p-3 sm:mx-1
+        md:w-48 md:h-56 md:p-4 md:mx-1
+        lg:w-48 lg:h-64 lg:p-6 lg:mx-2
+        xl:w-56 xl:h-64 xl:p-6 xl:mx-2
+        flex-shrink-0 font-bold text-left
+        ${cursor} ${bg} ${color}`}
       onClick={disabled ? undefined : () => onSelect(text)}
     >
       {text}
     </div>
   );
 };
+
+const BaseCard = ({
+  className,
+  fontWeight = "font-bold",
+  margin = "mx-1 sm:mx-2",
+  outerMargin = "my-1 my-2",
+  padding = "p-4 sm:p-5 md:p-6 lg:p8 xl:p-8",
+  size = `w-40 h-56
+  sm:w-48 sm:h-64
+  md:w-56 md:h-72
+  lg:w-56 lg:h-80
+  xl:w-64 xl:h-80`,
+  textAlign = "text-center",
+  disabled = false,
+  onClick = undefined,
+  children,
+}) => (
+  <div className={`${size} ${outerMargin}`}>
+    <div
+      className={`${margin} ${className} ${padding} ${fontWeight} ${textAlign} h-full rounded shadow-md`}
+      onClick={disabled ? undefined : onClick}
+    >
+      {children}
+    </div>
+  </div>
+);
 
 export const WhiteCard = ({
   isMyTurn,
@@ -57,11 +91,7 @@ export const WhiteCard = ({
         <div className={"flex-1 flex flex-col justify-center"}>
           {waitingForPlayers && text === null && (
             <Fragment>
-              <Icon
-                icon={faSpinner}
-                spin
-                className={`${iconStyles} mx-auto my-2`}
-              />
+              <Icon icon={faSpinner} className={`${iconStyles}`} spin />
               <p>Esperando a Jugador #{cardPlayerID}...</p>
             </Fragment>
           )}
@@ -117,27 +147,3 @@ export const ActionableBlackDeck = ({ onClick }) => (
     <p>Levantar carta</p>
   </BaseCard>
 );
-
-const BaseCard = ({
-  className,
-  fontWeight = "font-bold",
-  margin = "mx-2",
-  outerMargin = "my-2",
-  padding = "p-3 md:p-7 lg:p-8",
-  size = "w-40 h-56",
-  textAlign = "text-center",
-  disabled = false,
-  onClick = undefined,
-  children,
-}) => (
-  <div className={`${size} ${outerMargin}`}>
-    <div
-      className={`${margin} ${className} ${padding} ${fontWeight} ${textAlign} h-full rounded shadow-md`}
-      onClick={disabled ? undefined : onClick}
-    >
-      {children}
-    </div>
-  </div>
-);
-
-const sanitizeText = (text) => text.replace("{whiteCard}", "______________");
