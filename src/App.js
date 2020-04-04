@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Lobby as ExampleLobby } from "boardgame.io/react";
-
-import { GameCardsAgainstHumanity } from "./game";
 import { serverUri } from "./services/lobby";
+
 import Lobby from "./components/Lobby";
-import BoardCardsAgainstHumanity from "./components/Board";
+import { GameCardsAgainstHumanity } from "./components/CardsAgainstHumanity/game";
+import BoardCardsAgainstHumanity from "./components/CardsAgainstHumanity/Board";
 
 GameCardsAgainstHumanity.minPlayers = 3;
 GameCardsAgainstHumanity.maxPlayers = 15;

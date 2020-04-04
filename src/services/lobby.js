@@ -1,4 +1,4 @@
-import { GameCardsAgainstHumanity } from "../game";
+import { GameCardsAgainstHumanity } from "../components/CardsAgainstHumanity/game";
 
 export const createGame = (options) => post(`/create`, options);
 

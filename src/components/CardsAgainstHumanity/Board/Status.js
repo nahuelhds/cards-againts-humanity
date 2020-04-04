@@ -4,7 +4,7 @@ import {
   STAGE_WHITE_CARDS_SELECTION,
   STAGE_CHOOSING_WINNER,
   STAGE_CHOSEN_WINNER,
-} from "../../../constants";
+} from "../constants";
 
 export const Status = ({
   stage,

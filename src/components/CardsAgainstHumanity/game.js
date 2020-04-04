@@ -15,8 +15,8 @@ import {
   EndThisTurn,
 } from "./moves";
 
-import theBlackDeck from "./assets/decks/es_AR/black";
-import theWhiteDeck from "./assets/decks/es_AR/white";
+import theBlackDeck from "../../assets/decks/es_AR/black";
+import theWhiteDeck from "../../assets/decks/es_AR/white";
 
 export const GameCardsAgainstHumanity = {
   name: "cards-against-humanity",

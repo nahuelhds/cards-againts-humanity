@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { MyHand } from "./components/MyHand";
-import { BlackCardView } from "./components/BlackCardView";
-import { WhiteCards } from "./components/WhiteCards";
-import { Status } from "./components/Status";
+import { MyHand } from "./MyHand";
+import { BlackCardView } from "./BlackCardView";
+import { WhiteCards } from "./WhiteCards";
+import { Status } from "./Status";
 import {
   COUNT_DOWN_SECONDS,
   STAGE_CHOSEN_WINNER,
   STAGE_DRAW_BLACK_CARD,
-} from "../../constants";
-import { PositionsTable } from "./components/PositionsTable";
+} from "../constants";
+import { PositionsTable } from "./PositionsTable";
+
+import "./BoardContainer.css";
 
 export default class BoardContainer extends Component {
   static propTypes = {
