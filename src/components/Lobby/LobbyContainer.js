@@ -1,12 +1,21 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {GameCreation} from "./GameCreation";
+import { GameCreation } from "./GameCreation";
+import { listGames } from "../../services/lobby";
 
 export default class LobbyContainer extends Component {
   state = {
     playerName: "",
     gameID: "",
+    loading: true,
+    games: [],
   };
+
+  componentDidMount() {
+    listGames()
+      .then(({ rooms }) => this.setState({ games: rooms }))
+      .finally(() => this.setState({ loading: false }));
+  }
 
   handlePlayerName = (event) =>
     this.setState({ playerName: event.target.value });
@@ -16,19 +25,19 @@ export default class LobbyContainer extends Component {
   };
 
   render() {
-    const { playerName, gameID } = this.state;
+    const { playerName, gameID, games, loading } = this.state;
     return (
-      <div className={"flex h-screen p-4 items-center text-xl"}>
-        <div className="flex-1 flex flex-col left">
-          <label>Nombre o apodo</label>
+      <div className={"flex p-4 items-center"}>
+        <div className="flex-1 m-1 flex flex-col left">
+          <label className={"text-2xl"}>Nombre o apodo</label>
           <input
-            className={"flex-1 my-2 p-4 rounded"}
+            className={"flex-1 py-2 px-4 rounded"}
             type={"text"}
             value={playerName}
             onChange={this.handlePlayerName}
           />
           {!gameID && <GameCreation onCreate={this.handleGameCreation} />}
-          <AvailableGames myGameID={gameID} />
+          <AvailableGames myGameID={gameID} games={games} loading={loading} />
         </div>
       </div>
     );
@@ -37,10 +46,21 @@ export default class LobbyContainer extends Component {
 
 class AvailableGames extends Component {
   static propsTypes = {
-    gameID: PropTypes.string,
+    games: PropTypes.array.isRequired,
+    loading: PropTypes.bool,
+    myGameID: PropTypes.string,
+  };
+
+  static defaultProps = {
+    loading: false,
   };
 
   render() {
-    return `AVAILABLE GAMES ${this.props.gameID}`;
+    return (
+      <div className={"my-4"}>
+        <h2 className={"text-2xl"}>Unirse a otra sala</h2>
+
+      </div>
+    );
   }
 }

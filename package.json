@@ -45,7 +45,8 @@
     "prettier": "^2.0.2",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "tailwindcss": "^1.2.0"
+    "tailwindcss": "^1.2.0",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "server": "node -r esm src/server.js",

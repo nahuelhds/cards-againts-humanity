@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {createGame} from "../../services/lobby";
 
@@ -8,7 +8,7 @@ export class GameCreation extends Component {
   };
 
   state = {
-    size: "3",
+    size: "2",
   };
 
   handleSizeChange = (event) => this.setState({size: event.target.value});
@@ -20,28 +20,28 @@ export class GameCreation extends Component {
 
   render() {
     return (
-      <Fragment>
-        <h2 className={"text-3xl"}>Crear sala</h2>
-        <label>Cantidad de jugadores</label>
+      <div className={'my-4'}>
+        <h2 className={"text-2xl"}>Crear sala</h2>
+        <label>Cant. de jugadores</label>
         <div className={"flex"}>
           <input
             type={"number"}
-            min={3}
+            min={2}
             max={20}
-            className={"flex-1 my-2 p-2 rounded-l-lg text-center"}
+            className={"flex-1 py-2 px-4 rounded-l"}
             value={this.state.size}
             onChange={this.handleSizeChange}
           />
           <button
-            className={`w-64 my-2 p-2
-            bg-green-600 text-green-200 text-3xl
-            rounded-r-lg shadow-lg `}
+            className={`py-2 px-4 md:px-8
+            bg-green-600 text-green-200 text-xl md:text-3xl
+            rounded-r shadow-lg `}
             onClick={this.handleGameCreation}
           >
             Crear
           </button>
         </div>
-      </Fragment>
+      </div>
     );
   }
 }
