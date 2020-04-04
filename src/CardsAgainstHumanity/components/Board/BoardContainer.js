@@ -107,7 +107,7 @@ export default class BoardContainer extends Component {
     const isMyTurn = currentPlayer === playerID;
 
     return (
-      <div className="pb-48 text-sm sm:text-md md:text-lg lg:text-xl">
+      <div className="pb-48 md:pb-64 text-sm sm:text-md md:text-lg lg:text-xl">
         <div className={"flex flex-col"}>
           <PositionsTable wonBlackCards={wonBlackCards} playerIDs={playOrder} />
           <Status
