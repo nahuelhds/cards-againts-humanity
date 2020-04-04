@@ -1,9 +1,7 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { GameCreation } from "./GameCreation";
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
-import { createGame, joinGame, listGames } from "../../services/lobby";
+import React, {Component, Fragment} from "react";
+import {createGame, joinGame, listGames} from "../../services/lobby";
+import GameCreateComponent from "./GameCreateComponent";
+import GamesListComponent from "./GamesListComponent";
 
 export default class LobbyContainer extends Component {
   state = {
@@ -56,46 +54,17 @@ export default class LobbyContainer extends Component {
             onChange={this.handlePlayerName}
           />
           {!gameID && (
-            <GameCreation
-              disabled={playerName.length === 0}
-              onCreate={this.handleGameCreation}
-            />
+            <Fragment>
+              <GameCreateComponent
+                disabled={playerName.length === 0}
+                onCreate={this.handleGameCreation}
+              />
+              <GamesListComponent games={games} loading={loading} />
+            </Fragment>
           )}
-          <AvailableGames myGameID={gameID} games={games} loading={loading} />
         </div>
       </div>
     );
   }
 }
 
-class AvailableGames extends Component {
-  static propsTypes = {
-    games: PropTypes.array.isRequired,
-    loading: PropTypes.bool,
-    myGameID: PropTypes.string,
-  };
-
-  static defaultProps = {
-    loading: false,
-  };
-
-  render() {
-    return (
-      <div className={"my-4"}>
-        <h2 className={"text-2xl"}>Unirse a otra sala</h2>
-        {this.props.loading && (
-          <p>
-            <Icon icon={faCircleNotch} spin /> Cargando salas...
-          </p>
-        )}
-        {!this.props.loading && (
-          <ul>
-            {this.props.games.map(({ gameID }) => (
-              <li>{gameID}</li>
-            ))}
-          </ul>
-        )}
-      </div>
-    );
-  }
-}
