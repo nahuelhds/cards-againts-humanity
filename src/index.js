@@ -5,7 +5,6 @@ import bugsnagReact from "@bugsnag/plugin-react";
 
 import * as serviceWorker from "./serviceWorker";
 
-import 'typeface-roboto';
 import App from "./App";
 
 const bugsnagClient = bugsnag(process.env.REACT_APP_BUGSNAG_API_KEY);

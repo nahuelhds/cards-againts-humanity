@@ -1,8 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
-
-import { TextField } from "@material-ui/core";
-import { createGame } from "../../services/lobby";
+import {createGame} from "../../services/lobby";
 
 export class GameCreation extends Component {
   static propsTypes = {
@@ -13,9 +11,9 @@ export class GameCreation extends Component {
     size: "3",
   };
 
-  handleSizeChange = (event) => this.setState({ size: event.target.value });
+  handleSizeChange = (event) => this.setState({size: event.target.value});
   handleGameCreation = () => {
-    createGame({ numPlayers: this.state.size }).then(({ gameID }) =>
+    createGame({numPlayers: this.state.size}).then(({gameID}) =>
       this.props.onCreate(gameID)
     );
   };
@@ -24,16 +22,16 @@ export class GameCreation extends Component {
     return (
       <Fragment>
         <h2 className={"text-3xl"}>Crear sala</h2>
-        <TextField
-          label={"Cantidad de jugadores"}
-          noValidate
-          type={"number"}
-          min={3}
-          max={20}
-          value={this.state.size}
-          onChange={this.handleSizeChange}
-        />
+        <label>Cantidad de jugadores</label>
         <div className={"flex"}>
+          <input
+            type={"number"}
+            min={3}
+            max={20}
+            className={"flex-1 my-2 p-2 rounded-l-lg text-center"}
+            value={this.state.size}
+            onChange={this.handleSizeChange}
+          />
           <button
             className={`w-64 my-2 p-2
             bg-green-600 text-green-200 text-3xl

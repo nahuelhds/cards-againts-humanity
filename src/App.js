@@ -7,6 +7,8 @@ import Lobby from "./components/Lobby";
 import { GameCardsAgainstHumanity } from "./components/CardsAgainstHumanity/game";
 import BoardCardsAgainstHumanity from "./components/CardsAgainstHumanity/Board";
 
+import './App.css';
+
 GameCardsAgainstHumanity.minPlayers = 3;
 GameCardsAgainstHumanity.maxPlayers = 15;
 

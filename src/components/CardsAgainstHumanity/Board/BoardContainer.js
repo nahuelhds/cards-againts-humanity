@@ -12,8 +12,6 @@ import {
 } from "../constants";
 import { PositionsTable } from "./PositionsTable";
 
-import "./BoardContainer.css";
-
 export default class BoardContainer extends Component {
   static propTypes = {
     G: PropTypes.any.isRequired,
