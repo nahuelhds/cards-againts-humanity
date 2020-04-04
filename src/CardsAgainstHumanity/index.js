@@ -12,6 +12,7 @@ import { SocketIO } from "boardgame.io/multiplayer";
 import { CardsAgainstHumanity } from "./game";
 import board from "./components/Board";
 
+import MainMenu from "./components/MainMenu";
 import PlayerSelection from "./components/PlayerSelection";
 
 const reduxDevToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__;
@@ -41,6 +42,7 @@ export default class AppContainer extends Component {
     return (
       <Router>
         <Switch>
+          <Route exact path="/" component={MainMenu} />
           {/*<Route exact path="/" component={PlayerSelection} />*/}
           <Route
             path="/game/:gameID/size/:size/player/:playerID"
