@@ -46,7 +46,7 @@ export default class LobbyContainer extends Component {
     return (
       <div className={"flex p-4 items-center"}>
         <div className="flex-1 m-1 flex flex-col left">
-          <label className={"text-2xl"}>Nombre o apodo</label>
+          <label className={"text-2xl"}>Nombre</label>
           <input
             className={"flex-1 py-2 px-4 rounded"}
             type={"text"}

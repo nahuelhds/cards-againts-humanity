@@ -31,8 +31,8 @@ export default class AppContainer extends Component {
     return (
       <Router>
         <Switch>
+          <Route exact path="/games/:gameID/" component={Lobby} />
           <Route exact path="/" component={Lobby} />
-          <Route exact path="/game/:gameID/" component={Lobby} />
         </Switch>
       </Router>
     );

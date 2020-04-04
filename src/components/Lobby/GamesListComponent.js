@@ -30,7 +30,7 @@ const GamesListComponent = (props) => {
                   ))}
                 </ul>
               </div>
-              <Link to={`game/${gameID}`}>
+              <Link to={`/games/${gameID}`}>
                 <button className={"button success w-full"}>Unirse</button>
               </Link>
             </div>
