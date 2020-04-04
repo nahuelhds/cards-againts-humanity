@@ -18,7 +18,7 @@ import {
 import theBlackDeck from "./assets/decks/es_AR/black";
 import theWhiteDeck from "./assets/decks/es_AR/white";
 
-export const CardsAgainstHumanity = {
+export const GameCardsAgainstHumanity = {
   name: "cards-against-humanity",
   setup: SetupState,
   endIf: (G, ctx) => ctx.turn === ROUNDS_QUANTITY,
