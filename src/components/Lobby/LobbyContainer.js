@@ -1,17 +1,25 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { GameCreation } from "./GameCreation";
-import { listGames } from "../../services/lobby";
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { createGame, joinGame, listGames } from "../../services/lobby";
 
 export default class LobbyContainer extends Component {
   state = {
     playerName: "",
+    playerCredentials: {},
     gameID: "",
     loading: true,
     games: [],
   };
 
   componentDidMount() {
+    this.refreshGamesAsync();
+  }
+
+  refreshGamesAsync() {
+    this.setState({ loading: true });
     listGames()
       .then(({ rooms }) => this.setState({ games: rooms }))
       .finally(() => this.setState({ loading: false }));
@@ -20,8 +28,19 @@ export default class LobbyContainer extends Component {
   handlePlayerName = (event) =>
     this.setState({ playerName: event.target.value });
 
-  handleGameCreation = (gameID) => {
-    this.setState({ gameID });
+  handleGameCreation = async () => {
+    try {
+      const { gameID } = await createGame(this.state.size);
+      const { playerCredentials } = await joinGame(
+        gameID,
+        0,
+        this.state.playerName
+      );
+      this.setState({ gameID, playerCredentials });
+      this.refreshGamesAsync();
+    } catch (err) {
+      console.warn(err);
+    }
   };
 
   render() {
@@ -36,7 +55,12 @@ export default class LobbyContainer extends Component {
             value={playerName}
             onChange={this.handlePlayerName}
           />
-          {!gameID && <GameCreation onCreate={this.handleGameCreation} />}
+          {!gameID && (
+            <GameCreation
+              disabled={playerName.length === 0}
+              onCreate={this.handleGameCreation}
+            />
+          )}
           <AvailableGames myGameID={gameID} games={games} loading={loading} />
         </div>
       </div>
@@ -59,7 +83,18 @@ class AvailableGames extends Component {
     return (
       <div className={"my-4"}>
         <h2 className={"text-2xl"}>Unirse a otra sala</h2>
-
+        {this.props.loading && (
+          <p>
+            <Icon icon={faCircleNotch} spin /> Cargando salas...
+          </p>
+        )}
+        {!this.props.loading && (
+          <ul>
+            {this.props.games.map(({ gameID }) => (
+              <li>{gameID}</li>
+            ))}
+          </ul>
+        )}
       </div>
     );
   }

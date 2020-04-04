@@ -1,26 +1,26 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {createGame} from "../../services/lobby";
 
 export class GameCreation extends Component {
   static propsTypes = {
+    disabled: PropTypes.bool.isRequired,
     onCreate: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    disabled: false,
+    onCreate: () => null,
   };
 
   state = {
     size: "2",
   };
 
-  handleSizeChange = (event) => this.setState({size: event.target.value});
-  handleGameCreation = () => {
-    createGame({numPlayers: this.state.size}).then(({gameID}) =>
-      this.props.onCreate(gameID)
-    );
-  };
+  handleSizeChange = (event) => this.setState({ size: event.target.value });
 
   render() {
     return (
-      <div className={'my-4'}>
+      <div className={"my-4"}>
         <h2 className={"text-2xl"}>Crear sala</h2>
         <label>Cant. de jugadores</label>
         <div className={"flex"}>
@@ -33,10 +33,9 @@ export class GameCreation extends Component {
             onChange={this.handleSizeChange}
           />
           <button
-            className={`py-2 px-4 md:px-8
-            bg-green-600 text-green-200 text-xl md:text-3xl
-            rounded-r shadow-lg `}
-            onClick={this.handleGameCreation}
+            className={`button success rounder-r`}
+            disabled={this.props.disabled}
+            onClick={this.props.onCreate}
           >
             Crear
           </button>
