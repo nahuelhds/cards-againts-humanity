@@ -17,7 +17,7 @@ const GamesListComponent = (props) => {
         props.games.map(({ gameID, players }) => {
           const currentPlayers = players.filter((player) => !!player.name);
           return (
-            <div className={"my-4 p-4 bg-white"}>
+            <div key={gameID} className={"my-4 p-4 bg-white"}>
               <h4 className={"text-lg"}>
                 Sala de <strong>{players[0].name}</strong> (
                 {currentPlayers.length} de {players.length})
@@ -26,7 +26,7 @@ const GamesListComponent = (props) => {
                 <p>Participantes</p>
                 <ul className={"list-disc list-inside"}>
                   {currentPlayers.map((player) => (
-                    <li>{player.name}</li>
+                    <li key={player.name}>{player.name}</li>
                   ))}
                 </ul>
               </div>

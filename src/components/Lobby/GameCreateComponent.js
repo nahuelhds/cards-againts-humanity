@@ -14,7 +14,7 @@ const GameCreateComponent = (props) => {
           max={20}
           className={"flex-1 py-2 px-4 rounded-l"}
           value={size}
-          onChange={setSize}
+          onChange={(event) => setSize(event.target.value)}
         />
         <button
           className={`button success rounder-r`}
