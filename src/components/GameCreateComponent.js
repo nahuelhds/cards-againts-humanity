@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 const GameCreateComponent = (props) => {
-  const [size, setSize] = useState("2");
+  const [size, setSize] = useState("3");
   return (
     <div className={"my-4"}>
       <h2 className={"text-2xl"}>Crear sala</h2>

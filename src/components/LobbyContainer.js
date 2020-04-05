@@ -34,18 +34,25 @@ export default class LobbyContainer extends Component {
   handleGameCreation = async (size) => {
     try {
       const { gameID } = await createGame(size);
+      this.handleJoinGame(gameID);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
+  handleJoinGame = async (gameID, assignedPlayerID) => {
+    try {
       const { playerCredentials } = await joinGame(
         gameID,
-        0,
+        assignedPlayerID,
         this.state.playerName
       );
       setItem("gameID", gameID);
-      setItem("numPlayers", size);
       setItem("playerCredentials", playerCredentials);
       this.setState({ gameID, playerCredentials });
       this.props.history.push(`/games/${gameID}`);
-    } catch (err) {
-      console.warn(err);
+    } catch (e) {
+      console.warn(e);
     }
   };
 
@@ -67,7 +74,12 @@ export default class LobbyContainer extends Component {
                 disabled={playerName.length === 0}
                 onCreate={this.handleGameCreation}
               />
-              <GamesListComponent games={games} loading={loading} />
+              <GamesListComponent
+                games={games}
+                loading={loading}
+                disabled={playerName.length === 0}
+                onJoin={this.handleJoinGame}
+              />
             </Fragment>
           )}
         </div>

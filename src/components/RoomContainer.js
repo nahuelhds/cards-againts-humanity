@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
 
@@ -11,13 +13,9 @@ import BoardContainer from "./CardsAgainstHumanity/Board";
 import { getItem } from "../services/storage";
 import { getGame } from "../services/lobby";
 
-// Try joining first, the...
-// Redirect to room/:gameID/:playerID/:secret
-
 export default class RoomContainer extends Component {
   state = {
     loading: true,
-    numPlayers: getItem("numPlayers", null),
     playerID: getItem("playerID", null),
     playerName: getItem("playerName", ""),
     playerCredentials: getItem("playerCredentials", null),
@@ -27,14 +25,9 @@ export default class RoomContainer extends Component {
   };
 
   componentDidMount() {
-    if (this.state.playerCredentials === null) {
-      this.props.history.redirect("/");
-      return;
-    }
-
     getGame(this.props.match.params.gameID)
       .then(({ players }) => {
-        const owner = players.shift();
+        const owner = players[0];
         this.setState({ players, owner });
 
         const foundPlayer = players.find(
@@ -55,7 +48,6 @@ export default class RoomContainer extends Component {
   render() {
     const {
       loading,
-      numPlayers,
       playerID,
       playerName,
       playerCredentials,
@@ -63,54 +55,76 @@ export default class RoomContainer extends Component {
       owner,
     } = this.state;
 
-    if (
+    if (playerCredentials !== null) {
+      return <Redirect to={"/"} />;
+    }
+
+    const allPlayersAreReady =
       !loading &&
-      numPlayers !== null &&
-      playerID !== null &&
-      playerName !== "" &&
-      playerCredentials !== null
-    ) {
-      const params = new URLSearchParams(this.props.location.search);
-      const debug = params.get("debug") === "true";
-      const reduxDevToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__;
-
-      const CardsAgainstHumanityClient = Client({
-        board: BoardContainer,
-        game: GameCardsAgainstHumanity,
-        numPlayers: parseInt(numPlayers),
-        debug,
-        enhancer: reduxDevToolsExtension && reduxDevToolsExtension(),
-        multiplayer: SocketIO({
-          server: process.env.REACT_APP_MULTIPLAYER_SERVER || "localhost:8000",
-        }),
-      });
-
+      players.filter((player) => !!player.name).length === players.length;
+    if (loading || !allPlayersAreReady) {
       return (
-        <CardsAgainstHumanityClient
-          credentials={playerCredentials}
-          gameID={this.props.match.params.gameID}
-          gameMetadata={{ players }}
-          playerID={playerID.toString()}
-        />
+        <div className={"flex p-4 items-center"}>
+          <div className="flex-1 m-1 flex flex-col left">
+            <div className={"my-4"}>
+              <h2 className={"text-2xl"}>
+                Sala de <strong>{owner.name}</strong>
+              </h2>
+              {loading && (
+                <div className={"my-4"}>
+                  <Icon icon={faCircleNotch} spin /> Verificando acceso a la
+                  sala...
+                </div>
+              )}
+              {!loading && (
+                <ul>
+                  {players.map((player) => (
+                    <li key={`player-${player.id}`}>
+                      {player.name ? (
+                        player.name === playerName ? (
+                          <strong>{player.name}</strong>
+                        ) : (
+                          player.name
+                        )
+                      ) : (
+                        "Esperando jugador."
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
       );
     }
 
+    if (playerID === null) {
+      return;
+    }
+
+    const params = new URLSearchParams(this.props.location.search);
+    const debug = params.get("debug") === "true";
+    const reduxDevToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__;
+
+    const CardsAgainstHumanityClient = Client({
+      board: BoardContainer,
+      enhancer: reduxDevToolsExtension && reduxDevToolsExtension(),
+      debug,
+      game: GameCardsAgainstHumanity,
+      multiplayer: SocketIO({
+        server: process.env.REACT_APP_MULTIPLAYER_SERVER || "localhost:8000",
+      }),
+      numPlayers: players.length,
+    });
+
     return (
-      <div className={"flex p-4 items-center"}>
-        <div className="flex-1 m-1 flex flex-col left">
-          <div className={"my-4"}>
-            <h2 className={"text-2xl"}>
-              Sala de <strong>{owner.name}</strong>
-            </h2>
-            {loading && (
-              <div className={"my-4"}>
-                <Icon icon={faCircleNotch} spin /> Verificando acceso a la
-                sala...
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <CardsAgainstHumanityClient
+        credentials={playerCredentials}
+        gameID={this.props.match.params.gameID}
+        gameMetadata={{ players }}
+        playerID={playerID.toString()}
+      />
     );
   }
 }

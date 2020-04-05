@@ -22,6 +22,8 @@ const GamesListComponent = (props) => {
             key={gameID}
             gameID={gameID}
             players={players}
+            disabled={props.disabled}
+            onJoin={props.onJoin}
           />
         ))}
     </div>
