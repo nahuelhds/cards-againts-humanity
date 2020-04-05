@@ -3,7 +3,8 @@
 
 import { GameCardsAgainstHumanity } from "../components/CardsAgainstHumanity/game";
 
-export const listGames = (options) => get("/", options);
+export const listGames = () => get("/");
+export const getGame = (gameID) => get(`/${gameID}`);
 export const createGame = (numPlayers) => post(`/create`, { numPlayers });
 export const joinGame = (gameID, playerID, playerName) =>
   post(`/${gameID}/join`, { playerID, playerName });

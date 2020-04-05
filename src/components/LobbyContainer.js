@@ -1,11 +1,12 @@
-import React, {Component, Fragment} from "react";
-import {createGame, joinGame, listGames} from "../../services/lobby";
+import React, { Component, Fragment } from "react";
+import { createGame, joinGame, listGames } from "../services/lobby";
 import GameCreateComponent from "./GameCreateComponent";
 import GamesListComponent from "./GamesListComponent";
+import { getItem, setItem } from "../services/storage";
 
 export default class LobbyContainer extends Component {
   state = {
-    playerName: "",
+    playerName: getItem("playerName", ""),
     playerCredentials: {},
     gameID: "",
     loading: true,
@@ -23,19 +24,26 @@ export default class LobbyContainer extends Component {
       .finally(() => this.setState({ loading: false }));
   }
 
-  handlePlayerName = (event) =>
-    this.setState({ playerName: event.target.value });
+  handlePlayerName = (event) => {
+    const playerName = event.target.value;
+    this.setState({ playerName });
+    setItem("playerName", playerName);
+  };
 
-  handleGameCreation = async () => {
+  // TODO: this should be inside GameCreateComponent
+  handleGameCreation = async (size) => {
     try {
-      const { gameID } = await createGame(this.state.size);
+      const { gameID } = await createGame(size);
       const { playerCredentials } = await joinGame(
         gameID,
         0,
         this.state.playerName
       );
+      setItem("gameID", gameID);
+      setItem("numPlayers", size);
+      setItem("playerCredentials", playerCredentials);
       this.setState({ gameID, playerCredentials });
-      this.refreshGamesAsync();
+      this.props.history.push(`/games/${gameID}`);
     } catch (err) {
       console.warn(err);
     }
@@ -67,4 +75,3 @@ export default class LobbyContainer extends Component {
     );
   }
 }
-

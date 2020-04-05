@@ -18,13 +18,19 @@ export const Status = ({
       if (isMyTurn) {
         return (
           <StatusWarning>
-            ¡Es tu turno! Levantá la carta negra... 👋
+            ¡Es tu turno! Levantá la carta negra...{" "}
+            <span role={"img"} aria-label={"hey"}>
+              👋
+            </span>
           </StatusWarning>
         );
       } else {
         return (
           <StatusSuccess>
-            Jugador #{currentPlayer} está levantando la carta. 🙄
+            Jugador #{currentPlayer} está levantando la carta.{" "}
+            <span role={"img"} aria-label={"waiting"}>
+              🙄
+            </span>
           </StatusSuccess>
         );
       }
@@ -45,7 +51,14 @@ export const Status = ({
       }
     case STAGE_CHOOSING_WINNER:
       if (isMyTurn) {
-        return <StatusWarning>Elegí la mejor respuesta 😅</StatusWarning>;
+        return (
+          <StatusWarning>
+            Elegí la mejor respuesta
+            <span role={"img"} aria-label={"haha"}>
+              😅
+            </span>
+          </StatusWarning>
+        );
       } else {
         return (
           <StatusSuccess>
