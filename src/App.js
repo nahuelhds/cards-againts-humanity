@@ -5,7 +5,7 @@ import Lobby from "./components/Lobby";
 
 import "./App.css";
 
-export default class AppContainer extends Component {
+export default class App extends Component {
   render() {
     return (
       <Router>
