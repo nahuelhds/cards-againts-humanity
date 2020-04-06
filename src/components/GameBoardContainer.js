@@ -40,6 +40,9 @@ const GameBoardContainer = (props) => {
     return <Redirect to={`/games/${gameID}/player/${playerID}`} />;
   }
 
+  // Racock: 0, fTFme7Opr
+  // nahue: 1, LPOBH5QXw
+
   return (
     <CardsAgainstHumanityClient
       credentials={playerCredentials}

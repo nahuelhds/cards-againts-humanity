@@ -55,7 +55,6 @@ export default class GameAuthContainer extends PureComponent {
       error,
       playerID,
       playerName,
-      playerCredentials,
       players,
       playerIsFound,
     } = this.state;
