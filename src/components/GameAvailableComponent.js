@@ -25,7 +25,8 @@ const GameAvailableComponent = (props) => {
           disabled={isFull || props.disabled}
           onClick={() => props.onJoin(props.gameID, currentPlayers.length)}
         >
-          Unirse
+          {isFull && "Sala llena"}
+          {!isFull && "Unirme"}
         </button>
       </Link>
     </div>

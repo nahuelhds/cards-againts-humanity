@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { createGame, joinGame, listGames } from "../services/lobby";
 import GameCreateComponent from "./GameCreateComponent";
 import GamesListComponent from "./GamesListComponent";
@@ -7,8 +7,6 @@ import { getItem, setItem } from "../services/storage";
 export default class LobbyContainer extends Component {
   state = {
     playerName: getItem("playerName", ""),
-    playerCredentials: {},
-    gameID: "",
     loading: true,
     games: [],
   };
@@ -47,17 +45,16 @@ export default class LobbyContainer extends Component {
         assignedPlayerID,
         this.state.playerName
       );
-      setItem("gameID", gameID);
+      setItem("playerID", assignedPlayerID);
       setItem("playerCredentials", playerCredentials);
-      this.setState({ gameID, playerCredentials });
-      this.props.history.push(`/games/${gameID}`);
+      this.props.history.push(`/games/${gameID}/player/${assignedPlayerID}`);
     } catch (e) {
       console.warn(e);
     }
   };
 
   render() {
-    const { playerName, gameID, games, loading } = this.state;
+    const { playerName, games, loading } = this.state;
     return (
       <div className={"flex p-4 items-center"}>
         <div className="flex-1 m-1 flex flex-col left">
@@ -68,20 +65,16 @@ export default class LobbyContainer extends Component {
             value={playerName}
             onChange={this.handlePlayerName}
           />
-          {!gameID && (
-            <Fragment>
-              <GameCreateComponent
-                disabled={playerName.length === 0}
-                onCreate={this.handleGameCreation}
-              />
-              <GamesListComponent
-                games={games}
-                loading={loading}
-                disabled={playerName.length === 0}
-                onJoin={this.handleJoinGame}
-              />
-            </Fragment>
-          )}
+          <GameCreateComponent
+            disabled={playerName.length === 0}
+            onCreate={this.handleGameCreation}
+          />
+          <GamesListComponent
+            games={games}
+            loading={loading}
+            disabled={playerName.length === 0}
+            onJoin={this.handleJoinGame}
+          />
         </div>
       </div>
     );

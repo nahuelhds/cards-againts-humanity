@@ -17,7 +17,12 @@ const baseEndpoint = `${serverUri}/games/${GameCardsAgainstHumanity.name}`;
 const get = (endpoint, payload) => {
   return fetch(`${baseEndpoint}${endpoint}`, {
     method: "GET",
-  }).then((res) => res.json());
+  }).then((res) => {
+    if (!res.ok) {
+      throw res;
+    }
+    return res.json();
+  });
 };
 
 const post = (endpoint, payload) => {
@@ -27,5 +32,7 @@ const post = (endpoint, payload) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
-  }).then((res) => res.json());
+  }).then((res) => {
+    return res.json();
+  });
 };
