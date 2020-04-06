@@ -72,11 +72,11 @@ export default class GameNotReadyComponent extends Component {
                 />
                 {!navigator.share && (
                   <CopyToClipboard
-                    text={`¡${playerName} te está invitando a jugar 😎\nUtilizá este link para sumarte👇\n\n${invitationUrl}`}
+                    text={invitationUrl}
                     onCopy={() => this.setState({ copied: true })}
                   >
                     <button className={"button success rounded-r shadow p-2"}>
-                      Copiar invitación
+                      Copiar enlace
                     </button>
                   </CopyToClipboard>
                 )}
