@@ -18,6 +18,7 @@ export default class BoardContainer extends Component {
     ctx: PropTypes.any.isRequired,
     moves: PropTypes.any.isRequired,
     playerID: PropTypes.string,
+    gameMetadata: PropTypes.object,
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool,
   };
@@ -89,6 +90,7 @@ export default class BoardContainer extends Component {
   render() {
     const {
       playerID,
+      gameMetadata,
       ctx: { currentPlayer, activePlayers, playOrder },
       G: {
         hands,
@@ -105,6 +107,8 @@ export default class BoardContainer extends Component {
     const { nextTurnInSeconds } = this.state;
     const stage = activePlayers[playerID];
     const isMyTurn = currentPlayer === playerID;
+
+    console.log(gameMetadata);
 
     return (
       <div className="pb-48 md:pb-64 text-sm sm:text-md md:text-lg lg:text-xl">

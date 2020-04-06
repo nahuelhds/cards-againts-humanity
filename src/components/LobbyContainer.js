@@ -34,7 +34,7 @@ export default class LobbyContainer extends Component {
   handleGameCreation = async (size) => {
     try {
       const { gameID } = await createGame(size);
-      this.handleJoinGame(gameID);
+      this.handleJoinGame(gameID, 0);
     } catch (e) {
       console.warn(e);
     }

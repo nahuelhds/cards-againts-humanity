@@ -1,5 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
+import logger from "redux-logger";
+import { applyMiddleware, compose } from "redux";
 
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
@@ -55,7 +57,7 @@ export default class RoomContainer extends Component {
       owner,
     } = this.state;
 
-    if (playerCredentials !== null) {
+    if (playerCredentials === null) {
       return <Redirect to={"/"} />;
     }
 
@@ -63,6 +65,8 @@ export default class RoomContainer extends Component {
       !loading &&
       players.filter((player) => !!player.name).length === players.length;
     if (loading || !allPlayersAreReady) {
+      const joinedPlayers = players.filter((player) => player.name);
+      const emptySeatsCount = players.length - joinedPlayers.length;
       return (
         <div className={"flex p-4 items-center"}>
           <div className="flex-1 m-1 flex flex-col left">
@@ -77,21 +81,28 @@ export default class RoomContainer extends Component {
                 </div>
               )}
               {!loading && (
-                <ul>
-                  {players.map((player) => (
-                    <li key={`player-${player.id}`}>
-                      {player.name ? (
-                        player.name === playerName ? (
-                          <strong>{player.name}</strong>
-                        ) : (
-                          player.name
-                        )
-                      ) : (
-                        "Esperando jugador."
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                <Fragment>
+                  <ul>
+                    {players
+                      .filter((player) => player.name)
+                      .map((player) => (
+                        <li key={`player-${player.id}`}>
+                          {player.name === playerName ? (
+                            <strong>{player.name}</strong>
+                          ) : (
+                            player.name
+                          )}
+                        </li>
+                      ))}
+                  </ul>
+                  <p className={"my-2"}>
+                    <Icon icon={faCircleNotch} spin />
+                    <span>
+                      {" "}
+                      Esperando que se unan {emptySeatsCount} jugadores más...
+                    </span>
+                  </p>
+                </Fragment>
               )}
             </div>
           </div>
@@ -109,7 +120,10 @@ export default class RoomContainer extends Component {
 
     const CardsAgainstHumanityClient = Client({
       board: BoardContainer,
-      enhancer: reduxDevToolsExtension && reduxDevToolsExtension(),
+      enhancer: compose(
+        applyMiddleware(logger),
+        reduxDevToolsExtension && reduxDevToolsExtension()
+      ),
       debug,
       game: GameCardsAgainstHumanity,
       multiplayer: SocketIO({
@@ -122,7 +136,6 @@ export default class RoomContainer extends Component {
       <CardsAgainstHumanityClient
         credentials={playerCredentials}
         gameID={this.props.match.params.gameID}
-        gameMetadata={{ players }}
         playerID={playerID.toString()}
       />
     );
