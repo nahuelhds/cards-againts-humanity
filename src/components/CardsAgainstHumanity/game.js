@@ -21,7 +21,26 @@ import theWhiteDeck from "../../assets/decks/es_AR/white";
 export const GameCardsAgainstHumanity = {
   name: "cards-against-humanity",
   setup: SetupState,
-  endIf: (G, ctx) => ctx.turn === ROUNDS_QUANTITY,
+  endIf: (G, ctx) => {
+    // Game ends if...
+    // The rounds quantity is reached
+    if (ctx.turn === ROUNDS_QUANTITY) {
+      return true;
+    }
+
+    // There are no more black cards
+    if (!G.blackDeck.length) {
+      return true;
+    }
+
+    // The remaining white cards are less than the players quantity
+    // so it cannot deliver one card per each for the next round
+    if (G.whiteDeck.length < ctx.playOrder.length) {
+      return true;
+    }
+
+    return false;
+  },
   turn: {
     order: TurnOrder.DEFAULT,
     activePlayers: {
