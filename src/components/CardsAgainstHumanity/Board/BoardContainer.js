@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { MyHand } from "./components/MyHand";
-import { BlackCardView } from "./components/BlackCardView";
-import { WhiteCards } from "./components/WhiteCards";
-import { Status } from "./components/Status";
+import { MyHand } from "./MyHand";
+import { BlackCardView } from "./BlackCardView";
+import { WhiteCards } from "./WhiteCards";
+import { Status } from "./Status";
 import {
   COUNT_DOWN_SECONDS,
   STAGE_CHOSEN_WINNER,
   STAGE_DRAW_BLACK_CARD,
-} from "../../constants";
-import { PositionsTable } from "./components/PositionsTable";
+} from "../constants";
+import { PositionsTable } from "./PositionsTable";
 
 export default class BoardContainer extends Component {
   static propTypes = {
@@ -18,6 +18,7 @@ export default class BoardContainer extends Component {
     ctx: PropTypes.any.isRequired,
     moves: PropTypes.any.isRequired,
     playerID: PropTypes.string,
+    gameMetadata: PropTypes.object,
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool,
   };
@@ -89,6 +90,7 @@ export default class BoardContainer extends Component {
   render() {
     const {
       playerID,
+      gameMetadata,
       ctx: { currentPlayer, activePlayers, playOrder },
       G: {
         hands,
@@ -106,8 +108,10 @@ export default class BoardContainer extends Component {
     const stage = activePlayers[playerID];
     const isMyTurn = currentPlayer === playerID;
 
+    console.log(gameMetadata);
+
     return (
-      <div className="pb-48 text-sm sm:text-md md:text-lg lg:text-xl">
+      <div className="pb-48 md:pb-64 text-sm sm:text-md md:text-lg lg:text-xl">
         <div className={"flex flex-col"}>
           <PositionsTable wonBlackCards={wonBlackCards} playerIDs={playOrder} />
           <Status

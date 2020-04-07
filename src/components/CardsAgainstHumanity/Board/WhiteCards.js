@@ -4,7 +4,7 @@ import {
   STAGE_WHITE_CARDS_SELECTION,
   STAGE_CHOOSING_WINNER,
   STAGE_CHOSEN_WINNER,
-} from "../../../constants";
+} from "../constants";
 import { WhiteCard } from "./Cards";
 
 export function WhiteCards({

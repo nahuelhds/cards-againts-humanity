@@ -1,5 +1,10 @@
 // src/server.js
 const Server = require("boardgame.io/server").Server;
-const { CardsAgainstHumanity } = require("./CardsAgainstHumanity/game");
-const server = Server({ games: [CardsAgainstHumanity] });
-server.run(8000);
+const { GameCardsAgainstHumanity } = require("./components/CardsAgainstHumanity/game");
+
+const PORT = process.env.PORT || 8000;
+const server = Server({ games: [GameCardsAgainstHumanity] });
+
+server.run(PORT, () => {
+  console.log(`Serving at: http://localhost:${PORT}/`);
+});

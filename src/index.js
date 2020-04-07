@@ -5,8 +5,7 @@ import bugsnagReact from "@bugsnag/plugin-react";
 
 import * as serviceWorker from "./serviceWorker";
 
-import "./index.css";
-import App from "./CardsAgainstHumanity";
+import App from "./App";
 
 const bugsnagClient = bugsnag(process.env.REACT_APP_BUGSNAG_API_KEY);
 bugsnagClient.use(bugsnagReact, React);

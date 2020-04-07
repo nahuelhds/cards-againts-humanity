@@ -17,13 +17,14 @@
     "@types/react-dom": "^16.9.5",
     "boardgame.io": "^0.39.3",
     "esm": "^3.2.25",
+    "http-status-codes": "^1.4.0",
     "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
-    "redux": "^4.0.5",
-    "typescript": "^3.8.3"
+    "react-scripts": "3.4.1"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.0",
@@ -31,7 +32,6 @@
     "@storybook/addon-links": "^5.3.17",
     "@storybook/addons": "^5.3.17",
     "@storybook/preset-create-react-app": "^2.1.1",
-    "@storybook/react": "^5.3.17",
     "autoprefixer": "^9.7.5",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
@@ -45,7 +45,9 @@
     "postcss-import": "^12.0.1",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.2",
-    "tailwindcss": "^1.2.0"
+    "redux": "^4.0.5",
+    "tailwindcss": "^1.2.0",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "server": "node -r esm src/server.js",
@@ -57,12 +59,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
     "prestart": "npm run build:styles",
-    "build:styles": "postcss src/index.pcss -o src/index.css",
-    "watch:styles": "postcss src/index.pcss -o src/index.css -w"
+    "build:styles": "postcss src/App.pcss -o src/App.css",
+    "watch:styles": "postcss src/App.pcss -o src/App.css -w",
+    "changelog": "github_changelog_generator -u nahuelhds -p cards-against-humanity"
   },
   "lint-staged": {
     "**/*.+(js|jsx|json|yml|yaml|css|md)": [

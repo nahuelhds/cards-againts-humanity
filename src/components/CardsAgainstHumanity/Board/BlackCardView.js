@@ -1,5 +1,5 @@
 import React from "react";
-import { STAGE_DRAW_BLACK_CARD } from "../../../constants";
+import { STAGE_DRAW_BLACK_CARD } from "../constants";
 
 import { ActionableBlackDeck, BlackDeck, BlackCard } from "./Cards";
 
