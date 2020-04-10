@@ -9,7 +9,7 @@ if (!apiKey) {
   ErrorBoundary = ({ children }) => <Fragment>{children}</Fragment>;
   console.warn("ATTENTION! Cannot start bugsnag. Api key not found.");
 } else {
-  const bugsnagClient = bugsnag();
+  const bugsnagClient = bugsnag(apiKey);
   bugsnagClient.use(bugsnagReact, React);
   ErrorBoundary = bugsnagClient.getPlugin("react");
 }
