@@ -28,10 +28,6 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.0",
-    "@storybook/addon-actions": "^5.3.17",
-    "@storybook/addon-links": "^5.3.17",
-    "@storybook/addons": "^5.3.17",
-    "@storybook/preset-create-react-app": "^2.1.1",
     "autoprefixer": "^9.7.5",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
@@ -50,19 +46,15 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "server": "node -r esm src/server.js",
     "start": "react-scripts start",
-    "start:exposed": "node expose.js",
-    "watch:start": "npm run watch:styles & react-scripts start",
-    "watch:server": "nodemon -r esm src/server.js",
+    "start-exposed": "node expose.js",
+    "prestart": "npm run build:styles",
     "build": "react-scripts build",
+    "build:styles": "postcss src/App.pcss -o src/App.css",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
-    "prestart": "npm run build:styles",
-    "build:styles": "postcss src/App.pcss -o src/App.css",
-    "watch:styles": "postcss src/App.pcss -o src/App.css -w",
     "changelog": "github_changelog_generator -u nahuelhds -p cards-against-humanity"
   },
   "lint-staged": {
