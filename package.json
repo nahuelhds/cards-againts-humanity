@@ -49,6 +49,7 @@
     "start": "react-scripts start",
     "start-exposed": "node expose.js",
     "prestart": "npm run build:styles",
+    "prebuild": "npm run build:styles",
     "build": "react-scripts build",
     "build:styles": "postcss src/App.pcss -o src/App.css",
     "test": "react-scripts test",
