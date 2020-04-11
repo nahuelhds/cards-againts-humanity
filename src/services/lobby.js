@@ -1,6 +1,5 @@
 // TODO: I+D react-hooks-async.
 //  See: https://github.com/dai-shi/react-hooks-async
-
 import { GameCardsAgainstHumanity } from "../components/CardsAgainstHumanity/game";
 
 export const listGames = () => get("/");

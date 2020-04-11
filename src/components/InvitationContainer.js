@@ -16,6 +16,7 @@ export default class InvitationContainer extends Component {
     hasError: false,
     error: null,
     playerName: getItem("playerName", ""),
+    joinedGames: getItem("joinedGames", []),
   };
 
   componentDidMount() {
@@ -37,18 +38,24 @@ export default class InvitationContainer extends Component {
     setItem("playerName", playerName);
   };
 
-  handleJoinGame = async (gameID, assignedPlayerID) => {
+  handleJoinGame = async (gameID, playerID) => {
+    // TODO refactor this
     try {
-      const { playerCredentials } = await joinGame(
-        gameID,
-        assignedPlayerID,
-        this.state.playerName
-      );
-      setItem("playerID", assignedPlayerID);
-      setItem("playerCredentials", playerCredentials);
-      this.props.history.push(`/games/${gameID}/player/${assignedPlayerID}`);
+      const { playerName, joinedGames } = this.state;
+      let joinedGame = joinedGames.find((game) => game.gameID === gameID);
+      if (!joinedGame) {
+        const { playerCredentials } = await joinGame(
+          gameID,
+          playerID,
+          playerName
+        );
+        joinedGame = { gameID, playerID, playerName, playerCredentials };
+        setItem("joinedGames", [...joinedGames, joinedGame]);
+      }
+
+      this.props.history.push(`/games/${gameID}/player/${joinedGame.playerID}`);
     } catch (e) {
-      console.warn(e);
+      console.warn(`Could not join to game ${gameID}`, e);
     }
   };
 
@@ -72,14 +79,10 @@ export default class InvitationContainer extends Component {
     }
 
     if (hasError) {
-      let message;
-      switch (error.status) {
-        case NOT_FOUND:
-          message = "Sala no encontrada";
-          break;
-        default:
-          message = "Ocurrió un error desconocido";
-      }
+      const message =
+        error.status === NOT_FOUND
+          ? "Sala no encontrada"
+          : "Ocurrió un error desconocido";
       return (
         <div className={"flex p-4 items-center"}>
           <div className="flex-1 m-1 flex flex-col left">

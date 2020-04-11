@@ -15,7 +15,7 @@ const GameAvailableComponent = (props) => {
         <p>Participantes</p>
         <ul className={"list-disc list-inside"}>
           {currentPlayers.map((player) => (
-            <li key={player.name}>{player.name}</li>
+            <li key={player.id}>{player.name}</li>
           ))}
         </ul>
       </div>

@@ -7,6 +7,7 @@ import { getItem, setItem } from "../services/storage";
 export default class LobbyContainer extends Component {
   state = {
     playerName: getItem("playerName", ""),
+    joinedGames: getItem("joinedGames", []),
     loading: true,
     games: [],
   };
@@ -38,18 +39,24 @@ export default class LobbyContainer extends Component {
     }
   };
 
-  handleJoinGame = async (gameID, assignedPlayerID) => {
+  handleJoinGame = async (gameID, playerID) => {
+    // TODO refactor this
     try {
-      const { playerCredentials } = await joinGame(
-        gameID,
-        assignedPlayerID,
-        this.state.playerName
-      );
-      setItem("playerID", assignedPlayerID);
-      setItem("playerCredentials", playerCredentials);
-      this.props.history.push(`/games/${gameID}/player/${assignedPlayerID}`);
+      const { playerName, joinedGames } = this.state;
+      let joinedGame = joinedGames.find((game) => game.gameID === gameID);
+      if (!joinedGame) {
+        const { playerCredentials } = await joinGame(
+          gameID,
+          playerID,
+          playerName
+        );
+        joinedGame = { gameID, playerID, playerName, playerCredentials };
+        setItem("joinedGames", [...joinedGames, joinedGame]);
+      }
+
+      this.props.history.push(`/games/${gameID}/player/${joinedGame.playerID}`);
     } catch (e) {
-      console.warn(e);
+      console.warn(`Could not join to game ${gameID}`, e);
     }
   };
 
