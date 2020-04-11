@@ -33,14 +33,14 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
-    "husky": "^4.2.3",
-    "lint-staged": "^10.0.10",
+    "husky": "^4.2.5",
     "ngrok": "^3.2.7",
     "nodemon": "^2.0.2",
     "postcss-cli": "^7.1.0",
     "postcss-import": "^12.0.1",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.2",
+    "pretty-quick": "^2.0.1",
     "redux": "^4.0.5",
     "tailwindcss": "^1.2.0",
     "typescript": "^3.8.3"
@@ -54,28 +54,14 @@
     "build:styles": "postcss src/App.pcss -o src/App.css",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
+    "lint": "eslint src/**/*.{js,jsx}",
+    "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
     "changelog": "github_changelog_generator -u nahuelhds -p cards-against-humanity"
-  },
-  "lint-staged": {
-    "**/*.+(js|jsx|json|yml|yaml|css|md)": [
-      "prettier --write"
-    ],
-    "webpack.config.js": [
-      "prettier --write"
-    ],
-    "package.json": [
-      "prettier --write"
-    ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "pretty-quick --staged"
     }
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
