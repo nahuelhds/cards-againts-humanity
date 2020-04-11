@@ -36,6 +36,7 @@
     "husky": "^4.2.5",
     "ngrok": "^3.2.7",
     "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5",
     "postcss-cli": "^7.1.0",
     "postcss-import": "^12.0.1",
     "postcss-preset-env": "^6.7.0",
@@ -46,17 +47,19 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "run-p start:*",
+    "start:web": "react-scripts start",
+    "start:server": "cd ../server/ && npm start",
     "start-exposed": "node expose.js",
     "prestart": "npm run build:styles",
     "prebuild": "npm run build:styles",
     "build": "react-scripts build",
     "build:styles": "postcss src/App.pcss -o src/App.css",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "lint": "eslint src/**/*.{js,jsx}",
     "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
-    "changelog": "github_changelog_generator -u nahuelhds -p cards-against-humanity"
+    "changelog": "github_changelog_generator",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "husky": {
     "hooks": {
