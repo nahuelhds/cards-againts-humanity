@@ -32,6 +32,9 @@ const post = (endpoint, payload) => {
     },
     body: JSON.stringify(payload),
   }).then((res) => {
+    if (!res.ok) {
+      throw res;
+    }
     return res.json();
   });
 };

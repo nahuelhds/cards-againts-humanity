@@ -7,17 +7,18 @@ import {
   faCircleNotch,
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
-import { NOT_FOUND } from "http-status-codes";
+import { CONFLICT, NOT_FOUND } from "http-status-codes";
 import { Link, Redirect } from "react-router-dom";
 
 export default class InvitationContainer extends Component {
   state = {
     loading: true,
     hasError: false,
-    error: null,
+    errorMessage: null,
     playerName: getItem("playerName", ""),
     joinedGames: getItem("joinedGames", []),
     joinedGame: {},
+    players: [],
     redirectToGameBoard: false,
   };
 
@@ -37,7 +38,11 @@ export default class InvitationContainer extends Component {
         this.setState({ players, owner });
       })
       .catch((e) => {
-        this.setState({ hasError: true, error: e });
+        const errorMessage =
+          e.status === NOT_FOUND
+            ? "Sala no encontrada"
+            : "Ocurrió un error desconocido";
+        this.setState({ hasError: true, errorMessage });
         console.log("Error fetching game", e);
       })
       .finally(() => this.setState({ loading: false }));
@@ -51,8 +56,8 @@ export default class InvitationContainer extends Component {
 
   handleJoinGame = async (gameID, playerID) => {
     // TODO refactor this
+    const { playerName, joinedGames, players } = this.state;
     try {
-      const { playerName, joinedGames } = this.state;
       let joinedGame = joinedGames.find((game) => game.gameID === gameID);
       if (!joinedGame) {
         const { playerCredentials } = await joinGame(
@@ -66,6 +71,11 @@ export default class InvitationContainer extends Component {
 
       this.setState({ redirectToGameBoard: true, joinedGame });
     } catch (e) {
+      // If join action fails and there is an empty seat yet
+      if (e.status === CONFLICT && playerID < players.length) {
+        return this.handleJoinGame(gameID, playerID + 1);
+      }
+      this.setState({ hasError: true, errorMessage: "La sala está llena" });
       console.warn(`Could not join to game ${gameID}`, e);
     }
   };
@@ -74,7 +84,7 @@ export default class InvitationContainer extends Component {
     const { gameID } = this.props.match.params;
     const {
       hasError,
-      error,
+      errorMessage,
       loading,
       playerName,
       players,
@@ -102,19 +112,17 @@ export default class InvitationContainer extends Component {
     }
 
     if (hasError) {
-      const message =
-        error.status === NOT_FOUND
-          ? "Sala no encontrada"
-          : "Ocurrió un error desconocido";
       return (
         <div className={"flex p-4 items-center"}>
           <div className="flex-1 m-1 flex flex-col left">
             <div className={"my-4"}>
               <div className={"my-4"}>
-                <Icon icon={faExclamationTriangle} /> {message}
+                <Icon icon={faExclamationTriangle} /> {errorMessage}
               </div>
               <Link to={"/"}>
-                <button className={"button"}>Volver al menú principal</button>
+                <button className={"button success"}>
+                  Volver al menú principal
+                </button>
               </Link>
             </div>
           </div>
