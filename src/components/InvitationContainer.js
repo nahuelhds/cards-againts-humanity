@@ -8,7 +8,7 @@ import {
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import { NOT_FOUND } from "http-status-codes";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 export default class InvitationContainer extends Component {
   state = {
@@ -17,10 +17,21 @@ export default class InvitationContainer extends Component {
     error: null,
     playerName: getItem("playerName", ""),
     joinedGames: getItem("joinedGames", []),
+    joinedGame: {},
+    redirectToGameBoard: false,
   };
 
   componentDidMount() {
-    getGame(this.props.match.params.gameID)
+    const { gameID } = this.props.match.params;
+    const { joinedGames } = this.state;
+
+    const joinedGame = joinedGames.find((game) => game.gameID == gameID);
+    if (joinedGame) {
+      this.setState({ redirectToGameBoard: true, joinedGame });
+      return;
+    }
+
+    getGame(gameID)
       .then(({ players }) => {
         const owner = players[0];
         this.setState({ players, owner });
@@ -53,7 +64,7 @@ export default class InvitationContainer extends Component {
         setItem("joinedGames", [...joinedGames, joinedGame]);
       }
 
-      this.props.history.push(`/games/${gameID}/player/${joinedGame.playerID}`);
+      this.setState({ redirectToGameBoard: true, joinedGame });
     } catch (e) {
       console.warn(`Could not join to game ${gameID}`, e);
     }
@@ -61,7 +72,19 @@ export default class InvitationContainer extends Component {
 
   render() {
     const { gameID } = this.props.match.params;
-    const { hasError, error, loading, playerName, players } = this.state;
+    const {
+      hasError,
+      error,
+      loading,
+      playerName,
+      players,
+      redirectToGameBoard,
+      joinedGame,
+    } = this.state;
+
+    if (redirectToGameBoard) {
+      return <Redirect to={`/games/${gameID}/player/${joinedGame.playerID}`} />;
+    }
 
     if (loading) {
       return (
