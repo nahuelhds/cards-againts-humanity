@@ -19,16 +19,14 @@ const GameAvailableComponent = (props) => {
           ))}
         </ul>
       </div>
-      <Link to={`/games/${props.gameID}`}>
-        <button
-          className={"button success w-full"}
-          disabled={isFull || props.disabled}
-          onClick={() => props.onJoin(props.gameID, currentPlayers.length)}
-        >
-          {isFull && "Sala llena"}
-          {!isFull && "Unirme"}
-        </button>
-      </Link>
+      <button
+        className={"button success w-full"}
+        disabled={isFull || props.disabled}
+        onClick={() => props.onJoin(props.gameID, currentPlayers.length)}
+      >
+        {isFull && "Sala llena"}
+        {!isFull && "Unirme"}
+      </button>
     </div>
   );
 };
