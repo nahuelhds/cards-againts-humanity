@@ -25,7 +25,7 @@ export default class InvitationContainer extends Component {
     const { gameID } = this.props.match.params;
     const { joinedGames } = this.state;
 
-    const joinedGame = joinedGames.find((game) => game.gameID == gameID);
+    const joinedGame = joinedGames.find((game) => game.gameID === gameID);
     if (joinedGame) {
       this.setState({ redirectToGameBoard: true, joinedGame });
       return;
