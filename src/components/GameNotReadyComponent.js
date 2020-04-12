@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleNotch,
+  faClipboard,
+  faShareAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 export default class GameNotReadyComponent extends Component {
@@ -60,35 +64,33 @@ export default class GameNotReadyComponent extends Component {
               </span>
             </p>
             <div>
-              <p className={"text-lg mb-2"}>
-                Copiá este enlace para invitar a tus amigues.
-              </p>
+              <strong className={"text-xl mb-2"}>Enlace de invitación</strong>
               <div className={"flex my-2"}>
                 <input
                   type={"text"}
                   readOnly
                   value={invitationUrl}
-                  className={"text-xl p-2 rounded-l shadow flex-1"}
+                  className={"text-xl p-2 rounded shadow flex-1"}
                 />
+              </div>
+              <div className={"flex justify-between my-2"}>
+                <CopyToClipboard
+                  text={invitationUrl}
+                  onCopy={() => this.setState({ copied: true })}
+                >
+                  <button className={"button success shadow p-2"}>
+                    <Icon icon={faClipboard} /> Copiar
+                  </button>
+                </CopyToClipboard>
                 {!navigator.share && (
-                  <CopyToClipboard
-                    text={invitationUrl}
-                    onCopy={() => this.setState({ copied: true })}
+                  <button
+                    className={"button success shadow"}
+                    onClick={this.handleShareAction}
                   >
-                    <button className={"button success rounded-r shadow p-2"}>
-                      Copiar invitación
-                    </button>
-                  </CopyToClipboard>
+                    <Icon icon={faShareAlt} /> Compartir
+                  </button>
                 )}
               </div>
-              {navigator.share && (
-                <button
-                  className={"button success rounded-r shadow flex-shrink-0"}
-                  onClick={this.handleShareAction}
-                >
-                  Compartir invitación
-                </button>
-              )}
               {this.state.copied && (
                 <p className={"italic"}>Invitación copiada al portapapeles</p>
               )}

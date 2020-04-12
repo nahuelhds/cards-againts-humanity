@@ -8,8 +8,9 @@ export const createGame = (numPlayers) => post(`/create`, { numPlayers });
 export const joinGame = (gameID, playerID, playerName) =>
   post(`/${gameID}/join`, { playerID, playerName });
 
+const { protocol, hostname } = document.location;
 export const serverUri =
-  process.env.REACT_APP_MULTIPLAYER_SERVER || "http://localhost:8000";
+  process.env.REACT_APP_MULTIPLAYER_SERVER || `${protocol}//${hostname}:8000`;
 
 const baseEndpoint = `${serverUri}/games/${GameCardsAgainstHumanity.name}`;
 
