@@ -13,7 +13,7 @@ export const PositionsTable = ({ wonBlackCards, playerIDs, players }) => {
     <div className="md:absolute md:top-0 md:right-0 md:z-20">
       <ul
         className={`${styles.list} bg-blue-400 text-blue-900 hover:bg-blue-600 hover:text-blue-200
-        m-1 sm:m-2 text-center lg:text-right text-lg lg:text-xl shadow-lg`}
+        m-1 sm:m-2 text-center lg:text-right text-lg lg:text-xl xl:text-2xl shadow-lg`}
       >
         {positions.map(({ playerID, playerName, count }) => (
           <li key={`position-${playerID}`} className="p-2 lg:px-4">
