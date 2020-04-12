@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.6](https://github.com/nahuelhds/cards-against-humanity-web/tree/0.6) (2020-04-12)
+
+[Full Changelog](https://github.com/nahuelhds/cards-against-humanity-web/compare/0.5...0.6)
+
+**Implemented enhancements:**
+
+- Lobby improvements [\#11](https://github.com/nahuelhds/cards-against-humanity-web/issues/11)
+
+**Fixed bugs:**
+
+- A user can enter and register twice in the same room [\#10](https://github.com/nahuelhds/cards-against-humanity-web/issues/10)
+
+**Merged pull requests:**
+
+- Feature/lobby improvements [\#14](https://github.com/nahuelhds/cards-against-humanity-web/pull/14) ([nahuelhds](https://github.com/nahuelhds))
+
 ## [0.5](https://github.com/nahuelhds/cards-against-humanity-web/tree/0.5) (2020-04-11)
 
 [Full Changelog](https://github.com/nahuelhds/cards-against-humanity-web/compare/0.4...0.5)
