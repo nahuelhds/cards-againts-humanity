@@ -27,6 +27,10 @@ export default class GameAuthContainer extends PureComponent {
   };
 
   componentDidMount() {
+    this.checkGameStatus();
+  }
+
+  checkGameStatus = () => {
     const { gameID } = this.props.match.params;
     const { joinedGames } = this.state;
     let joinedGame = joinedGames.find((game) => game.gameID === gameID);
@@ -40,6 +44,8 @@ export default class GameAuthContainer extends PureComponent {
 
         this.setState({
           players,
+          allPlayersAreReady:
+            players.filter((player) => !!player.name).length === players.length,
           playerIsFound: !!foundPlayer,
           foundPlayer: foundPlayer ? joinedGame : {},
           loading: false,
@@ -48,8 +54,13 @@ export default class GameAuthContainer extends PureComponent {
       .catch((e) => {
         this.setState({ hasError: true, error: e, loading: false });
         console.log("Error fetching game", e);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          this.checkGameStatus();
+        }, 3000);
       });
-  }
+  };
 
   render() {
     const { gameID, playerID: urlPlayerID } = this.props.match.params;
@@ -58,6 +69,7 @@ export default class GameAuthContainer extends PureComponent {
       hasError,
       error,
       players,
+      allPlayersAreReady,
       playerIsFound,
       foundPlayer,
     } = this.state;
@@ -109,8 +121,6 @@ export default class GameAuthContainer extends PureComponent {
       );
     }
 
-    const allPlayersAreReady =
-      players.filter((player) => !!player.name).length === players.length;
     if (!allPlayersAreReady) {
       return (
         <GameNotReadyComponent
