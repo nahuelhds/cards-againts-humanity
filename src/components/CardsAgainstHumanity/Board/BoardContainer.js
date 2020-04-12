@@ -90,7 +90,7 @@ export default class BoardContainer extends Component {
   render() {
     const {
       playerID,
-      gameMetadata,
+      gameMetadata: players,
       ctx: { currentPlayer, activePlayers, playOrder },
       G: {
         hands,
@@ -108,12 +108,14 @@ export default class BoardContainer extends Component {
     const stage = activePlayers[playerID];
     const isMyTurn = currentPlayer === playerID;
 
-    console.log(gameMetadata);
-
     return (
       <div className="pb-48 md:pb-64 text-sm sm:text-md md:text-lg lg:text-xl">
         <div className={"flex flex-col"}>
-          <PositionsTable wonBlackCards={wonBlackCards} playerIDs={playOrder} />
+          <PositionsTable
+            wonBlackCards={wonBlackCards}
+            playerIDs={playOrder}
+            players={players}
+          />
           <Status
             stage={stage}
             isMyTurn={isMyTurn}

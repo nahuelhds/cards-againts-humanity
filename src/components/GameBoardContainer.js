@@ -1,13 +1,10 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
 
 import { GameCardsAgainstHumanity } from "./CardsAgainstHumanity/game";
 import BoardContainer from "./CardsAgainstHumanity/Board";
-
-import { getItem } from "../services/storage";
 
 const reduxDevToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__;
 const CardsAgainstHumanityClient = (props) => {
