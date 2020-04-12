@@ -42,23 +42,25 @@ export default class GameAuthContainer extends PureComponent {
             player.name === joinedGame.playerName
         );
 
+        const allPlayersAreReady =
+          players.filter((player) => !!player.name).length === players.length;
+
         this.setState({
           players,
-          allPlayersAreReady:
-            players.filter((player) => !!player.name).length === players.length,
+          allPlayersAreReady,
           playerIsFound: !!foundPlayer,
           foundPlayer: foundPlayer ? joinedGame : {},
           loading: false,
         });
+        if (!allPlayersAreReady) {
+          setTimeout(() => {
+            this.checkGameStatus();
+          }, 3000);
+        }
       })
       .catch((e) => {
         this.setState({ hasError: true, error: e, loading: false });
         console.log("Error fetching game", e);
-      })
-      .finally(() => {
-        setTimeout(() => {
-          this.checkGameStatus();
-        }, 3000);
       });
   };
 
