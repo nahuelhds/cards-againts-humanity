@@ -20,12 +20,12 @@ export default class GameNotReadyComponent extends Component {
   };
 
   handleShareAction = () => {
-    const { playerName } = this.state;
+    const { playerName, invitationUrl: url } = this.props;
     navigator
       .share({
         title: "Cards against humanity",
         text: `¡${playerName} te está invitando a jugar 😎\nUtilizá este link para sumarte👇\n`,
-        url: this.props.invitationUrl,
+        url,
       })
       .catch((error) => console.log("Error sharing", error));
   };
@@ -82,7 +82,7 @@ export default class GameNotReadyComponent extends Component {
                     <Icon icon={faClipboard} /> Copiar
                   </button>
                 </CopyToClipboard>
-                {!navigator.share && (
+                {navigator.share && (
                   <button
                     className={"button success shadow"}
                     onClick={this.handleShareAction}
