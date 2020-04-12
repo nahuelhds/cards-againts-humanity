@@ -81,11 +81,12 @@ export const Status = ({
 const StatusBase = ({
   bg = "bg-gray-500",
   color = "text-gray-800",
+  className = "",
   children,
 }) => (
-  <div className={"md:self-center"}>
+  <div className={`md:self-center ${className}`}>
     <div
-      className={`${bg} ${color} text-center p-2 my-0 m-1 sm:mx-2 md:my-2 md:px-4 text-lg md:text-xl lg:text-1xl xl:text-2xl shadow-lg`}
+      className={`${bg} ${color} text-center p-2 my-1 m-1 sm:mx-2 md:my-2 md:px-4 text-lg md:text-xl lg:text-1xl xl:text-2xl shadow-lg`}
     >
       {children}
     </div>
@@ -94,6 +95,12 @@ const StatusBase = ({
 
 export const StatusDanger = ({ children }) => (
   <StatusBase bg={"bg-red-400"} color={"text-red-900"}>
+    {children}
+  </StatusBase>
+);
+
+export const StatusDefault = ({ className, children }) => (
+  <StatusBase className={className} bg={"bg-white"} color={"text-gray-800"}>
     {children}
   </StatusBase>
 );

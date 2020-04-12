@@ -76,7 +76,7 @@ export default class GameNotReadyComponent extends Component {
                     onCopy={() => this.setState({ copied: true })}
                   >
                     <button className={"button success rounded-r shadow p-2"}>
-                      Copiar enlace
+                      Copiar invitación
                     </button>
                   </CopyToClipboard>
                 )}
@@ -90,7 +90,7 @@ export default class GameNotReadyComponent extends Component {
                 </button>
               )}
               {this.state.copied && (
-                <p className={"italic"}>Enlace copiado al portapapeles</p>
+                <p className={"italic"}>Invitación copiada al portapapeles</p>
               )}
             </div>
           </div>

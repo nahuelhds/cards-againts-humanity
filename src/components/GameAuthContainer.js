@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import GameNotReadyComponent from "./GameNotReadyComponent";
+import GameBoardContainer from "./GameBoardContainer";
 
 import { getItem, setItem } from "../services/storage";
 import { getGame } from "../services/lobby";
@@ -17,35 +18,49 @@ import { getGame } from "../services/lobby";
 export default class GameAuthContainer extends PureComponent {
   state = {
     loading: true,
-    playerID: getItem("playerID", "").toString(),
-    playerName: getItem("playerName", ""),
-    playerCredentials: getItem("playerCredentials", null),
+    joinedGames: getItem("joinedGames", []),
     playerIsFound: false,
+    foundPlayer: {},
     players: [],
     hasError: false,
     error: {},
   };
 
   componentDidMount() {
-    getGame(this.props.match.params.gameID)
+    this.checkGameStatus();
+  }
+
+  checkGameStatus = () => {
+    const { gameID } = this.props.match.params;
+    const { joinedGames } = this.state;
+    let joinedGame = joinedGames.find((game) => game.gameID === gameID);
+    getGame(gameID)
       .then(({ players }) => {
         const foundPlayer = players.find(
           (player) =>
-            player.id.toString() === this.state.playerID &&
-            player.name === this.state.playerName
+            player.id === joinedGame.playerID &&
+            player.name === joinedGame.playerName
         );
 
         this.setState({
           players,
+          allPlayersAreReady:
+            players.filter((player) => !!player.name).length === players.length,
           playerIsFound: !!foundPlayer,
+          foundPlayer: foundPlayer ? joinedGame : {},
           loading: false,
         });
       })
       .catch((e) => {
         this.setState({ hasError: true, error: e, loading: false });
         console.log("Error fetching game", e);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          this.checkGameStatus();
+        }, 3000);
       });
-  }
+  };
 
   render() {
     const { gameID, playerID: urlPlayerID } = this.props.match.params;
@@ -53,10 +68,10 @@ export default class GameAuthContainer extends PureComponent {
       loading,
       hasError,
       error,
-      playerID,
-      playerName,
       players,
+      allPlayersAreReady,
       playerIsFound,
+      foundPlayer,
     } = this.state;
 
     if (loading) {
@@ -75,14 +90,10 @@ export default class GameAuthContainer extends PureComponent {
     }
 
     if (hasError) {
-      let message;
-      switch (error.status) {
-        case NOT_FOUND:
-          message = "Sala no encontrada";
-          break;
-        default:
-          message = "Ocurrió un error desconocido";
-      }
+      const message =
+        error.status === NOT_FOUND
+          ? "Sala no encontrada"
+          : "Ocurrió un error desconocido";
       return (
         <div className={"flex p-4 items-center"}>
           <div className="flex-1 m-1 flex flex-col left">
@@ -104,24 +115,31 @@ export default class GameAuthContainer extends PureComponent {
     }
 
     // If the player is there but the URL is wrong...
-    if (playerID !== urlPlayerID) {
-      return <Redirect to={`/games/${gameID}/player/${playerID}`} />;
+    if (foundPlayer.playerID !== parseInt(urlPlayerID)) {
+      return (
+        <Redirect to={`/games/${gameID}/player/${foundPlayer.playerID}`} />
+      );
     }
 
-    const allPlayersAreReady =
-      players.filter((player) => !!player.name).length === players.length;
     if (!allPlayersAreReady) {
       return (
         <GameNotReadyComponent
           players={players}
-          playerName={playerName}
-          invitationUrl={`${window.location.origin}/games/${this.props.match.params.gameID}`}
+          playerName={foundPlayer.playerName}
+          invitationUrl={`${window.location.origin}/games/${gameID}`}
         />
       );
     }
 
     setItem("numPlayers", players.length);
 
-    return <Redirect to={`/games/${gameID}/player/${playerID}/board`} />;
+    return (
+      <GameBoardContainer
+        gameID={gameID}
+        playerID={foundPlayer.playerID}
+        playerCredentials={foundPlayer.playerCredentials}
+        numPlayers={players.length}
+      />
+    );
   }
 }
