@@ -30,7 +30,13 @@ const GameAvailableComponent = (props) => {
       <button
         className={"button success w-full"}
         disabled={!joinedGame && (isFull || props.disabled)}
-        onClick={() => props.onJoin(props.gameID, currentPlayers.length)}
+        onClick={() =>
+          props.onJoin(
+            props.gameID,
+            currentPlayers.length,
+            props.players.length
+          )
+        }
       >
         {buttonText}
       </button>

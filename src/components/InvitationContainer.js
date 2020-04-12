@@ -54,9 +54,9 @@ export default class InvitationContainer extends Component {
     setItem("playerName", playerName);
   };
 
-  handleJoinGame = async (gameID, playerID) => {
+  handleJoinGame = async (gameID, playerID, playersCount) => {
     // TODO refactor this
-    const { playerName, joinedGames, players } = this.state;
+    const { playerName, joinedGames } = this.state;
     try {
       let joinedGame = joinedGames.find((game) => game.gameID === gameID);
       if (!joinedGame) {
@@ -72,7 +72,7 @@ export default class InvitationContainer extends Component {
       this.setState({ redirectToGameBoard: true, joinedGame });
     } catch (e) {
       // If join action fails and there is an empty seat yet
-      if (e.status === CONFLICT && playerID < players.length) {
+      if (e.status === CONFLICT && playerID < playersCount) {
         return this.handleJoinGame(gameID, playerID + 1);
       }
       this.setState({ hasError: true, errorMessage: "La sala está llena" });

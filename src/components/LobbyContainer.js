@@ -3,6 +3,7 @@ import { createGame, joinGame, listGames } from "../services/lobby";
 import GameCreateComponent from "./GameCreateComponent";
 import GamesListComponent from "./GamesListComponent";
 import { getItem, setItem } from "../services/storage";
+import { CONFLICT } from "http-status-codes";
 
 export default class LobbyContainer extends Component {
   state = {
@@ -39,10 +40,10 @@ export default class LobbyContainer extends Component {
     }
   };
 
-  handleJoinGame = async (gameID, playerID) => {
+  handleJoinGame = async (gameID, playerID, playersCount) => {
     // TODO refactor this
+    const { playerName, joinedGames } = this.state;
     try {
-      const { playerName, joinedGames } = this.state;
       let joinedGame = joinedGames.find((game) => game.gameID === gameID);
       if (!joinedGame) {
         const { playerCredentials } = await joinGame(
@@ -56,6 +57,11 @@ export default class LobbyContainer extends Component {
 
       this.props.history.push(`/games/${gameID}/player/${joinedGame.playerID}`);
     } catch (e) {
+      // If join action fails and there is an empty seat yet
+      if (e.status === CONFLICT && playerID < playersCount) {
+        return this.handleJoinGame(gameID, playerID + 1);
+      }
+      this.refreshGamesAsync();
       console.warn(`Could not join to game ${gameID}`, e);
     }
   };
