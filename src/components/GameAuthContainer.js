@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import GameNotReadyComponent from "./GameNotReadyComponent";
+import GameBoardContainer from "./GameBoardContainer";
 
 import { getItem, setItem } from "../services/storage";
 import { getGame } from "../services/lobby";
@@ -40,7 +41,7 @@ export default class GameAuthContainer extends PureComponent {
         this.setState({
           players,
           playerIsFound: !!foundPlayer,
-          foundPlayer,
+          foundPlayer: foundPlayer ? joinedGame : {},
           loading: false,
         });
       })
@@ -102,8 +103,10 @@ export default class GameAuthContainer extends PureComponent {
     }
 
     // If the player is there but the URL is wrong...
-    if (foundPlayer.id !== parseInt(urlPlayerID)) {
-      return <Redirect to={`/games/${gameID}/player/${foundPlayer.id}`} />;
+    if (foundPlayer.playerID !== parseInt(urlPlayerID)) {
+      return (
+        <Redirect to={`/games/${gameID}/player/${foundPlayer.playerID}`} />
+      );
     }
 
     const allPlayersAreReady =
@@ -112,7 +115,7 @@ export default class GameAuthContainer extends PureComponent {
       return (
         <GameNotReadyComponent
           players={players}
-          playerName={foundPlayer.name}
+          playerName={foundPlayer.playerName}
           invitationUrl={`${window.location.origin}/games/${gameID}`}
         />
       );
@@ -120,6 +123,13 @@ export default class GameAuthContainer extends PureComponent {
 
     setItem("numPlayers", players.length);
 
-    return <Redirect to={`/games/${gameID}/player/${foundPlayer.id}/board`} />;
+    return (
+      <GameBoardContainer
+        gameID={gameID}
+        playerID={foundPlayer.playerID}
+        playerCredentials={foundPlayer.playerCredentials}
+        numPlayers={players.length}
+      />
+    );
   }
 }

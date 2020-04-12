@@ -5,18 +5,12 @@ import "./App.css";
 import LobbyContainer from "./components/LobbyContainer";
 import InvitationContainer from "./components/InvitationContainer";
 import GameAuthContainer from "./components/GameAuthContainer";
-import GameBoardContainer from "./components/GameBoardContainer";
 
 export default class App extends Component {
   render() {
     return (
       <Router>
         <Switch>
-          <Route
-            exact
-            path="/games/:gameID/player/:playerID/board"
-            component={GameBoardContainer}
-          />
           <Route
             exact
             path="/games/:gameID/player/:playerID"

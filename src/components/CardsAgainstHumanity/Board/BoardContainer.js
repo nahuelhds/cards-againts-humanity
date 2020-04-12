@@ -18,7 +18,7 @@ export default class BoardContainer extends Component {
     ctx: PropTypes.any.isRequired,
     moves: PropTypes.any.isRequired,
     playerID: PropTypes.string,
-    gameMetadata: PropTypes.object,
+    gameMetadata: PropTypes.array,
     isActive: PropTypes.bool,
     isMultiplayer: PropTypes.bool,
   };
