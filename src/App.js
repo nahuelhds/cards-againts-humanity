@@ -5,11 +5,13 @@ import "./App.css";
 import LobbyContainer from "./components/LobbyContainer";
 import InvitationContainer from "./components/InvitationContainer";
 import GameAuthContainer from "./components/GameAuthContainer";
+import GA from "./components/GoogleAnalytics";
 
 export default class App extends Component {
   render() {
     return (
       <Router>
+        {GA.init() && <GA.RouteTracker />}
         <Switch>
           <Route
             exact
