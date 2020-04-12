@@ -73,7 +73,7 @@ export const WhiteCard = ({
 }) => {
   let bg =
     !isMyTurn && !(waitingForPlayers && text !== null) && !show
-      ? "bg-gray-400"
+      ? "bg-gray-300"
       : "bg-white";
   let color =
     !isMyTurn && !(waitingForPlayers && text !== null) && !show

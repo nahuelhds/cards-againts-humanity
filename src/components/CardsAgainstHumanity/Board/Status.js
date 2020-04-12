@@ -100,7 +100,9 @@ export const StatusDanger = ({ children }) => (
 );
 
 export const StatusDefault = ({ className, children }) => (
-  <StatusBase className={className}>{children}</StatusBase>
+  <StatusBase className={className} bg={"bg-white"} color={"text-gray-800"}>
+    {children}
+  </StatusBase>
 );
 
 export const StatusWarning = ({ children }) => (
