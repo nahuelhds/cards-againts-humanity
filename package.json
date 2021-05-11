@@ -18,7 +18,7 @@
     "boardgame.io": "^0.39.3",
     "esm": "^3.2.25",
     "http-status-codes": "^1.4.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.2",
